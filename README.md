@@ -1,0 +1,2 @@
+# limbaj
+Proiect LFAC
