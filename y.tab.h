@@ -45,25 +45,49 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    ID = 258,
-    TIP = 259,
-    BGIN = 260,
-    END = 261,
-    ASSIGN = 262,
-    NR = 263
+    IDint = 258,
+    IDfloat = 259,
+    IDstring = 260,
+    BGIN = 261,
+    END = 262,
+    ASSIGN = 263,
+    CALL = 264,
+    TIPi = 265,
+    TIPf = 266,
+    TIPs = 267,
+    STRING = 268,
+    INT = 269
   };
 #endif
 /* Tokens.  */
-#define ID 258
-#define TIP 259
-#define BGIN 260
-#define END 261
-#define ASSIGN 262
-#define NR 263
+#define IDint 258
+#define IDfloat 259
+#define IDstring 260
+#define BGIN 261
+#define END 262
+#define ASSIGN 263
+#define CALL 264
+#define TIPi 265
+#define TIPf 266
+#define TIPs 267
+#define STRING 268
+#define INT 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 9 "limbaj.y" /* yacc.c:1909  */
+
+int intval;
+float floatval;
+char* strval;
+
+#line 88 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

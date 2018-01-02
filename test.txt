@@ -1,0 +1,10 @@
+Darth ~Vader;
+Darth ~Maul;
+Senator @Padme;
+Senator @Palpatine();
+Hello there!
+~Vader:=3;
+~Maul:=2;
+@Padme:="Amidala";
+Execute order @Palpatine(66);
+The circle is now complete.

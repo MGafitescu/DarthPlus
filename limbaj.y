@@ -3,25 +3,38 @@
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
+int yylex();
+int yyerror(char * s);
 %}
-%token ID TIP BGIN END ASSIGN NR 
+%union {
+int intval;
+float floatval;
+char* strval;
+}
+%token IDint IDfloat IDstring BGIN END ASSIGN CALL TIPi TIPf TIPs
+%token <strval> STRING
+%token <intval> INT
 %start progr
 %%
-progr: declaratii bloc {printf("program corect sintactic\n");}
+progr: declaratii bloc {printf("Program corect sintactic\n");}
      ;
 
 declaratii :  declaratie ';'
 	   | declaratii declaratie ';'
 	   ;
-declaratie : TIP ID 
-           | TIP ID '(' lista_param ')'
-           | TIP ID '(' ')'
+declaratie : TIPi IDint
+           | TIPs IDstring
+           | TIPi IDint '(' lista_param ')'
+           | TIPi IDint '(' ')'
+           | TIPs IDstring '(' lista_param ')'
+           | TIPs IDstring '(' ')'
            ;
 lista_param : param
             | lista_param ','  param 
             ;
             
-param : TIP ID
+param : TIPi IDint
+      | TIPs IDstring
       ; 
       
 /* bloc */
@@ -34,13 +47,16 @@ list :  statement ';'
      ;
 
 /* instructiune */
-statement: ID ASSIGN ID
-         | ID ASSIGN NR  		 
-         | ID '(' lista_apel ')'
+statement: IDint ASSIGN IDint
+         | IDint ASSIGN INT  		 
+         | CALL IDint '(' lista_apel ')'
+         | IDstring ASSIGN IDstring
+         | IDstring ASSIGN STRING 		 
+         | CALL IDstring '(' lista_apel ')'
          ;
         
-lista_apel : NR
-           | lista_apel ',' NR
+lista_apel : INT
+           | lista_apel ',' INT
            ;
 %%
 int yyerror(char * s){
