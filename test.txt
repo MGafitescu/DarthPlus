@@ -3,8 +3,10 @@ Darth ~Maul;
 Senator @Padme;
 Senator @Palpatine();
 Hello there!
-~Vader:=3;
+~Vader:=4;
+Print( ~Vader );
 ~Maul:=2;
+Print ( ~Maul );
 @Padme:="Amidala";
-Execute order @Palpatine(66);
+Print( @Padme );
 The circle is now complete.

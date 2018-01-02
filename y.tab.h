@@ -55,8 +55,9 @@ extern int yydebug;
     TIPi = 265,
     TIPf = 266,
     TIPs = 267,
-    STRING = 268,
-    INT = 269
+    PRINT = 268,
+    STRING = 269,
+    INT = 270
   };
 #endif
 /* Tokens.  */
@@ -70,8 +71,9 @@ extern int yydebug;
 #define TIPi 265
 #define TIPf 266
 #define TIPs 267
-#define STRING 268
-#define INT 269
+#define PRINT 268
+#define STRING 269
+#define INT 270
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -84,7 +86,7 @@ int intval;
 float floatval;
 char* strval;
 
-#line 88 "y.tab.h" /* yacc.c:1909  */
+#line 90 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

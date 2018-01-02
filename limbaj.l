@@ -7,6 +7,7 @@
 "Master" {return TIPf;}
 "Senator" {return TIPs;}
 "Hello there!" {return BGIN;}
+"Print" {return PRINT;}
 "The circle is now complete." {return END;}
 "Execute order" {return CALL;}
 \~[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
