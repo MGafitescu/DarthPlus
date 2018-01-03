@@ -56,8 +56,17 @@ extern int yydebug;
     TIPf = 266,
     TIPs = 267,
     PRINT = 268,
-    STRING = 269,
-    INT = 270
+    IF = 269,
+    ENDIF = 270,
+    FOR = 271,
+    ENDFOR = 272,
+    WHILE = 273,
+    ENDWHILE = 274,
+    COMP = 275,
+    EGAL = 276,
+    DIFERIT = 277,
+    STRING = 278,
+    INT = 279
   };
 #endif
 /* Tokens.  */
@@ -72,8 +81,17 @@ extern int yydebug;
 #define TIPf 266
 #define TIPs 267
 #define PRINT 268
-#define STRING 269
-#define INT 270
+#define IF 269
+#define ENDIF 270
+#define FOR 271
+#define ENDFOR 272
+#define WHILE 273
+#define ENDWHILE 274
+#define COMP 275
+#define EGAL 276
+#define DIFERIT 277
+#define STRING 278
+#define INT 279
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -86,7 +104,7 @@ int intval;
 float floatval;
 char* strval;
 
-#line 90 "y.tab.h" /* yacc.c:1909  */
+#line 108 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

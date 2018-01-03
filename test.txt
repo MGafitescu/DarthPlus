@@ -1,12 +1,29 @@
+
 Darth ~Vader;
 Darth ~Maul;
+Darth ~Sidious;
+Darth ~Plagueis;
+Senator @Organa;
 Senator @Padme;
 Senator @Palpatine();
+
 Hello there!
-~Vader:=4;
+~Vader<|4;
 Print( ~Vader );
-~Maul:=2;
+~Maul<|2;
 Print ( ~Maul );
-@Padme:="Amidala";
-Print( @Padme );
+@Padme<|"Amidala";  
+
+What about the (~Maul=~Vader)?
+    ~Maul<|3;
+Go, I will.  
+
+Do, or do not: (@Organa=@Padme)
+    @Organa<|"Leia";
+There is no try.
+
+Once more (~Maul<|2 ; ~Bane>~Maul ; ~Bane<|3)
+    ~Vader<|1000;
+The Sith will rule the Galaxy.    
+    
 The circle is now complete.

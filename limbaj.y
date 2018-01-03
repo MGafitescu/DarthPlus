@@ -12,6 +12,7 @@ float floatval;
 char* strval;
 }
 %token IDint IDfloat IDstring BGIN END ASSIGN CALL TIPi TIPf TIPs PRINT
+%token IF ENDIF FOR ENDFOR WHILE ENDWHILE COMP EGAL DIFERIT
 %token <strval> STRING
 %token <intval> INT
 %start progr
@@ -20,7 +21,7 @@ char* strval;
 %type <intval>IDint
 %type <strval>IDstring
 %%
-progr: declaratii bloc {printf("Program corect sintactic\n");}
+progr: declaratii bloc test {printf("Program corect sintactic\n");}
      ;
 
 declaratii :  declaratie ';'
@@ -50,7 +51,40 @@ list :  statement ';'
      | list statement ';'
      | expression ';'
      | list expression ';'
+      | control 
+      | list control 
      ;
+
+test:  
+      ;
+
+/*instructiuni de control*/
+control: IF '(' exprlog ')''?' list  ENDIF {printf("Recunoscut if.\n");}
+      | FOR '(' exprfor ')' list ENDFOR {printf("Recunoscut for. \n");}
+      | WHILE '(' exprlog ')' list ENDWHILE {printf("Recunoscut while. \n");}
+      ;
+
+/*expresii logice*/
+exprlog: exprlognr 
+      | exprlogst 
+      ;
+
+exprlognr: IDint COMP IDint
+      | IDint COMP INT
+      | IDint EGAL IDint
+      | IDint DIFERIT IDint
+      | IDint EGAL INT
+      | IDint DIFERIT INT
+      ;
+
+exprlogst: IDstring EGAL STRING
+      | IDstring DIFERIT STRING
+      | IDstring EGAL IDstring 
+      | IDstring DIFERIT IDstring
+      ;            
+/*expresii for*/
+exprfor: expression ';' exprlognr ';' expression
+      ;
 
 /* instructiune */
 statement: IDstring ASSIGN IDstring {$1=$3;}
@@ -65,9 +99,7 @@ expression: IDint ASSIGN IDint {$1=$3;}
          ;
 
 
-lista_apel : INT
-           | lista_apel ',' INT
-           ;
+
 %%
 int yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
