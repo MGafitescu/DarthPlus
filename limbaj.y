@@ -16,8 +16,8 @@ char* strval;
 %token <strval> STRING
 %token <intval> INT
 %start progr
-%type <intval>expression
-%type <strval>statement
+%type <intval>asignareint
+%type <strval>asignarest
 %type <intval>IDint
 %type <strval>IDstring
 %%
@@ -40,6 +40,10 @@ lista_param : param
             
 param : TIPi IDint
       | TIPs IDstring
+      | TIPi IDint '(' lista_param ')'
+      | TIPi IDint '(' ')'
+      | TIPs IDstring '(' lista_param ')'
+      | TIPs IDstring '(' ')'
       ; 
       
 /* bloc */
@@ -47,12 +51,14 @@ bloc : BGIN list END
      ;
      
 /* lista instructiuni */
-list :  statement ';' 
-     | list statement ';'
-     | expression ';'
-     | list expression ';'
+list :  asignarest ';' 
+     | list asignarest ';'
+     | asignareint ';'
+     | list asignareint ';'
       | control 
       | list control 
+      | print ';'
+      | list print ';'
      ;
 
 test:  
@@ -75,30 +81,55 @@ exprlognr: IDint COMP IDint
       | IDint DIFERIT IDint
       | IDint EGAL INT
       | IDint DIFERIT INT
+      | INT EGAL IDint
+      | INT DIFERIT IDint
+      | INT COMP IDint
       ;
 
 exprlogst: IDstring EGAL STRING
       | IDstring DIFERIT STRING
       | IDstring EGAL IDstring 
       | IDstring DIFERIT IDstring
+      | STRING EGAL IDstring
+      | STRING DIFERIT IDstring
       ;            
 /*expresii for*/
-exprfor: expression ';' exprlognr ';' expression
+exprfor: asignareint ';' exprlognr ';' expresieint
       ;
 
 /* instructiune */
-statement: IDstring ASSIGN IDstring {$1=$3;}
+asignarest: IDstring ASSIGN IDstring {$1=$3;}
          | IDstring ASSIGN STRING {$1=$3;} 		 
-         | PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
          ;
         
 /* instructiune */
-expression: IDint ASSIGN IDint {$1=$3;}
+asignareint: IDint ASSIGN IDint {$1=$3;}
          | IDint ASSIGN INT {$1=$3;}  			 
-         | PRINT '(' IDint ')' {printf("S-a recunoscut: %d\n",$<intval>$);}
          ;
 
+numarint: IDint
+      | INT
+      ;
 
+/*expresii algebrice cu numere*/
+expresieint: numarint '+' numarint
+            | numarint '-' numarint
+            | numarint '^' numarint
+            | numarint '*' numarint
+            | numarint '/' numarint
+            ;
+
+estring: IDstring
+      |STRING
+      ;
+
+expresiest: estring '+' estring
+            | estring '*' numarint
+            ;             
+
+print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
+      |  PRINT '(' IDint ')' {printf("S-a recunoscut: %d\n",$<intval>$);}
+      ;
 
 %%
 int yyerror(char * s){
