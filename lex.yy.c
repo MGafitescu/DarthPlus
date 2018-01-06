@@ -566,8 +566,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "limbaj.l"
-#line 2 "limbaj.l"
+#line 1 "DarthPlus.l"
+#line 2 "DarthPlus.l"
 #include <stdio.h>
 #include "y.tab.h"
 #line 574 "lex.yy.c"
@@ -788,7 +788,7 @@ YY_DECL
 		}
 
 	{
-#line 5 "limbaj.l"
+#line 5 "DarthPlus.l"
 
 #line 794 "lex.yy.c"
 
@@ -849,133 +849,133 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 6 "limbaj.l"
+#line 6 "DarthPlus.l"
 {return TIPi;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 7 "limbaj.l"
+#line 7 "DarthPlus.l"
 {return TIPf;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 8 "limbaj.l"
+#line 8 "DarthPlus.l"
 {return TIPs;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 9 "limbaj.l"
+#line 9 "DarthPlus.l"
 {return BGIN;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 10 "limbaj.l"
+#line 10 "DarthPlus.l"
 {return PRINT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 11 "limbaj.l"
+#line 11 "DarthPlus.l"
 {return END;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 12 "limbaj.l"
+#line 12 "DarthPlus.l"
 {return CALL;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 13 "limbaj.l"
+#line 13 "DarthPlus.l"
 {return IF;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 14 "limbaj.l"
+#line 14 "DarthPlus.l"
 {return ENDIF;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 15 "limbaj.l"
+#line 15 "DarthPlus.l"
 {return WHILE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 16 "limbaj.l"
+#line 16 "DarthPlus.l"
 {return ENDWHILE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 17 "limbaj.l"
+#line 17 "DarthPlus.l"
 {return FOR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 18 "limbaj.l"
+#line 18 "DarthPlus.l"
 {return ENDFOR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 19 "limbaj.l"
+#line 19 "DarthPlus.l"
 {return IDint;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 20 "limbaj.l"
+#line 20 "DarthPlus.l"
 {return IDstring;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 21 "limbaj.l"
+#line 21 "DarthPlus.l"
 {return IDfloat;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 22 "limbaj.l"
+#line 22 "DarthPlus.l"
 {return ASSIGN;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 23 "limbaj.l"
+#line 23 "DarthPlus.l"
 {yylval.intval=atoi(yytext);return INT;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 24 "limbaj.l"
+#line 24 "DarthPlus.l"
 {yylval.strval=strdup(yytext); return STRING;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 25 "limbaj.l"
+#line 25 "DarthPlus.l"
 {return COMP;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 26 "limbaj.l"
+#line 26 "DarthPlus.l"
 {return EGAL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 27 "limbaj.l"
+#line 27 "DarthPlus.l"
 {return DIFERIT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 29 "limbaj.l"
+#line 29 "DarthPlus.l"
 ;
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 30 "limbaj.l"
+#line 30 "DarthPlus.l"
 {yylineno++;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 31 "limbaj.l"
+#line 31 "DarthPlus.l"
 {return yytext[0];}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 34 "limbaj.l"
+#line 34 "DarthPlus.l"
 ECHO;
 	YY_BREAK
 #line 982 "lex.yy.c"
@@ -1979,4 +1979,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 34 "limbaj.l"
+#line 34 "DarthPlus.l"
