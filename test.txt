@@ -1,8 +1,10 @@
 Darth ~Pomo;
+Darth ~Gafi;
 Darth ~Vader;
 Darth ~Maul;
 Darth ~Sidious;
 Darth ~Plagueis;
+Darth ~Bane;
 Senator @Organa;
 Senator @Padme;
 Senator @Palpatine();
