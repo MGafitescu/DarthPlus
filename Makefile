@@ -1,9 +1,11 @@
-limbaj: lex.yy.c limbaj.y 
-	gcc lex.yy.c y.tab.c -o limbaj -ly -ll
+DarthPlus: lex.yy.c y.tab.c
+	gcc lex.yy.c y.tab.c -o DarthPlus -ly -ll
 
-lex.yy.c: limbaj.l
-	lex limbaj.l
+lex.yy.c: DarthPlus.l
+	lex DarthPlus.l
 
-y.tab.c:limbaj.y
-	yacc limbaj.y -d
-	
+y.tab.c:DarthPlus.y
+	yacc DarthPlus.y -d
+
+clean:
+	rm lex.yy.c y.tab.c y.tab.h 

@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "limbaj.y" /* yacc.c:339  */
+#line 1 "DarthPlus.y" /* yacc.c:339  */
 
 #include <stdio.h>
 extern FILE* yyin;
@@ -159,7 +159,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "limbaj.y" /* yacc.c:355  */
+#line 9 "DarthPlus.y" /* yacc.c:355  */
 
 int intval;
 float floatval;
@@ -1349,61 +1349,61 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 24 "limbaj.y" /* yacc.c:1646  */
+#line 24 "DarthPlus.y" /* yacc.c:1646  */
     {printf("Program corect sintactic\n");}
 #line 1355 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 68 "limbaj.y" /* yacc.c:1646  */
+#line 68 "DarthPlus.y" /* yacc.c:1646  */
     {printf("Recunoscut if.\n");}
 #line 1361 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 69 "limbaj.y" /* yacc.c:1646  */
+#line 69 "DarthPlus.y" /* yacc.c:1646  */
     {printf("Recunoscut for. \n");}
 #line 1367 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 70 "limbaj.y" /* yacc.c:1646  */
+#line 70 "DarthPlus.y" /* yacc.c:1646  */
     {printf("Recunoscut while. \n");}
 #line 1373 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 101 "limbaj.y" /* yacc.c:1646  */
+#line 101 "DarthPlus.y" /* yacc.c:1646  */
     {(yyvsp[-2].strval)=(yyvsp[0].strval);}
 #line 1379 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 102 "limbaj.y" /* yacc.c:1646  */
+#line 102 "DarthPlus.y" /* yacc.c:1646  */
     {(yyvsp[-2].strval)=(yyvsp[0].strval);}
 #line 1385 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 106 "limbaj.y" /* yacc.c:1646  */
+#line 106 "DarthPlus.y" /* yacc.c:1646  */
     {(yyvsp[-2].intval)=(yyvsp[0].intval);}
 #line 1391 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 107 "limbaj.y" /* yacc.c:1646  */
+#line 107 "DarthPlus.y" /* yacc.c:1646  */
     {(yyvsp[-2].intval)=(yyvsp[0].intval);}
 #line 1397 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 130 "limbaj.y" /* yacc.c:1646  */
+#line 130 "DarthPlus.y" /* yacc.c:1646  */
     {printf("S-a recunoscut: %s\n",(yyval.strval));}
 #line 1403 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 131 "limbaj.y" /* yacc.c:1646  */
+#line 131 "DarthPlus.y" /* yacc.c:1646  */
     {printf("S-a recunoscut: %d\n",(yyval.intval));}
 #line 1409 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1637,7 +1637,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 134 "limbaj.y" /* yacc.c:1906  */
+#line 134 "DarthPlus.y" /* yacc.c:1906  */
 
 int yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
