@@ -1,2 +1,2 @@
 # limbaj
-Proiect LFAC
+Limbajul DarthPlus.
