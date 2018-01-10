@@ -11,12 +11,14 @@ int intval;
 float floatval;
 char* strval;
 }
-%token IDint IDfloat IDstring BGIN END ASSIGN CALL TIPi TIPf TIPs PRINT
-%token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE COMP EQUAL DIFF
+%token IDint CIDint IDfloat CIDfloat IDstring CIDstring TIPi TIPf TIPs
+%token BGIN END ASSIGN CALL PRINT
+%token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
+%token COMP EQUAL DIFF
 %token ADD MIN POW MUL DIV
+%start progr
 %token <strval> STRING
 %token <intval> INT
-%start progr
 %type <intval>assgnint
 %type <intval>numberint
 %type <strval>estring
@@ -24,38 +26,63 @@ char* strval;
 %type <intval>IDint
 %type <strval>IDstring
 %%
-progr: declaratii bloc test {printf("Program corect sintactic\n");}
+progr: declarations bloc test {printf("Program corect sintactic\n");}
      ;
 
-declaratii :  declaratie ';'
-	   | declaratii declaratie ';'
+declarations:  declaration ';'
+	   | declarations declaration ';'
 	   ;
-declaratie : TIPi IDint
-           | TIPs IDstring
-           | TIPi IDint '(' param_list ')'
-           | TIPi IDint '(' ')'
-           | TIPs IDstring '(' param_list ')'
-           | TIPs IDstring '(' ')'
+
+declaration: TIPi intdecl
+           | TIPs stringdecl
            ;
-param_list : param
-            | param_list ','  param 
-            ;
+
+intdecl: IDint
+       | IDint '(' param_list_decl ')'
+	   | CIDint ASSIGN numberint
+	   ;
+
+stringdecl: IDstring
+		  | IDstring '(' param_list ')'
+		  | CIDstring ASSIGN estring
+		  ;
+
+param_list_decl: 
+          | params_decl 
+          ;
+
+params_decl: param_decl
+	  | params_decl ',' param_decl 
+	  ;
             
-param : TIPi IDint
+param_decl: TIPi intdecl
+      | TIPs stringdecl
+      /*trebuie adaugat si apeluri de functie*/ 
+      ; 
+
+param_list: 
+          | params 
+          ;
+
+params: param
+	  | params ',' param 
+	  ;
+            
+param: TIPi IDint
       | TIPs IDstring
       /*trebuie adaugat si apeluri de functie*/ 
       ; 
       
 /* bloc */
-bloc : BGIN list END  
+bloc: BGIN list END  
      ;
      
 /* lista instructiuni */
-list : statement 
+list: statement 
 	  | list statement
 	  ;
 
-statement :  assgnst ';' 
+statement:  assgnst ';' 
       | assgnint ';'
       | control 
       | print ';'

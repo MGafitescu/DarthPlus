@@ -17,9 +17,12 @@
 "There is no try." {return ENDWHILE;}
 "Once more" {return FOR;}
 "The Sith will rule the Galaxy." {return ENDFOR;}
-\~[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
+"~"[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
+"::~"[_a-zA-Z][_a-zA-Z0-9]* {return CIDint;}
 \@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
+"::@"[_a-zA-Z][_a-zA-Z0-9]* {return CIDstring;}
 \-[_a-zA-Z][_a-zA-Z0-9]* {return IDfloat;}
+"::-"[_a-zA-Z][_a-zA-Z0-9]* {return CIDfloat;}
 "+" {return ADD;}
 "-" {return MIN;}
 "^" {return POW;}
