@@ -10,7 +10,6 @@
 "Hello there!" {return BGIN;}
 "The circle is now complete." {return END;}
 "Print" {return PRINT;}
-"Execute order" {return CALL;}
 "What about the" {return IF;}
 "Otherwise" {return ELSE;}
 "Go, I will." {return ENDIF;}
@@ -18,6 +17,8 @@
 "There is no try." {return ENDWHILE;}
 "Once more" {return FOR;}
 "The Sith will rule the Galaxy." {return ENDFOR;}
+"Fire!" {return BEGIN_FUNCTION;}
+"Halt!" {return END_FUNCTION;}
 "~"[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
 "::~"[_a-zA-Z][_a-zA-Z0-9]* {return CIDint;}
 \@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
@@ -37,7 +38,7 @@
 
 "<|" {return ASSIGN;}
 [0-9]|[1-9][0-9]+ {yylval.intval=atoi(yytext);return INT;}
-[0-9]|[1-9][0-9]+'.'[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
+[0-9]|[1-9][0-9]+"."[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
 \"[a-zA-Z]+\" {yylval.strval=strdup(yytext); return STRING;}
 "true"|"false" {return BOOL;}
 "<="|">="|"<"|">" {return COMP;}
