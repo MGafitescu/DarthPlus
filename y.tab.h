@@ -48,62 +48,76 @@ extern int yydebug;
     IDint = 258,
     IDfloat = 259,
     IDstring = 260,
-    BGIN = 261,
-    END = 262,
-    ASSIGN = 263,
-    CALL = 264,
-    TIPi = 265,
-    TIPf = 266,
-    TIPs = 267,
-    PRINT = 268,
-    IF = 269,
-    ELSE = 270,
-    ENDIF = 271,
-    FOR = 272,
-    ENDFOR = 273,
-    WHILE = 274,
-    ENDWHILE = 275,
-    COMP = 276,
-    EQUAL = 277,
-    DIFF = 278,
-    ADD = 279,
-    MIN = 280,
-    POW = 281,
-    MUL = 282,
-    DIV = 283,
-    STRING = 284,
-    INT = 285
+    IDbool = 261,
+    BGIN = 262,
+    END = 263,
+    ASSIGN = 264,
+    CALL = 265,
+    TIPi = 266,
+    TIPf = 267,
+    TIPs = 268,
+    TIPb = 269,
+    PRINT = 270,
+    IF = 271,
+    ELSE = 272,
+    ENDIF = 273,
+    FOR = 274,
+    ENDFOR = 275,
+    WHILE = 276,
+    ENDWHILE = 277,
+    COMP = 278,
+    EQUAL = 279,
+    DIFF = 280,
+    ADD = 281,
+    MIN = 282,
+    POW = 283,
+    MUL = 284,
+    DIV = 285,
+    NOT = 286,
+    AND = 287,
+    OR = 288,
+    STRING = 289,
+    INT = 290,
+    FLOAT = 291,
+    BOOL = 292
   };
 #endif
 /* Tokens.  */
 #define IDint 258
 #define IDfloat 259
 #define IDstring 260
-#define BGIN 261
-#define END 262
-#define ASSIGN 263
-#define CALL 264
-#define TIPi 265
-#define TIPf 266
-#define TIPs 267
-#define PRINT 268
-#define IF 269
-#define ELSE 270
-#define ENDIF 271
-#define FOR 272
-#define ENDFOR 273
-#define WHILE 274
-#define ENDWHILE 275
-#define COMP 276
-#define EQUAL 277
-#define DIFF 278
-#define ADD 279
-#define MIN 280
-#define POW 281
-#define MUL 282
-#define DIV 283
-#define STRING 284
-#define INT 285
+#define IDbool 261
+#define BGIN 262
+#define END 263
+#define ASSIGN 264
+#define CALL 265
+#define TIPi 266
+#define TIPf 267
+#define TIPs 268
+#define TIPb 269
+#define PRINT 270
+#define IF 271
+#define ELSE 272
+#define ENDIF 273
+#define FOR 274
+#define ENDFOR 275
+#define WHILE 276
+#define ENDWHILE 277
+#define COMP 278
+#define EQUAL 279
+#define DIFF 280
+#define ADD 281
+#define MIN 282
+#define POW 283
+#define MUL 284
+#define DIV 285
+#define NOT 286
+#define AND 287
+#define OR 288
+#define STRING 289
+#define INT 290
+#define FLOAT 291
+#define BOOL 292
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -113,10 +127,11 @@ union YYSTYPE
 #line 9 "DarthPlus.y" /* yacc.c:1909  */
 
 int intval;
-float floatval;
+double floatval;
 char* strval;
+int boolval;
 
-#line 120 "y.tab.h" /* yacc.c:1909  */
+#line 135 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
