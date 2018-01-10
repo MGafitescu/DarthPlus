@@ -1,29 +1,3 @@
-%{
-#include <stdio.h>
-extern FILE* yyin;
-extern char* yytext;
-extern int yylineno;
-int yylex();
-int yyerror(char * s);
-%}
-%union {
-int intval;
-float floatval;
-char* strval;
-}
-%token IDint IDfloat IDstring BGIN END ASSIGN CALL TIPi TIPf TIPs PRINT
-%token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE COMP EQUAL DIFF
-%token ADD MIN POW MUL DIV
-%token <strval> STRING
-%token <intval> INT
-%start progr
-%type <intval>assgnint
-%type <intval>numberint
-%type <strval>estring
-%type <strval>assgnst
-%type <intval>IDint
-%type <strval>IDstring
-%%
 progr: declaratii bloc test {printf("Program corect sintactic\n");}
      ;
 
@@ -135,13 +109,3 @@ exprst: IDstring ASSIGN estring ADD estring
 print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
       |  PRINT '(' IDint ')' {printf("S-a recunoscut: %d\n",$<intval>$);}
       ;
-
-%%
-int yyerror(char * s){
-printf("eroare: %s la linia:%d\n",s,yylineno);
-}
-
-int main(int argc, char** argv){
-yyin=fopen(argv[1],"r");
-yyparse();
-} 
