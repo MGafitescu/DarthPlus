@@ -24,7 +24,7 @@ Do, or do not: (@Organa=@Padme)
     @Organa<|"Leia";
 There is no try.
 
-Once more (~Maul<|2 ; ~Bane>~Maul ; ~Maul+3)
+Once more (~Maul<|2 ; ~Bane>~Maul ; ~Maul<|~Maul+3)
     ~Vader<|1000;
 The Sith will rule the Galaxy.    
     
