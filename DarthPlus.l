@@ -7,10 +7,11 @@
 "Master" {return TIPf;}
 "Senator" {return TIPs;}
 "Hello there!" {return BGIN;}
-"Print" {return PRINT;}
 "The circle is now complete." {return END;}
+"Print" {return PRINT;}
 "Execute order" {return CALL;}
 "What about the" {return IF;}
+"Otherwise" {return ELSE;}
 "Go, I will." {return ENDIF;}
 "Do, or do not:" {return WHILE;}
 "There is no try." {return ENDWHILE;}
@@ -19,12 +20,18 @@
 \~[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
 \@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
 \-[_a-zA-Z][_a-zA-Z0-9]* {return IDfloat;}
+"+" {return ADD;}
+"-" {return MIN;}
+"^" {return POW;}
+"*" {return MUL;}
+"/" {return DIV;}
+
 "<|" {return ASSIGN;}
 [0-9]|[1-9][0-9]+ {yylval.intval=atoi(yytext);return INT;}
 \"[a-zA-Z]+\" {yylval.strval=strdup(yytext); return STRING;}
 "<="|">="|"<"|">" {return COMP;}
-"=" {return EGAL;}
-"!=" {return DIFERIT;}
+"=" {return EQUAL;}
+"!=" {return DIFF;}
 
 [ \t] ;
 \n {yylineno++;}
