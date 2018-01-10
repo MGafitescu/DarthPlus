@@ -1,5 +1,9 @@
-Darth ~Pomo;
-Darth ::~Pom <| 1998;
+Darth ::~Pomo <| 1998;
+General ::_Kenobi <| true;
+General _Grievous;
+General _Rex;
+General _Cody;
+Master $Windu;
 Darth ~Gafi;
 Darth ~Vader;
 Darth ~Maul;
@@ -8,16 +12,26 @@ Darth ~Plagueis;
 Darth ~Bane;
 Senator @Organa;
 Senator @Padme;
-Senator @Palpatine();
+Senator @Palpatine(Darth ::~param1,Master $param2,General _param3)
+	Fire!
+	_Rex<|false;
+	Halt!;
 
 Hello there!
+@Palpatine(~Gafi,$Windu,_Rex,::~Pomo);
+_Cody();
 ~Vader<|4;
 Print( ~Vader );
 ~Maul<|2;
 Print ( ~Maul );
 @Padme<|"Amidala";  
 Print (@Padme);
-
+$Windu<| 12.345;
+_Grievous<|~Vader<=~Maul;
+~Sidious<|~Gafi^~Pomo;
+_Kenobi<|true;
+_Grievous<|@Organa!=@Padme;
+_Grievous<|_Rex&_Cody;
 What about the (~Maul=~Vader)?
     ~Maul<|3;
 	Otherwise 

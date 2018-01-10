@@ -12,11 +12,14 @@ double floatval;
 char* strval;
 int boolval;
 }
-%token IDint CIDint IDfloat CIDfloat IDstring CIDstring IDbool CIDbool TIPi TIPf TIPs TIPb
-%token BGIN END ASSIGN CALL PRINT
+%token TIPi TIPf TIPs TIPb
+%token IDint IDfloat IDstring IDbool 
+%token CIDint CIDfloat CIDstring CIDbool
+%token BGIN END ASSIGN PRINT
 %token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
 %token COMP EQUAL DIFF NOT AND OR
 %token ADD MIN POW MUL DIV
+%token BEGIN_FUNCTION END_FUNCTION
 %start progr
 %token <strval> STRING
 %token <intval> INT
@@ -30,26 +33,41 @@ int boolval;
 %type <strval>IDstring
 %type <boolval>IDbool
 %type <floatval>IDfloat
+%type <intval>CIDint
+%type <strval>CIDstring
+%type <boolval>CIDbool
+%type <floatval>CIDfloat
+
 %%
-progr: declarations bloc test {printf("Program corect sintactic\n");}
+progr: declarations body test {printf("Program corect sintactic\n");}
      ;
 
 declarations:  declaration ';'
 	   | declarations declaration ';'
 	   ;
 
-declaration: TIPi intdecl
-           | TIPs stringdecl
-           ;
+declaration: function_decl
+		   | variable_decl
+		   | const_decl
+		   ;
 
-intdecl: IDint
-       | IDint '(' param_list_decl ')'
-	   | CIDint ASSIGN numberint
-	   ;
+variable_decl: TIPi IDint
+             | TIPs IDstring
+			 | TIPf IDfloat
+			 | TIPb IDbool
+             ;
 
-stringdecl: IDstring
-		  | IDstring '(' param_list ')'
-		  | CIDstring ASSIGN estring
+data_id_type: IDint
+			| IDbool
+			| IDfloat
+			| IDstring
+			| econst
+			;
+
+const_decl: TIPi CIDint ASSIGN numberint
+          | TIPs CIDstring ASSIGN estring
+		  | TIPb CIDbool ASSIGN ebool
+		  | TIPf CIDfloat ASSIGN numberfl
 		  ;
 
 param_list_decl: 
@@ -60,10 +78,15 @@ params_decl: param_decl
 	  | params_decl ',' param_decl 
 	  ;
             
-param_decl: TIPi intdecl
-      | TIPs stringdecl
-      /*trebuie adaugat si apeluri de functie*/ 
-      ; 
+param_decl: variable_decl
+          | TIPi CIDint
+          | TIPs CIDstring
+		  | TIPb CIDbool 
+		  | TIPf CIDfloat
+		  ;
+
+function_decl: variable_decl '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION
+			 ;
 
 param_list: 
           | params 
@@ -73,10 +96,17 @@ params: param
 	  | params ',' param 
 	  ;
             
-param: TIPi IDint
+param: gnumber
+	 | ebool
+	 | estring
+	 | function_call
+     ;
 
-/* bloc */
-bloc: BGIN list END  
+
+
+
+/* body */
+body: BGIN list END  
      ;
      
 /* lista instructiuni */
@@ -84,16 +114,21 @@ list: statement
 	  | list statement
 	  ;
 
-statement:  assgnst ';' 
-      | assgnint ';'
-      | assgnfl ';'
-      | assgnbl ';'
-      | control 
-      | print ';'
-     ;
+statement: assgnst ';' 
+         | assgnint ';'
+         | assgnfl ';'
+         | assgnbl ';'
+         | control 
+         | print ';'
+		 | function_call ';'
+         ;
 
 test:  
       ;
+
+/*INVOCARE de FUnCtIe*/
+function_call: data_id_type '(' param_list ')'
+			 ;
 
 /*instructiuni de control*/
 control: IF '(' exprlog ')''?' list else ENDIF {printf("Recunoscut if.\n");}
@@ -150,28 +185,39 @@ assgnfl: IDfloat ASSIGN numberfl
 
 /*tipul de date numere intregi*/
 numberint: IDint
-      | INT
-      ;
+         | INT
+	     | CIDint
+         ;
 
 /*tipul de date numere float*/
 numberfl: IDfloat
-      | FLOAT  
-      ;
+        | FLOAT  
+		| CIDfloat
+        ;
 
 /*tipul de date numar*/
 gnumber: numberfl
-      | numberint
-      ;
+       | numberint
+       ;
 
 /*tipul de date bool*/      
-ebool:  IDbool
-      | BOOL
-      ;
+ebool: IDbool
+     | BOOL
+	 | CIDbool
+     ;
 
 /*tipul de date string*/
 estring: IDstring
-       |  STRING
+       | STRING
+	   | CIDstring
        ;
+
+/*tipul de date constante*/
+econst: CIDint
+	  | CIDbool
+	  | CIDfloat
+	  | CIDstring
+	  ;
 
 /*operatori algebrici*/
 aoperator: ADD
