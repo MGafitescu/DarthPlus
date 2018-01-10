@@ -8,23 +8,28 @@ int yyerror(char * s);
 %}
 %union {
 int intval;
-float floatval;
+double floatval;
 char* strval;
+int boolval;
 }
-%token IDint CIDint IDfloat CIDfloat IDstring CIDstring TIPi TIPf TIPs
+%token IDint CIDint IDfloat CIDfloat IDstring CIDstring IDbool CIDbool TIPi TIPf TIPs TIPb
 %token BGIN END ASSIGN CALL PRINT
 %token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
-%token COMP EQUAL DIFF
+%token COMP EQUAL DIFF NOT AND OR
 %token ADD MIN POW MUL DIV
 %start progr
 %token <strval> STRING
 %token <intval> INT
+%token <floatval> FLOAT
+%token <boolval> BOOL
 %type <intval>assgnint
 %type <intval>numberint
 %type <strval>estring
 %type <strval>assgnst
 %type <intval>IDint
 %type <strval>IDstring
+%type <boolval>IDbool
+%type <floatval>IDfloat
 %%
 progr: declarations bloc test {printf("Program corect sintactic\n");}
      ;
@@ -69,10 +74,7 @@ params: param
 	  ;
             
 param: TIPi IDint
-      | TIPs IDstring
-      /*trebuie adaugat si apeluri de functie*/ 
-      ; 
-      
+
 /* bloc */
 bloc: BGIN list END  
      ;
@@ -84,10 +86,10 @@ list: statement
 
 statement:  assgnst ';' 
       | assgnint ';'
+      | assgnfl ';'
+      | assgnbl ';'
       | control 
       | print ';'
-      | exprint ';'
-      | exprst ';'
      ;
 
 test:  
@@ -105,14 +107,14 @@ else:
 
 /*expresii logice*/
 exprlog: exprlognr 
-      | exprlogst 
+      |  exprlogst 
       ;
 
       
 /*expresii logice cu numere*/
-exprlognr: numberint COMP numberint
-      | numberint EQUAL numberint
-      | numberint DIFF numberint
+exprlognr: gnumber COMP gnumber
+      | gnumber EQUAL gnumber
+      | gnumber DIFF gnumber
       ;
 
 /*expresii logice cu stringuri*/
@@ -121,42 +123,86 @@ exprlogst: estring EQUAL estring
       ;        
 	      
 /*expresii for*/
-exprfor: assgnint ';' exprlognr ';' exprint
+exprfor: assgnint ';' exprlognr ';' assgnint
       ;
 
 /* assgn la stringuri */
 assgnst: IDstring ASSIGN estring {$1=$3;}
-         ;
+      |  IDstring ASSIGN exprst
+      ;
         
 /* assgn la intregi */
 assgnint: IDint ASSIGN numberint {$1=$3;}
-         ;
+      |   IDint ASSIGN exprint 
+      ;
+
+
+/*assgn la bool */
+assgnbl: IDbool ASSIGN ebool
+      |  IDbool ASSIGN exprlog
+      |  IDbool ASSIGN exprbl
+      ;
+
+/*assgn la float */
+assgnfl: IDfloat ASSIGN numberfl
+      |  IDfloat ASSIGN exprfl
+      ;
 
 /*tipul de date numere intregi*/
 numberint: IDint
       | INT
       ;
-/*tipul de date string*/
-estring: IDstring
-      |STRING
+
+/*tipul de date numere float*/
+numberfl: IDfloat
+      | FLOAT  
       ;
 
-/*expresii algebrice cu numere*/
-exprint: IDint  ASSIGN numberint operator numberint
+/*tipul de date numar*/
+gnumber: numberfl
+      | numberint
+      ;
+
+/*tipul de date bool*/      
+ebool:  IDbool
+      | BOOL
+      ;
+
+/*tipul de date string*/
+estring: IDstring
+       |  STRING
+       ;
+
+/*operatori algebrici*/
+aoperator: ADD
+         |  MIN
+	   |  POW 
+	   |  MUL
+	   |  DIV 
+	   ;
+
+/*operatori logici*/
+loperator:    OR
+            | NOT
+            | AND  
+            ;
+
+/*expresii algebrice cu numere intregi*/
+exprint:  numberint aoperator numberint
         ;
 
-operator: ADD
-        | MIN
-	    | POW 
-	    | MUL
-	    | DIV 
-	    ;
-
+/*expresii algebrice cu  numere */
+exprfl: gnumber aoperator gnumber
+      ;      
 
 /*expresii algebrice cu stringuri*/
-exprst: IDstring ASSIGN estring ADD estring
-            |IDstring ASSIGN estring MUL numberint
-            ;          
+exprst:  estring ADD estring
+      |  estring MUL numberint
+      ;    
+
+/*expresii cu bool*/
+exprbl:  ebool loperator ebool
+      ;           
 
 /*functia de printare*/
 print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
