@@ -1,5 +1,5 @@
 DarthPlus: lex.yy.c y.tab.c
-	g++ lex.yy.c y.tab.c -o DarthPlus -ly -ll
+	gcc lex.yy.c y.tab.c -o DarthPlus -ly -ll
 
 lex.yy.c: DarthPlus.l
 	lex DarthPlus.l
