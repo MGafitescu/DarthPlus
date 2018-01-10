@@ -12,11 +12,12 @@ double floatval;
 char* strval;
 int boolval;
 }
-%token IDint IDfloat IDstring IDbool
-%token BGIN END ASSIGN CALL 
-%token TIPi TIPf TIPs TIPb PRINT
-%token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE COMP EQUAL DIFF
-%token ADD MIN POW MUL DIV NOT AND OR
+%token IDint CIDint IDfloat CIDfloat IDstring CIDstring IDbool CIDbool TIPi TIPf TIPs TIPb
+%token BGIN END ASSIGN CALL PRINT
+%token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
+%token COMP EQUAL DIFF NOT AND OR
+%token ADD MIN POW MUL DIV
+%start progr
 %token <strval> STRING
 %token <intval> INT
 %token <floatval> FLOAT
@@ -27,45 +28,53 @@ int boolval;
 %type <strval>assgnst
 %type <intval>IDint
 %type <strval>IDstring
-%start progr
-
+%type <boolval>IDbool
+%type <floatval>IDfloat
 %%
-progr: declaratii bloc test {printf("Program corect sintactic\n");}
+progr: declarations bloc test {printf("Program corect sintactic\n");}
      ;
 
-declaratii:  declaratie ';'
-	   | declaratii declaratie ';'
+declarations:  declaration ';'
+	   | declarations declaration ';'
 	   ;
-declaratie:  TIPi IDint
-           | TIPs IDstring
-           | TIPb IDbool
-           | TIPf IDfloat
-           | function
+
+declaration: TIPi intdecl
+           | TIPs stringdecl
            ;
 
-function:    TIPi IDint '(' ')'
-           | TIPs IDstring '(' ')'
-           | TIPb IDbool '(' ')'
-           | TIPf IDfloat '(' ')'
-           | TIPs IDstring '(' param_list ')'
-           | TIPi IDint '(' param_list ')'
-           | TIPb IDbool '(' param_list ')'
-           | TIPf IDfloat '(' param_list ')'
-           ;
-       
+intdecl: IDint
+       | IDint '(' param_list_decl ')'
+	   | CIDint ASSIGN numberint
+	   ;
 
-       
-param_list: param
-            | param_list ','  param 
-            ;
+stringdecl: IDstring
+		  | IDstring '(' param_list ')'
+		  | CIDstring ASSIGN estring
+		  ;
+
+param_list_decl: 
+          | params_decl 
+          ;
+
+params_decl: param_decl
+	  | params_decl ',' param_decl 
+	  ;
             
-param:  TIPi IDint
-      | TIPs IDstring
-      | TIPb IDbool
-      | TIPf IDfloat
+param_decl: TIPi intdecl
+      | TIPs stringdecl
       /*trebuie adaugat si apeluri de functie*/ 
       ; 
-      
+
+param_list: 
+          | params 
+          ;
+
+params: param
+	  | params ',' param 
+	  ;
+            
+param: TIPi IDint
+
 /* bloc */
 bloc: BGIN list END  
      ;
