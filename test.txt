@@ -15,9 +15,12 @@ Print( ~Vader );
 ~Maul<|2;
 Print ( ~Maul );
 @Padme<|"Amidala";  
+Print (@Padme);
 
 What about the (~Maul=~Vader)?
     ~Maul<|3;
+	Otherwise 
+	~Maul<|4;
 Go, I will.  
 
 Do, or do not: (@Organa=@Padme)
