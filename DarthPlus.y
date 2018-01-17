@@ -138,7 +138,7 @@ statement: assgnst ';'
          | assgnbl ';'
          | control 
          | print ';'
-		 | function_call ';'
+	   | function_call ';'
          ;
 
 test:  
@@ -206,13 +206,16 @@ assgnfl:   IDfloat ASSIGN exprfl
 /*tipul de date numere intregi*/
 numberint: IDint
          | INT
-	     | CIDint
+	   | CIDint
+         | IDint '[' numberint ']'
+
          ;
 
 /*tipul de date numere float*/
 numberfl: IDfloat
         | FLOAT  
 	  | CIDfloat
+        | IDfloat '[' numberint ']'
         ;
 
 /*tipul de date numar*/
@@ -223,13 +226,15 @@ gnumber: numberfl
 /*tipul de date bool*/      
 ebool: IDbool
      | BOOL
-	 | CIDbool
+     | CIDbool
+     | IDbool '[' numberint ']'
      ;
 
 /*tipul de date string*/
 estring: IDstring
        | STRING
-	   | CIDstring
+	 | CIDstring
+       | IDstring '[' numberint ']'
        ;
 
 /*tipul de date constante*/
