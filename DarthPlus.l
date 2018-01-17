@@ -8,14 +8,14 @@
 "Senator" {return TIPs;}
 "General" {return TIPb;}
 "Station" {return TIPstruct;}
-"~"[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
-"::~"[_a-zA-Z][_a-zA-Z0-9]* {return CIDint;}
-\@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
-"::@"[_a-zA-Z][_a-zA-Z0-9]* {return CIDstring;}
-\%[_a-zA-Z][_a-zA-Z0-9]* {return IDfloat;}
-"::%"[_a-zA-Z][_a-zA-Z0-9]* {return CIDfloat;}
-\_[_a-zA-Z][_a-zA-Z0-9]* {return IDbool;}
-"::_"[_a-zA-Z][_a-zA-Z0-9]* {return CIDbool;}
+"~"[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.intnode.name,strdup(yytext)); return IDint;}
+"::~"[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.intnode.name,strdup(yytext));return CIDint;}
+\@[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.stringnode.name,strdup(yytext)); return IDstring;}
+"::@"[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.stringnode.name,strdup(yytext));return CIDstring;}
+\%[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.floatnode.name,strdup(yytext)); return IDfloat;}
+"::%"[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.floatnode.name,strdup(yytext));return CIDfloat;}
+\_[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.boolnode.name,strdup(yytext)); return IDbool;}
+"::_"[_a-zA-Z][_a-zA-Z0-9]* {strcpy(yylval.boolnode.name,strdup(yytext)); return CIDbool;}
 "$"[_a-zA-Z][_a-zA-Z0-9]* {return IDstruct;}
 "Hello there!" {return BGIN;}
 "The circle is now complete." {return END;}
@@ -36,9 +36,9 @@
 
 "<|" {return ASSIGN;}
 [0-9]|[1-9][0-9]+|"-"[0-9]|[1-9][0-9]+ {yylval.intval=atoi(yytext);return INT;}
-[0-9]|[1-9][0-9]+"."[0-9]*|"-"[0-9]|[1-9][0-9]+"."[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
+([0-9]|[1-9][0-9]+)"."[0-9]*|"-"([0-9]|[1-9][0-9]+)"."[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
 \"[a-zA-Z]+\" {yylval.strval=strdup(yytext); return STRING;}
-"true"|"false" {return BOOL;}
+"true"|"false" {strcpy(yylval.boolval,strdup(yytext)); return BOOL;}
 "<="|">="|"<"|">" {return COMP;}
 "=" {return EQUAL;}
 "!=" {return DIFF;}

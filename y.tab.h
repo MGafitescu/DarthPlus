@@ -140,14 +140,37 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "DarthPlus.y" /* yacc.c:1909  */
+#line 23 "DarthPlus.y" /* yacc.c:1909  */
 
 int intval;
 double floatval;
 char* strval;
-int boolval;
+char boolval[6];
+struct  
+{
+	char name[100];
+	int val;
+} intnode;
 
-#line 151 "y.tab.h" /* yacc.c:1909  */
+struct  
+{
+	char name[100];
+	char val[100];
+} stringnode;
+
+struct  
+{
+	char name[100];
+	double val;
+} floatnode;
+
+struct  
+{
+	char name[100];
+	char val[6];
+} boolnode;
+
+#line 174 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
