@@ -7,6 +7,16 @@
 "Master" {return TIPf;}
 "Senator" {return TIPs;}
 "General" {return TIPb;}
+"Station" {return TIPstruct;}
+"~"[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
+"::~"[_a-zA-Z][_a-zA-Z0-9]* {return CIDint;}
+\@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
+"::@"[_a-zA-Z][_a-zA-Z0-9]* {return CIDstring;}
+\%[_a-zA-Z][_a-zA-Z0-9]* {return IDfloat;}
+"::%"[_a-zA-Z][_a-zA-Z0-9]* {return CIDfloat;}
+\_[_a-zA-Z][_a-zA-Z0-9]* {return IDbool;}
+"::_"[_a-zA-Z][_a-zA-Z0-9]* {return CIDbool;}
+"$"[_a-zA-Z][_a-zA-Z0-9]* {return IDstruct;}
 "Hello there!" {return BGIN;}
 "The circle is now complete." {return END;}
 "Print" {return PRINT;}
@@ -19,14 +29,6 @@
 "The Sith will rule the Galaxy." {return ENDFOR;}
 "Fire!" {return BEGIN_FUNCTION;}
 "Halt!" {return END_FUNCTION;}
-"~"[_a-zA-Z][_a-zA-Z0-9]* {return IDint;}
-"::~"[_a-zA-Z][_a-zA-Z0-9]* {return CIDint;}
-\@[_a-zA-Z][_a-zA-Z0-9]* {return IDstring;}
-"::@"[_a-zA-Z][_a-zA-Z0-9]* {return CIDstring;}
-\$[_a-zA-Z][_a-zA-Z0-9]* {return IDfloat;}
-"::$"[_a-zA-Z][_a-zA-Z0-9]* {return CIDfloat;}
-\_[_a-zA-Z][_a-zA-Z0-9]* {return IDbool;}
-"::_"[_a-zA-Z][_a-zA-Z0-9]* {return CIDbool;}
 "+" {return ADD;}
 "-" {return MIN;}
 "^" {return POW;}
