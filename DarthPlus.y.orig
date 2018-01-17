@@ -37,12 +37,6 @@ int boolval;
 %type <strval>CIDstring
 %type <boolval>CIDbool
 %type <floatval>CIDfloat
-%left  AOPERATOR
-%left '+'
-%left '*'
-%left AND
-%left OR
-%left NOT
 
 %%
 progr: declarations body test {printf("Program corect sintactic\n");}
@@ -129,7 +123,8 @@ statement: assgnst ';'
 		 | function_call ';'
          ;
 
-test:  
+test:  gexprint {printf("gexprint\n");}
+      | exprint {printf("exprint\n");}
       ;
 
 /*INVOCARE de FUnCtIe*/
@@ -149,23 +144,18 @@ else:
 /*expresii logice*/
 exprlog: exprlognr 
       |  exprlogst 
-      |  ebool
-      |  '(' exprlog ')'
-      |  NOT exprlog
-      |  exprlog AND exprlog
-      |  exprlog OR exprlog
       ;
 
       
 /*expresii logice cu numere*/
-exprlognr: exprfl COMP exprfl
-      |    exprfl EQUAL exprfl
-      |    exprfl DIFF exprfl
+exprlognr: gnumber COMP gnumber
+      | gnumber EQUAL gnumber
+      | gnumber DIFF gnumber
       ;
 
 /*expresii logice cu stringuri*/
-exprlogst: exprst EQUAL exprst
-      |   exprst DIFF exprst
+exprlogst: estring EQUAL estring
+      | estring DIFF estring
       ;        
 	      
 /*expresii for*/
@@ -173,20 +163,25 @@ exprfor: assgnint ';' exprlognr ';' assgnint
       ;
 
 /* assgn la stringuri */
-assgnst:  IDstring ASSIGN exprst
+assgnst: IDstring ASSIGN estring {$1=$3;}
+      |  IDstring ASSIGN exprst
       ;
         
 /* assgn la intregi */
-assgnint: IDint ASSIGN exprint
+assgnint: IDint ASSIGN numberint {$1=$3;}
+      | IDint ASSIGN exprint
       ;
 
 
 /*assgn la bool */
-assgnbl:   IDbool ASSIGN exprlog
+assgnbl: IDbool ASSIGN ebool
+      |  IDbool ASSIGN exprlog
+      |  IDbool ASSIGN exprbl
       ;
 
 /*assgn la float */
-assgnfl:   IDfloat ASSIGN exprfl
+assgnfl: IDfloat ASSIGN numberfl
+      |  IDfloat ASSIGN exprfl
       ;
 
 /*tipul de date numere intregi*/
@@ -198,13 +193,13 @@ numberint: IDint
 /*tipul de date numere float*/
 numberfl: IDfloat
         | FLOAT  
-	  | CIDfloat
+		| CIDfloat
         ;
 
 /*tipul de date numar*/
 gnumber: numberfl
-      | numberint
-      ;
+       | numberint
+       ;
 
 /*tipul de date bool*/      
 ebool: IDbool
@@ -225,31 +220,41 @@ econst: CIDint
 	  | CIDstring
 	  ;
 
+/*operatori algebrici*/
+aoperator: ADD
+         |  MIN
+	   |  POW 
+	   |  MUL
+	   |  DIV 
+	   ;
+
+/*operatori logici*/
+loperator:    OR
+            | NOT
+            | AND  
+            ;
 
 
 /*expresii algebrice cu numere intregi*/
-exprint:   numberint
-      | IDint '(' param_list ')'
-      | exprint AOPERATOR exprint
+exprint:  numberint
+      | numberint aoperator numberint
       | '(' exprint ')'
-     ;
+      | exprint aoperator exprint
+      ;
 
 /*expresii algebrice cu  numere */
-exprfl:   gnumber
-      | IDfloat '(' param_list ')'
-      | IDint '(' param_list ')'
-      | exprfl AOPERATOR exprfl
-      | '(' exprfl ')'
-      ; 
+exprfl:    gnumber aoperator gnumber
+         ; 
        
 
 /*expresii algebrice cu stringuri*/
-exprst: estring
-      | exprst '+' exprst
-      | '(' exprst ')'
-      | exprst '*' numberint
+exprst:  estring ADD estring
+      |  estring MUL numberint
       ;    
 
+/*expresii cu bool*/
+exprbl:  ebool loperator ebool
+      ;           
 
 /*functia de printare*/
 print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}

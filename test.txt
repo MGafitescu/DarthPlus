@@ -8,7 +8,6 @@ Darth ~Gafi;
 Darth ~Vader;
 Darth ~Maul;
 Darth ~Sidious;
-Darth ~Plagueis;
 Darth ~Bane;
 Senator @Organa;
 Senator @Padme;
@@ -18,21 +17,21 @@ Senator @Palpatine(Darth ::~param1,Master $param2,General _param3)
 	Halt!;
 
 Hello there!
-@Palpatine(~Gafi,$Windu,_Rex,::~Pomo);
+@Palpatine(~Gafi,$Windu,_Rex,::~Pomo,@Padme());
 _Cody();
 ~Vader<|4;
 Print( ~Vader );
-~Maul<|2;
+~Maul<|( 2+3 )*2 + (3*4)/5+6-(~Palpatine(~Pomo)+~Vader)+3;
 Print ( ~Maul );
 @Padme<|"Amidala";  
 Print (@Padme);
-$Windu<| 12.345;
+$Windu <| (12.5+~Maul) + 2/$Yoda;
 _Grievous<|~Vader<=~Maul;
 ~Sidious<|~Gafi^~Pomo;
-_Kenobi<|true;
 _Grievous<|@Organa!=@Padme;
 _Grievous<|_Rex&_Cody;
-What about the (~Maul=~Vader)?
+
+What about the ((_Grievous|_Rex) & (~Maul=~Vader) & !_Cody )?
     ~Maul<|3;
 	Otherwise 
 	~Maul<|4;

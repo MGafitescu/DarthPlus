@@ -27,11 +27,7 @@
 "::$"[_a-zA-Z][_a-zA-Z0-9]* {return CIDfloat;}
 \_[_a-zA-Z][_a-zA-Z0-9]* {return IDbool;}
 "::_"[_a-zA-Z][_a-zA-Z0-9]* {return CIDbool;}
-"+" {return ADD;}
-"-" {return MIN;}
-"^" {return POW;}
-"*" {return MUL;}
-"/" {return DIV;}
+"+"|"-"|"^"|"*"|"/" {return AOPERATOR;}
 "|" {return OR;}
 "&" {return AND;}
 "!" {return NOT;}
