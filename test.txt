@@ -1,4 +1,4 @@
-Darth ::~Pomo <| 1998;
+Darth ~Pomo[200];
 General ::_Kenobi <| true;
 General _Grievous;
 General _Rex;
