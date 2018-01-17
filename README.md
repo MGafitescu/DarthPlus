@@ -1,2 +1,2 @@
-# limbaj
-Limbajul DarthPlus.
+# DarthPlus
+Limbajul DarthPlus, by GaPo.
