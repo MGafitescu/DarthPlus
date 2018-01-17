@@ -5,7 +5,7 @@ lex.yy.c: DarthPlus.l
 	lex DarthPlus.l
 
 y.tab.c:DarthPlus.y
-	yacc DarthPlus.y -d
+	yacc DarthPlus.y -d -v
 
 clean:
 	rm lex.yy.c y.tab.c y.tab.h DarthPlus
