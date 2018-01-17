@@ -140,7 +140,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "DarthPlus.y" /* yacc.c:1909  */
+#line 35 "DarthPlus.y" /* yacc.c:1909  */
 
 int intval;
 double floatval;
