@@ -75,7 +75,7 @@ int yylex();
 int yyerror(char * s);
 struct IntNode intnodes[100];
 int nr_inodes = 0;
-struct StringNode stringnode[100];
+struct StringNode stringnodes[100];
 int nr_snodes = 0;
 struct FloatNode floatnodes[100];
 int nr_fnodes = 0;
@@ -85,7 +85,19 @@ int FindIntNode(char* name);
 int AddIntNode(char *name);
 int UpdateIntVal(char *name,int val);
 
-#line 89 "y.tab.c" /* yacc.c:339  */
+int FindStringNode(char* name);
+int AddStringNode(char *name);
+int UpdateStringVal(char *name,char* val);
+
+int FindFloatNode(char* name);
+int AddFloatNode(char *name);
+int UpdateFloatVal(char *name,double val);
+
+int FindBoolNode(char* name);
+int AddBoolNode(char *name);
+int UpdateBoolVal(char *name,int val);
+
+#line 101 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -215,7 +227,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "DarthPlus.y" /* yacc.c:355  */
+#line 35 "DarthPlus.y" /* yacc.c:355  */
 
 int intval;
 double floatval;
@@ -245,7 +257,7 @@ struct
 	char val[6];
 } boolnode;
 
-#line 249 "y.tab.c" /* yacc.c:355  */
+#line 261 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -262,7 +274,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 266 "y.tab.c" /* yacc.c:358  */
+#line 278 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -564,18 +576,18 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    83,    83,    86,    87,    90,    91,    92,    93,    94,
-      97,    98,    99,   100,   103,   104,   105,   106,   109,   112,
-     113,   116,   117,   118,   119,   120,   123,   124,   125,   126,
-     129,   130,   133,   134,   137,   138,   139,   140,   141,   144,
-     147,   148,   151,   152,   155,   156,   157,   158,   162,   166,
-     167,   170,   171,   172,   173,   174,   175,   176,   179,   183,
-     187,   188,   189,   192,   193,   197,   198,   199,   200,   201,
-     202,   203,   208,   209,   210,   214,   215,   220,   224,   228,
-     233,   237,   242,   243,   244,   245,   250,   251,   252,   253,
-     257,   258,   262,   263,   264,   265,   269,   270,   271,   272,
-     276,   277,   278,   279,   284,   285,   286,   287,   292,   293,
-     294,   295,   296,   301,   302,   303,   304,   309,   310
+       0,    95,    95,    98,    99,   102,   103,   104,   105,   106,
+     109,   110,   111,   112,   115,   116,   117,   118,   121,   124,
+     125,   128,   129,   130,   131,   132,   135,   136,   137,   138,
+     141,   142,   145,   146,   149,   150,   151,   152,   153,   156,
+     159,   160,   163,   164,   167,   168,   169,   170,   174,   178,
+     179,   182,   183,   184,   185,   186,   187,   188,   191,   195,
+     199,   200,   201,   204,   205,   209,   210,   211,   212,   213,
+     214,   215,   220,   221,   222,   226,   227,   232,   236,   240,
+     245,   249,   254,   255,   256,   257,   262,   263,   264,   265,
+     269,   270,   274,   275,   276,   277,   281,   282,   283,   284,
+     288,   289,   290,   291,   296,   297,   298,   299,   304,   305,
+     306,   307,   308,   313,   314,   315,   316,   321,   322
 };
 #endif
 
@@ -1538,49 +1550,61 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 83 "DarthPlus.y" /* yacc.c:1646  */
+#line 95 "DarthPlus.y" /* yacc.c:1646  */
     {printf("Program corect sintactic\n");}
-#line 1544 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 97 "DarthPlus.y" /* yacc.c:1646  */
-    {if(AddIntNode((yyvsp[0].intnode).name)) printf("%s declared\n",(yyvsp[0].intnode).name); else {printf("%s redeclaration\n",(yyvsp[0].intnode).name);exit(0);}}
-#line 1550 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 60:
-#line 187 "DarthPlus.y" /* yacc.c:1646  */
-    {printf("Recunoscut if.\n");}
 #line 1556 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 61:
-#line 188 "DarthPlus.y" /* yacc.c:1646  */
-    {printf("Recunoscut for. \n");}
+  case 10:
+#line 109 "DarthPlus.y" /* yacc.c:1646  */
+    {if(AddIntNode((yyvsp[0].intnode).name)) printf("%s declared\n",(yyvsp[0].intnode).name); else {printf("%s redeclaration\n",(yyvsp[0].intnode).name);exit(0);}}
 #line 1562 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 62:
-#line 189 "DarthPlus.y" /* yacc.c:1646  */
-    {printf("Recunoscut while. \n");}
+  case 11:
+#line 110 "DarthPlus.y" /* yacc.c:1646  */
+    {if(AddStringNode((yyvsp[0].stringnode).name)) printf("%s declared\n",(yyvsp[0].stringnode).name); else {printf("%s redeclaration\n",(yyvsp[0].stringnode).name);exit(0);}}
 #line 1568 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 117:
-#line 309 "DarthPlus.y" /* yacc.c:1646  */
-    {printf("S-a recunoscut: %s\n",(yyval.strval));}
+  case 12:
+#line 111 "DarthPlus.y" /* yacc.c:1646  */
+    {if(AddFloatNode((yyvsp[0].floatnode).name)) printf("%s declared\n",(yyvsp[0].floatnode).name); else {printf("%s redeclaration\n",(yyvsp[0].floatnode).name);exit(0);}}
 #line 1574 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 118:
-#line 310 "DarthPlus.y" /* yacc.c:1646  */
-    {printf("S-a recunoscut: %d\n",(yyval.intval));}
+  case 60:
+#line 199 "DarthPlus.y" /* yacc.c:1646  */
+    {printf("Recunoscut if.\n");}
 #line 1580 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 61:
+#line 200 "DarthPlus.y" /* yacc.c:1646  */
+    {printf("Recunoscut for. \n");}
+#line 1586 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1584 "y.tab.c" /* yacc.c:1646  */
+  case 62:
+#line 201 "DarthPlus.y" /* yacc.c:1646  */
+    {printf("Recunoscut while. \n");}
+#line 1592 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 117:
+#line 321 "DarthPlus.y" /* yacc.c:1646  */
+    {printf("S-a recunoscut: %s\n",(yyval.strval));}
+#line 1598 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 118:
+#line 322 "DarthPlus.y" /* yacc.c:1646  */
+    {printf("S-a recunoscut: %d\n",(yyval.intval));}
+#line 1604 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1608 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1808,7 +1832,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 313 "DarthPlus.y" /* yacc.c:1906  */
+#line 325 "DarthPlus.y" /* yacc.c:1906  */
 
 int yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
@@ -1842,6 +1866,66 @@ int UpdateIntVal(char *name,int val)
 	if (i == -1)
 	return 0;
 	intnodes[i].val = val;
+}
+
+int FindStringNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_snodes;i++)
+	{
+		if (!strcmp(name,stringnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddStringNode(char *name)
+{
+	if (FindStringNode(name)!=-1)
+	return 0;
+	strcpy(stringnodes[nr_snodes].name,name);
+	strcpy(stringnodes[nr_snodes].val,"");
+	nr_snodes++;
+	return 1;
+}
+
+int UpdateStringVal(char *name,char * val)
+{
+	int i;
+	i =FindStringNode(name);
+	if (i == -1)
+	return 0;
+	strcpy(stringnodes[i].val,val);
+}
+
+int FindFloatNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_fnodes;i++)
+	{
+		if (!strcmp(name,floatnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddFloatNode(char *name)
+{
+	if (FindFloatNode(name)!=-1)
+	return 0;
+	strcpy(floatnodes[nr_fnodes].name,name);
+	floatnodes[nr_fnodes].val = 0;
+	nr_fnodes++;
+	return 1;
+}
+
+int UpdateFloatVal(char *name,double val)
+{
+	int i;
+	i =FindFloatNode(name);
+	if (i == -1)
+	return 0;
+	floatnodes[i].val = val;
 }
 
 int main(int argc, char** argv){

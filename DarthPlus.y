@@ -10,7 +10,7 @@ int yylex();
 int yyerror(char * s);
 struct IntNode intnodes[100];
 int nr_inodes = 0;
-struct StringNode stringnode[100];
+struct StringNode stringnodes[100];
 int nr_snodes = 0;
 struct FloatNode floatnodes[100];
 int nr_fnodes = 0;
@@ -22,11 +22,11 @@ int UpdateIntVal(char *name,int val);
 
 int FindStringNode(char* name);
 int AddStringNode(char *name);
-int UpdateStringVal(char *name,int val);
+int UpdateStringVal(char *name,char* val);
 
 int FindFloatNode(char* name);
 int AddFloatNode(char *name);
-int UpdateFloatVal(char *name,int val);
+int UpdateFloatVal(char *name,double val);
 
 int FindBoolNode(char* name);
 int AddBoolNode(char *name);
@@ -107,8 +107,8 @@ declaration: function_decl
 		   ;
 
 variable_decl: TIPi IDint {if(AddIntNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
-             | TIPs IDstring
-			 | TIPf IDfloat
+             | TIPs IDstring {if(AddStringNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
+			 | TIPf IDfloat {if(AddFloatNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
 			 | TIPb IDbool
              ;
 
@@ -355,6 +355,66 @@ int UpdateIntVal(char *name,int val)
 	if (i == -1)
 	return 0;
 	intnodes[i].val = val;
+}
+
+int FindStringNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_snodes;i++)
+	{
+		if (!strcmp(name,stringnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddStringNode(char *name)
+{
+	if (FindStringNode(name)!=-1)
+	return 0;
+	strcpy(stringnodes[nr_snodes].name,name);
+	strcpy(stringnodes[nr_snodes].val,"");
+	nr_snodes++;
+	return 1;
+}
+
+int UpdateStringVal(char *name,char * val)
+{
+	int i;
+	i =FindStringNode(name);
+	if (i == -1)
+	return 0;
+	strcpy(stringnodes[i].val,val);
+}
+
+int FindFloatNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_fnodes;i++)
+	{
+		if (!strcmp(name,floatnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddFloatNode(char *name)
+{
+	if (FindFloatNode(name)!=-1)
+	return 0;
+	strcpy(floatnodes[nr_fnodes].name,name);
+	floatnodes[nr_fnodes].val = 0;
+	nr_fnodes++;
+	return 1;
+}
+
+int UpdateFloatVal(char *name,double val)
+{
+	int i;
+	i =FindFloatNode(name);
+	if (i == -1)
+	return 0;
+	floatnodes[i].val = val;
 }
 
 int main(int argc, char** argv){
