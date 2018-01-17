@@ -30,7 +30,7 @@ int UpdateFloatVal(char *name,double val);
 
 int FindBoolNode(char* name);
 int AddBoolNode(char *name);
-int UpdateBoolVal(char *name,int val);
+int UpdateBoolVal(char *name,char  *val);
 %}
 %union {
 int intval;
@@ -107,9 +107,10 @@ declaration: function_decl
 		   ;
 
 variable_decl: TIPi IDint {if(AddIntNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
+
+			 | TIPb IDbool  {if(AddBoolNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
              | TIPs IDstring {if(AddStringNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
 			 | TIPf IDfloat {if(AddFloatNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
-			 | TIPb IDbool
              ;
 
 array_decl: TIPi IDint '[' INT ']'
@@ -357,15 +358,46 @@ int UpdateIntVal(char *name,int val)
 	intnodes[i].val = val;
 }
 
+int FindBoolNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_bnodes;i++)
+	{
+		if (!strcmp(name,boolnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
 int FindStringNode(char* name)
 {
 	int i;
 	for (i = 0;i<nr_snodes;i++)
 	{
 		if (!strcmp(name,stringnodes[i].name))
+
 		return i;
 	}
 	return -1;
+}
+
+int AddBoolNode(char *name)
+{
+	if (FindBoolNode(name)!=-1)
+	return 0;
+	strcpy(boolnodes[nr_bnodes].name,name);
+	strcpy(boolnodes[nr_bnodes].val , "\0");
+	nr_bnodes++;
+	return 1;
+}
+
+int UpdateBoolVal(char *name,char *val)
+{
+	int i;
+	i =FindBoolNode(name);
+	if (i == -1)
+	return 0;
+      strcpy(boolnodes[i].val,val);
 }
 
 int AddStringNode(char *name)
