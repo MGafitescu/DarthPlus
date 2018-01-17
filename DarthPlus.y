@@ -12,8 +12,8 @@ double floatval;
 char* strval;
 int boolval;
 }
-%token TIPi TIPf TIPs TIPb
-%token IDint IDfloat IDstring IDbool 
+%token TIPi TIPf TIPs TIPb TIPstruct
+%token IDint IDfloat IDstring IDbool IDstruct
 %token CIDint CIDfloat CIDstring CIDbool
 %token BGIN END ASSIGN PRINT
 %token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
@@ -50,6 +50,7 @@ declaration: function_decl
 		   | variable_decl
 		   | const_decl
 		   | array_decl
+		   | struct_decl
 		   ;
 
 variable_decl: TIPi IDint
@@ -63,6 +64,13 @@ array_decl: TIPi IDint '[' INT ']'
      	  | TIPf IDfloat '[' INT ']'
 	      | TIPb IDbool '[' INT ']'
           ;
+
+struct_decl: TIPstruct IDstruct '{' struct_var_decl '}'
+		   ;
+
+struct_var_decl: variable_decl ';'
+			   | struct_var_decl variable_decl ';'
+			   ;
 
 data_id_type: IDint
 			| IDbool

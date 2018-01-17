@@ -1,24 +1,26 @@
 Darth ~Pomo[200];
 General ::_Kenobi <| true;
-General _Grievous;
 General _Rex;
 General _Cody;
-Master $Windu;
+Master %Windu;
 Darth ~Gafi;
 Darth ~Vader;
 Darth ~Maul;
+Station $First_order{
+General _Grievous;
 Darth ~Sidious;
 Darth ~Plagueis;
-Darth ~Bane;
+Darth ~Bane; 
 Senator @Organa;
 Senator @Padme;
-Senator @Palpatine(Darth ::~param1,Master $param2,General _param3)
+};
+Senator @Palpatine(Darth ::~param1,Master %param2,General _param3)
 	Fire!
 	_Rex<|false;
 	Halt!;
 
 Hello there!
-@Palpatine(~Gafi,$Windu,_Rex,::~Pomo);
+@Palpatine(~Gafi,%Windu,_Rex,::~Pomo);
 _Cody();
 ~Vader<|4;
 Print( ~Vader );
@@ -26,7 +28,7 @@ Print( ~Vader );
 Print ( ~Maul );
 @Padme<|"Amidala";  
 Print (@Padme);
-$Windu<| 12.345;
+%Windu<| 12.345;
 _Grievous<|~Vader<=~Maul;
 ~Sidious<|~Gafi^~Pomo;
 _Kenobi<|true;
