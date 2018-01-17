@@ -1,16 +1,65 @@
 %{
+#include <string.h>
+#include "structuri.h"
 #include <stdio.h>
+#include <stdlib.h>
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 int yylex();
 int yyerror(char * s);
+struct IntNode intnodes[100];
+int nr_inodes = 0;
+struct StringNode stringnode[100];
+int nr_snodes = 0;
+struct FloatNode floatnodes[100];
+int nr_fnodes = 0;
+struct BoolNode boolnodes[100];
+int nr_bnodes = 0;
+int FindIntNode(char* name);
+int AddIntNode(char *name);
+int UpdateIntVal(char *name,int val);
+
+int FindStringNode(char* name);
+int AddStringNode(char *name);
+int UpdateStringVal(char *name,int val);
+
+int FindFloatNode(char* name);
+int AddFloatNode(char *name);
+int UpdateFloatVal(char *name,int val);
+
+int FindBoolNode(char* name);
+int AddBoolNode(char *name);
+int UpdateBoolVal(char *name,int val);
 %}
 %union {
 int intval;
 double floatval;
 char* strval;
-int boolval;
+char boolval[6];
+struct  
+{
+	char name[100];
+	int val;
+} intnode;
+
+struct  
+{
+	char name[100];
+	char val[100];
+} stringnode;
+
+struct  
+{
+	char name[100];
+	double val;
+} floatnode;
+
+struct  
+{
+	char name[100];
+	char val[6];
+} boolnode;
 }
 %token TIPi TIPf TIPs TIPb TIPstruct
 %token IDint IDfloat IDstring IDbool IDstruct
@@ -25,18 +74,16 @@ int boolval;
 %token <intval> INT
 %token <floatval> FLOAT
 %token <boolval> BOOL
-%type <intval>assgnint
 %type <intval>numberint
 %type <strval>estring
-%type <strval>assgnst
-%type <intval>IDint
-%type <strval>IDstring
-%type <boolval>IDbool
-%type <floatval>IDfloat
-%type <intval>CIDint
-%type <strval>CIDstring
-%type <boolval>CIDbool
-%type <floatval>CIDfloat
+%type <intnode>IDint
+%type <stringnode>IDstring
+%type <boolnode>IDbool
+%type <floatnode>IDfloat
+%type <intnode>CIDint
+%type <stringnode>CIDstring
+%type <boolnode>CIDbool
+%type <floatnode>CIDfloat
 %left  AOPERATOR
 %left '+'
 %left '*'
@@ -59,7 +106,7 @@ declaration: function_decl
 		   | struct_decl
 		   ;
 
-variable_decl: TIPi IDint
+variable_decl: TIPi IDint {if(AddIntNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}}
              | TIPs IDstring
 			 | TIPf IDfloat
 			 | TIPb IDbool
@@ -278,6 +325,36 @@ print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
 %%
 int yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
+}
+
+int FindIntNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_inodes;i++)
+	{
+		if (!strcmp(name,intnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddIntNode(char *name)
+{
+	if (FindIntNode(name)!=-1)
+	return 0;
+	strcpy(intnodes[nr_inodes].name,name);
+	intnodes[nr_inodes].val = 0;
+	nr_inodes++;
+	return 1;
+}
+
+int UpdateIntVal(char *name,int val)
+{
+	int i;
+	i =FindIntNode(name);
+	if (i == -1)
+	return 0;
+	intnodes[i].val = val;
 }
 
 int main(int argc, char** argv){
