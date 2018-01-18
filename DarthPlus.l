@@ -37,7 +37,7 @@
 "endl" {return ENDL;}
 [0-9]|[1-9][0-9]+|"-"[0-9]|[1-9][0-9]+ {yylval.intval=atoi(yytext);return INT;}
 ([0-9]|[1-9][0-9]+)"."[0-9]*|"-"([0-9]|[1-9][0-9]+)"."[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
-\"[a-zA-Z]+\" {yylval.strval=strdup(yytext);  strcpy(yylval.strval,yylval.strval+1); yylval.strval[strlen(yylval.strval)-1]="\0"; return STRING;}
+\"[ a-zA-Z]+\" {yylval.strval=strdup(yytext); yylval.strval[strlen(yylval.strval) - 1] = '\0'; strcpy(yylval.strval,yylval.strval + 1); return STRING;}
 "true"|"false" {if(strcmp(yytext,"true")==0)yylval.boolval=1; else yylval.boolval=0; return BOOL;}
 
 "<=" {return LE;}
