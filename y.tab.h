@@ -70,23 +70,25 @@ extern int yydebug;
     ENDFOR = 280,
     WHILE = 281,
     ENDWHILE = 282,
-    COMP = 283,
-    EQUAL = 284,
-    DIFF = 285,
-    NOT = 286,
-    AND = 287,
-    OR = 288,
-    ADD = 289,
-    MIN = 290,
-    POW = 291,
-    MUL = 292,
-    DIV = 293,
-    BEGIN_FUNCTION = 294,
-    END_FUNCTION = 295,
-    STRING = 296,
-    INT = 297,
-    FLOAT = 298,
-    BOOL = 299
+    LE = 283,
+    GE = 284,
+    EQUAL = 285,
+    DIFF = 286,
+    NOT = 287,
+    AND = 288,
+    OR = 289,
+    ADD = 290,
+    MIN = 291,
+    POW = 292,
+    MUL = 293,
+    DIV = 294,
+    BEGIN_FUNCTION = 295,
+    END_FUNCTION = 296,
+    ENDL = 297,
+    STRING = 298,
+    INT = 299,
+    FLOAT = 300,
+    BOOL = 301
   };
 #endif
 /* Tokens.  */
@@ -115,23 +117,25 @@ extern int yydebug;
 #define ENDFOR 280
 #define WHILE 281
 #define ENDWHILE 282
-#define COMP 283
-#define EQUAL 284
-#define DIFF 285
-#define NOT 286
-#define AND 287
-#define OR 288
-#define ADD 289
-#define MIN 290
-#define POW 291
-#define MUL 292
-#define DIV 293
-#define BEGIN_FUNCTION 294
-#define END_FUNCTION 295
-#define STRING 296
-#define INT 297
-#define FLOAT 298
-#define BOOL 299
+#define LE 283
+#define GE 284
+#define EQUAL 285
+#define DIFF 286
+#define NOT 287
+#define AND 288
+#define OR 289
+#define ADD 290
+#define MIN 291
+#define POW 292
+#define MUL 293
+#define DIV 294
+#define BEGIN_FUNCTION 295
+#define END_FUNCTION 296
+#define ENDL 297
+#define STRING 298
+#define INT 299
+#define FLOAT 300
+#define BOOL 301
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -143,7 +147,7 @@ union YYSTYPE
 int intval;
 double floatval;
 char* strval;
-char boolval[6];
+int boolval;
 struct  
 {
 	char name[100];
@@ -165,10 +169,10 @@ struct
 struct  
 {
 	char name[100];
-	char val[6];
+	int val;
 } boolnode;
 
-#line 172 "y.tab.h" /* yacc.c:1909  */
+#line 176 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

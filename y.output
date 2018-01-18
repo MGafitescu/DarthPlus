@@ -108,94 +108,108 @@ Grammar
    72        | exprlog AND exprlog
    73        | exprlog OR exprlog
 
-   74 exprlognr: exprfl COMP exprfl
-   75          | exprfl EQUAL exprfl
-   76          | exprfl DIFF exprfl
+   74 exprlognr: exprfl LE exprfl
+   75          | exprfl GE exprfl
+   76          | exprfl '<' exprfl
+   77          | exprfl '>' exprfl
+   78          | exprfl EQUAL exprfl
+   79          | exprfl DIFF exprfl
 
-   77 exprlogst: exprst EQUAL exprst
-   78          | exprst DIFF exprst
+   80 exprlogst: exprst EQUAL exprst
+   81          | exprst DIFF exprst
 
-   79 exprfor: assgnint ';' exprlognr ';' assgnint
+   82 exprfor: assgnint ';' exprlognr ';' assgnint
 
-   80 assgnst: IDstring ASSIGN exprst
+   83 assgnst: IDstring ASSIGN exprst
 
-   81 assgnint: IDint ASSIGN exprint
+   84 assgnint: IDint ASSIGN exprint
 
-   82 assgnbl: IDbool ASSIGN exprlog
+   85 assgnbl: IDbool ASSIGN exprlog
 
-   83 assgnfl: IDfloat ASSIGN exprfl
+   86 assgnfl: IDfloat ASSIGN exprfl
 
-   84 numberint: IDint
-   85          | INT
-   86          | CIDint
-   87          | IDint '[' numberint ']'
+   87 numberint: IDint
+   88          | INT
+   89          | CIDint
+   90          | IDint '[' numberint ']'
 
-   88 numberfl: IDfloat
-   89         | FLOAT
-   90         | CIDfloat
-   91         | IDfloat '[' numberint ']'
+   91 numberfl: IDfloat
+   92         | FLOAT
+   93         | CIDfloat
+   94         | IDfloat '[' numberint ']'
 
-   92 gnumber: numberfl
-   93        | numberint
+   95 gnumber: numberfl
+   96        | numberint
 
-   94 ebool: IDbool
-   95      | BOOL
-   96      | CIDbool
-   97      | IDbool '[' numberint ']'
+   97 ebool: IDbool
+   98      | BOOL
+   99      | CIDbool
+  100      | IDbool '[' numberint ']'
 
-   98 estring: IDstring
-   99        | STRING
-  100        | CIDstring
-  101        | IDstring '[' numberint ']'
+  101 estring: IDstring
+  102        | STRING
+  103        | CIDstring
+  104        | IDstring '[' numberint ']'
 
-  102 econst: CIDint
-  103       | CIDbool
-  104       | CIDfloat
-  105       | CIDstring
+  105 econst: CIDint
+  106       | CIDbool
+  107       | CIDfloat
+  108       | CIDstring
 
-  106 exprint: numberint
-  107        | IDint '(' param_list ')'
-  108        | exprint '+' exprint
-  109        | exprint '-' exprint
-  110        | exprint '*' exprint
-  111        | exprint '/' exprint
-  112        | exprint '^' exprint
-  113        | '(' exprint ')'
+  109 exprint: numberint
+  110        | IDint '(' param_list ')'
+  111        | exprint '+' exprint
+  112        | exprint '-' exprint
+  113        | exprint '*' exprint
+  114        | exprint '/' exprint
+  115        | exprint '^' exprint
+  116        | '(' exprint ')'
 
-  114 exprfl: gnumber
-  115       | IDfloat '(' param_list ')'
-  116       | IDint '(' param_list ')'
-  117       | exprfl '+' exprfl
-  118       | exprfl '-' exprfl
-  119       | exprfl '*' exprfl
-  120       | exprfl '/' exprfl
-  121       | exprfl '^' exprfl
-  122       | '(' exprfl ')'
+  117 exprfl: gnumber
+  118       | IDfloat '(' param_list ')'
+  119       | IDint '(' param_list ')'
+  120       | exprfl '+' exprfl
+  121       | exprfl '-' exprfl
+  122       | exprfl '*' exprfl
+  123       | exprfl '/' exprfl
+  124       | exprfl '^' exprfl
+  125       | '(' exprfl ')'
 
-  123 exprst: estring
-  124       | exprst '+' exprst
-  125       | '(' exprst ')'
-  126       | exprst '*' numberint
+  126 exprst: estring
+  127       | exprst '+' exprst
+  128       | '(' exprst ')'
+  129       | exprst '*' numberint
 
-  127 print: PRINT '(' IDstring ')'
-  128      | PRINT '(' IDint ')'
+  130 print: PRINT '(' IDint ')'
+  131      | PRINT '(' IDfloat ')'
+  132      | PRINT '(' IDbool ')'
+  133      | PRINT '(' IDstring ')'
+  134      | PRINT '(' CIDint ')'
+  135      | PRINT '(' CIDfloat ')'
+  136      | PRINT '(' CIDbool ')'
+  137      | PRINT '(' CIDstring ')'
+  138      | PRINT '(' ENDL ')'
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 41 61 62 63 64 70 107 113 115 116 122 125 127 128
-')' (41) 41 61 62 63 64 70 107 113 115 116 122 125 127 128
-'*' (42) 110 119 126
-'+' (43) 108 117 124
+'(' (40) 41 61 62 63 64 70 110 116 118 119 125 128 130 131 132 133
+    134 135 136 137 138
+')' (41) 41 61 62 63 64 70 110 116 118 119 125 128 130 131 132 133
+    134 135 136 137 138
+'*' (42) 113 122 129
+'+' (43) 111 120 127
 ',' (44) 32 45
-'-' (45) 109 118
-'/' (47) 111 120
-';' (59) 2 3 18 19 53 54 55 56 58 59 79
+'-' (45) 112 121
+'/' (47) 114 123
+';' (59) 2 3 18 19 53 54 55 56 58 59 82
+'<' (60) 76
+'>' (62) 77
 '?' (63) 62
-'[' (91) 13 14 15 16 87 91 97 101
-']' (93) 13 14 15 16 87 91 97 101
-'^' (94) 112 121
+'[' (91) 13 14 15 16 90 94 100 104
+']' (93) 13 14 15 16 90 94 100 104
+'^' (94) 115 124
 '{' (123) 17
 '}' (125) 17
 error (256)
@@ -204,19 +218,19 @@ TIPf (259) 12 15 28 39 40
 TIPs (260) 11 14 26 35 36
 TIPb (261) 10 16 27 37 38
 TIPstruct (262) 17
-IDint (263) 9 13 20 33 81 84 87 107 116 128
-IDfloat (264) 12 15 22 39 83 88 91 115
-IDstring (265) 11 14 23 35 80 98 101 127
-IDbool (266) 10 16 21 37 82 94 97
+IDint (263) 9 13 20 33 84 87 90 110 119 130
+IDfloat (264) 12 15 22 39 86 91 94 118 131
+IDstring (265) 11 14 23 35 83 101 104 133
+IDbool (266) 10 16 21 37 85 97 100 132
 IDstruct (267) 17
-CIDint (268) 25 34 86 102
-CIDfloat (269) 28 40 90 104
-CIDstring (270) 26 36 100 105
-CIDbool (271) 27 38 96 103
+CIDint (268) 25 34 89 105 134
+CIDfloat (269) 28 40 93 107 135
+CIDstring (270) 26 36 103 108 137
+CIDbool (271) 27 38 99 106 136
 BGIN (272) 50
 END (273) 50
-ASSIGN (274) 25 26 27 28 80 81 82 83
-PRINT (275) 127 128
+ASSIGN (274) 25 26 27 28 83 84 85 86
+PRINT (275) 130 131 132 133 134 135 136 137 138
 IF (276) 62
 ELSE (277) 66
 ENDIF (278) 62
@@ -224,113 +238,115 @@ FOR (279) 63
 ENDFOR (280) 63
 WHILE (281) 64
 ENDWHILE (282) 64
-COMP (283) 74
-EQUAL (284) 75 77
-DIFF (285) 76 78
-NOT (286) 71
-AND (287) 72
-OR (288) 73
-ADD (289)
-MIN (290)
-POW (291)
-MUL (292)
-DIV (293)
-BEGIN_FUNCTION (294) 41
-END_FUNCTION (295) 41
-STRING (296) 99
-INT (297) 13 14 15 16 85
-FLOAT (298) 89
-BOOL (299) 95
+LE (283) 74
+GE (284) 75
+EQUAL (285) 78 80
+DIFF (286) 79 81
+NOT (287) 71
+AND (288) 72
+OR (289) 73
+ADD (290)
+MIN (291)
+POW (292)
+MUL (293)
+DIV (294)
+BEGIN_FUNCTION (295) 41
+END_FUNCTION (296) 41
+ENDL (297) 138
+STRING (298) 102
+INT (299) 13 14 15 16 88
+FLOAT (300) 92
+BOOL (301) 98
 
 
 Nonterminals, with rules where they appear
 
-$accept (59)
+$accept (63)
     on left: 0
-progr (60)
+progr (64)
     on left: 1, on right: 0
-declarations (61)
+declarations (65)
     on left: 2 3, on right: 1 3
-declaration (62)
+declaration (66)
     on left: 4 5 6 7 8, on right: 2 3
-variable_decl (63)
+variable_decl (67)
     on left: 9 10 11 12, on right: 5 18 19 41
-array_decl (64)
+array_decl (68)
     on left: 13 14 15 16, on right: 7
-struct_decl (65)
+struct_decl (69)
     on left: 17, on right: 8
-struct_var_decl (66)
+struct_var_decl (70)
     on left: 18 19, on right: 17 19
-data_id_type (67)
+data_id_type (71)
     on left: 20 21 22 23 24, on right: 61
-const_decl (68)
+const_decl (72)
     on left: 25 26 27 28, on right: 6
-param_list_decl (69)
+param_list_decl (73)
     on left: 29 30, on right: 41
-params_decl (70)
+params_decl (74)
     on left: 31 32, on right: 30 32
-param_decl (71)
+param_decl (75)
     on left: 33 34 35 36 37 38 39 40, on right: 31 32
-function_decl (72)
+function_decl (76)
     on left: 41, on right: 4
-param_list (73)
-    on left: 42 43, on right: 61 107 115 116
-params (74)
+param_list (77)
+    on left: 42 43, on right: 61 110 118 119
+params (78)
     on left: 44 45, on right: 43 45
-param (75)
+param (79)
     on left: 46 47 48 49, on right: 44 45
-body (76)
+body (80)
     on left: 50, on right: 1
-list (77)
+list (81)
     on left: 51 52, on right: 41 50 52 62 63 64 66
-statement (78)
+statement (82)
     on left: 53 54 55 56 57 58 59, on right: 51 52
-test (79)
+test (83)
     on left: 60, on right: 1
-function_call (80)
+function_call (84)
     on left: 61, on right: 49 59
-control (81)
+control (85)
     on left: 62 63 64, on right: 57
-else (82)
+else (86)
     on left: 65 66, on right: 62
-exprlog (83)
-    on left: 67 68 69 70 71 72 73, on right: 62 64 70 71 72 73 82
-exprlognr (84)
-    on left: 74 75 76, on right: 67 79
-exprlogst (85)
-    on left: 77 78, on right: 68
-exprfor (86)
-    on left: 79, on right: 63
-assgnst (87)
-    on left: 80, on right: 53
-assgnint (88)
-    on left: 81, on right: 54 79
-assgnbl (89)
-    on left: 82, on right: 56
-assgnfl (90)
-    on left: 83, on right: 55
-numberint (91)
-    on left: 84 85 86 87, on right: 25 87 91 93 97 101 106 126
-numberfl (92)
-    on left: 88 89 90 91, on right: 28 92
-gnumber (93)
-    on left: 92 93, on right: 46 114
-ebool (94)
-    on left: 94 95 96 97, on right: 27 47 69
-estring (95)
-    on left: 98 99 100 101, on right: 26 48 123
-econst (96)
-    on left: 102 103 104 105, on right: 24
-exprint (97)
-    on left: 106 107 108 109 110 111 112 113, on right: 81 108 109
-    110 111 112 113
-exprfl (98)
-    on left: 114 115 116 117 118 119 120 121 122, on right: 74 75 76
-    83 117 118 119 120 121 122
-exprst (99)
-    on left: 123 124 125 126, on right: 77 78 80 124 125 126
-print (100)
-    on left: 127 128, on right: 58
+exprlog (87)
+    on left: 67 68 69 70 71 72 73, on right: 62 64 70 71 72 73 85
+exprlognr (88)
+    on left: 74 75 76 77 78 79, on right: 67 82
+exprlogst (89)
+    on left: 80 81, on right: 68
+exprfor (90)
+    on left: 82, on right: 63
+assgnst (91)
+    on left: 83, on right: 53
+assgnint (92)
+    on left: 84, on right: 54 82
+assgnbl (93)
+    on left: 85, on right: 56
+assgnfl (94)
+    on left: 86, on right: 55
+numberint (95)
+    on left: 87 88 89 90, on right: 25 90 94 96 100 104 109 129
+numberfl (96)
+    on left: 91 92 93 94, on right: 28 95
+gnumber (97)
+    on left: 95 96, on right: 46 117
+ebool (98)
+    on left: 97 98 99 100, on right: 27 47 69
+estring (99)
+    on left: 101 102 103 104, on right: 26 48 126
+econst (100)
+    on left: 105 106 107 108, on right: 24
+exprint (101)
+    on left: 109 110 111 112 113 114 115 116, on right: 84 111 112
+    113 114 115 116
+exprfl (102)
+    on left: 117 118 119 120 121 122 123 124 125, on right: 74 75 76
+    77 78 79 86 120 121 122 123 124 125
+exprst (103)
+    on left: 126 127 128 129, on right: 80 81 83 127 128 129
+print (104)
+    on left: 130 131 132 133 134 135 136 137 138, on right: 58
 
 
 State 0
@@ -712,7 +728,7 @@ State 37
 State 38
 
    20 data_id_type: IDint .
-   81 assgnint: IDint . ASSIGN exprint
+   84 assgnint: IDint . ASSIGN exprint
 
     ASSIGN  shift, and go to state 96
 
@@ -722,7 +738,7 @@ State 38
 State 39
 
    22 data_id_type: IDfloat .
-   83 assgnfl: IDfloat . ASSIGN exprfl
+   86 assgnfl: IDfloat . ASSIGN exprfl
 
     ASSIGN  shift, and go to state 97
 
@@ -732,7 +748,7 @@ State 39
 State 40
 
    23 data_id_type: IDstring .
-   80 assgnst: IDstring . ASSIGN exprst
+   83 assgnst: IDstring . ASSIGN exprst
 
     ASSIGN  shift, and go to state 98
 
@@ -742,7 +758,7 @@ State 40
 State 41
 
    21 data_id_type: IDbool .
-   82 assgnbl: IDbool . ASSIGN exprlog
+   85 assgnbl: IDbool . ASSIGN exprlog
 
     ASSIGN  shift, and go to state 99
 
@@ -751,36 +767,43 @@ State 41
 
 State 42
 
-  102 econst: CIDint .
-
-    $default  reduce using rule 102 (econst)
-
-
-State 43
-
-  104 econst: CIDfloat .
-
-    $default  reduce using rule 104 (econst)
-
-
-State 44
-
-  105 econst: CIDstring .
+  105 econst: CIDint .
 
     $default  reduce using rule 105 (econst)
 
 
+State 43
+
+  107 econst: CIDfloat .
+
+    $default  reduce using rule 107 (econst)
+
+
+State 44
+
+  108 econst: CIDstring .
+
+    $default  reduce using rule 108 (econst)
+
+
 State 45
 
-  103 econst: CIDbool .
+  106 econst: CIDbool .
 
-    $default  reduce using rule 103 (econst)
+    $default  reduce using rule 106 (econst)
 
 
 State 46
 
-  127 print: PRINT . '(' IDstring ')'
-  128      | PRINT . '(' IDint ')'
+  130 print: PRINT . '(' IDint ')'
+  131      | PRINT . '(' IDfloat ')'
+  132      | PRINT . '(' IDbool ')'
+  133      | PRINT . '(' IDstring ')'
+  134      | PRINT . '(' CIDint ')'
+  135      | PRINT . '(' CIDfloat ')'
+  136      | PRINT . '(' CIDbool ')'
+  137      | PRINT . '(' CIDstring ')'
+  138      | PRINT . '(' ENDL ')'
 
     '('  shift, and go to state 100
 
@@ -990,26 +1013,26 @@ State 70
 
 State 71
 
-   84 numberint: IDint .
-   87          | IDint . '[' numberint ']'
+   87 numberint: IDint .
+   90          | IDint . '[' numberint ']'
 
     '['  shift, and go to state 124
 
-    $default  reduce using rule 84 (numberint)
+    $default  reduce using rule 87 (numberint)
 
 
 State 72
 
-   86 numberint: CIDint .
+   89 numberint: CIDint .
 
-    $default  reduce using rule 86 (numberint)
+    $default  reduce using rule 89 (numberint)
 
 
 State 73
 
-   85 numberint: INT .
+   88 numberint: INT .
 
-    $default  reduce using rule 85 (numberint)
+    $default  reduce using rule 88 (numberint)
 
 
 State 74
@@ -1028,26 +1051,26 @@ State 75
 
 State 76
 
-   88 numberfl: IDfloat .
-   91         | IDfloat . '[' numberint ']'
+   91 numberfl: IDfloat .
+   94         | IDfloat . '[' numberint ']'
 
     '['  shift, and go to state 126
 
-    $default  reduce using rule 88 (numberfl)
+    $default  reduce using rule 91 (numberfl)
 
 
 State 77
 
-   90 numberfl: CIDfloat .
+   93 numberfl: CIDfloat .
 
-    $default  reduce using rule 90 (numberfl)
+    $default  reduce using rule 93 (numberfl)
 
 
 State 78
 
-   89 numberfl: FLOAT .
+   92 numberfl: FLOAT .
 
-    $default  reduce using rule 89 (numberfl)
+    $default  reduce using rule 92 (numberfl)
 
 
 State 79
@@ -1066,26 +1089,26 @@ State 80
 
 State 81
 
-   98 estring: IDstring .
-  101        | IDstring . '[' numberint ']'
+  101 estring: IDstring .
+  104        | IDstring . '[' numberint ']'
 
     '['  shift, and go to state 128
 
-    $default  reduce using rule 98 (estring)
+    $default  reduce using rule 101 (estring)
 
 
 State 82
 
-  100 estring: CIDstring .
+  103 estring: CIDstring .
 
-    $default  reduce using rule 100 (estring)
+    $default  reduce using rule 103 (estring)
 
 
 State 83
 
-   99 estring: STRING .
+  102 estring: STRING .
 
-    $default  reduce using rule 99 (estring)
+    $default  reduce using rule 102 (estring)
 
 
 State 84
@@ -1104,26 +1127,26 @@ State 85
 
 State 86
 
-   94 ebool: IDbool .
-   97      | IDbool . '[' numberint ']'
+   97 ebool: IDbool .
+  100      | IDbool . '[' numberint ']'
 
     '['  shift, and go to state 130
 
-    $default  reduce using rule 94 (ebool)
+    $default  reduce using rule 97 (ebool)
 
 
 State 87
 
-   96 ebool: CIDbool .
+   99 ebool: CIDbool .
 
-    $default  reduce using rule 96 (ebool)
+    $default  reduce using rule 99 (ebool)
 
 
 State 88
 
-   95 ebool: BOOL .
+   98 ebool: BOOL .
 
-    $default  reduce using rule 95 (ebool)
+    $default  reduce using rule 98 (ebool)
 
 
 State 89
@@ -1184,7 +1207,7 @@ State 95
 
 State 96
 
-   81 assgnint: IDint ASSIGN . exprint
+   84 assgnint: IDint ASSIGN . exprint
 
     IDint   shift, and go to state 138
     CIDint  shift, and go to state 72
@@ -1197,7 +1220,7 @@ State 96
 
 State 97
 
-   83 assgnfl: IDfloat ASSIGN . exprfl
+   86 assgnfl: IDfloat ASSIGN . exprfl
 
     IDint     shift, and go to state 142
     IDfloat   shift, and go to state 143
@@ -1215,7 +1238,7 @@ State 97
 
 State 98
 
-   80 assgnst: IDstring ASSIGN . exprst
+   83 assgnst: IDstring ASSIGN . exprst
 
     IDstring   shift, and go to state 81
     CIDstring  shift, and go to state 82
@@ -1228,7 +1251,7 @@ State 98
 
 State 99
 
-   82 assgnbl: IDbool ASSIGN . exprlog
+   85 assgnbl: IDbool ASSIGN . exprlog
 
     IDint      shift, and go to state 142
     IDfloat    shift, and go to state 143
@@ -1259,11 +1282,25 @@ State 99
 
 State 100
 
-  127 print: PRINT '(' . IDstring ')'
-  128      | PRINT '(' . IDint ')'
+  130 print: PRINT '(' . IDint ')'
+  131      | PRINT '(' . IDfloat ')'
+  132      | PRINT '(' . IDbool ')'
+  133      | PRINT '(' . IDstring ')'
+  134      | PRINT '(' . CIDint ')'
+  135      | PRINT '(' . CIDfloat ')'
+  136      | PRINT '(' . CIDbool ')'
+  137      | PRINT '(' . CIDstring ')'
+  138      | PRINT '(' . ENDL ')'
 
-    IDint     shift, and go to state 160
-    IDstring  shift, and go to state 161
+    IDint      shift, and go to state 160
+    IDfloat    shift, and go to state 161
+    IDstring   shift, and go to state 162
+    IDbool     shift, and go to state 163
+    CIDint     shift, and go to state 164
+    CIDfloat   shift, and go to state 165
+    CIDstring  shift, and go to state 166
+    CIDbool    shift, and go to state 167
+    ENDL       shift, and go to state 168
 
 
 State 101
@@ -1285,7 +1322,7 @@ State 101
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 162
+    exprlog    go to state 169
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -1301,10 +1338,10 @@ State 102
 
    63 control: FOR '(' . exprfor ')' list ENDFOR
 
-    IDint  shift, and go to state 163
+    IDint  shift, and go to state 170
 
-    exprfor   go to state 164
-    assgnint  go to state 165
+    exprfor   go to state 171
+    assgnint  go to state 172
 
 
 State 103
@@ -1326,7 +1363,7 @@ State 103
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 166
+    exprlog    go to state 173
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -1342,14 +1379,14 @@ State 104
 
    61 function_call: data_id_type '(' . param_list ')'
 
-    IDint      shift, and go to state 167
-    IDfloat    shift, and go to state 168
-    IDstring   shift, and go to state 169
-    IDbool     shift, and go to state 170
-    CIDint     shift, and go to state 171
-    CIDfloat   shift, and go to state 172
-    CIDstring  shift, and go to state 173
-    CIDbool    shift, and go to state 174
+    IDint      shift, and go to state 174
+    IDfloat    shift, and go to state 175
+    IDstring   shift, and go to state 176
+    IDbool     shift, and go to state 177
+    CIDint     shift, and go to state 178
+    CIDfloat   shift, and go to state 179
+    CIDstring  shift, and go to state 180
+    CIDbool    shift, and go to state 181
     STRING     shift, and go to state 83
     INT        shift, and go to state 73
     FLOAT      shift, and go to state 78
@@ -1358,15 +1395,15 @@ State 104
     $default  reduce using rule 42 (param_list)
 
     data_id_type   go to state 50
-    param_list     go to state 175
-    params         go to state 176
-    param          go to state 177
-    function_call  go to state 178
+    param_list     go to state 182
+    params         go to state 183
+    param          go to state 184
+    function_call  go to state 185
     numberint      go to state 145
     numberfl       go to state 146
-    gnumber        go to state 179
-    ebool          go to state 180
-    estring        go to state 181
+    gnumber        go to state 186
+    ebool          go to state 187
+    estring        go to state 188
     econst         go to state 59
 
 
@@ -1486,7 +1523,7 @@ State 121
 
    41 function_decl: variable_decl '(' param_list_decl ')' . BEGIN_FUNCTION list END_FUNCTION
 
-    BEGIN_FUNCTION  shift, and go to state 182
+    BEGIN_FUNCTION  shift, and go to state 189
 
 
 State 122
@@ -1498,7 +1535,7 @@ State 122
     TIPs  shift, and go to state 65
     TIPb  shift, and go to state 66
 
-    param_decl  go to state 183
+    param_decl  go to state 190
 
 
 State 123
@@ -1510,13 +1547,13 @@ State 123
 
 State 124
 
-   87 numberint: IDint '[' . numberint ']'
+   90 numberint: IDint '[' . numberint ']'
 
     IDint   shift, and go to state 71
     CIDint  shift, and go to state 72
     INT     shift, and go to state 73
 
-    numberint  go to state 184
+    numberint  go to state 191
 
 
 State 125
@@ -1528,13 +1565,13 @@ State 125
 
 State 126
 
-   91 numberfl: IDfloat '[' . numberint ']'
+   94 numberfl: IDfloat '[' . numberint ']'
 
     IDint   shift, and go to state 71
     CIDint  shift, and go to state 72
     INT     shift, and go to state 73
 
-    numberint  go to state 185
+    numberint  go to state 192
 
 
 State 127
@@ -1546,13 +1583,13 @@ State 127
 
 State 128
 
-  101 estring: IDstring '[' . numberint ']'
+  104 estring: IDstring '[' . numberint ']'
 
     IDint   shift, and go to state 71
     CIDint  shift, and go to state 72
     INT     shift, and go to state 73
 
-    numberint  go to state 186
+    numberint  go to state 193
 
 
 State 129
@@ -1564,13 +1601,13 @@ State 129
 
 State 130
 
-   97 ebool: IDbool '[' . numberint ']'
+  100 ebool: IDbool '[' . numberint ']'
 
     IDint   shift, and go to state 71
     CIDint  shift, and go to state 72
     INT     shift, and go to state 73
 
-    numberint  go to state 187
+    numberint  go to state 194
 
 
 State 131
@@ -1619,24 +1656,24 @@ State 137
 
    19 struct_var_decl: struct_var_decl variable_decl . ';'
 
-    ';'  shift, and go to state 188
+    ';'  shift, and go to state 195
 
 
 State 138
 
-   84 numberint: IDint .
-   87          | IDint . '[' numberint ']'
-  107 exprint: IDint . '(' param_list ')'
+   87 numberint: IDint .
+   90          | IDint . '[' numberint ']'
+  110 exprint: IDint . '(' param_list ')'
 
     '['  shift, and go to state 124
-    '('  shift, and go to state 189
+    '('  shift, and go to state 196
 
-    $default  reduce using rule 84 (numberint)
+    $default  reduce using rule 87 (numberint)
 
 
 State 139
 
-  113 exprint: '(' . exprint ')'
+  116 exprint: '(' . exprint ')'
 
     IDint   shift, and go to state 138
     CIDint  shift, and go to state 72
@@ -1644,61 +1681,61 @@ State 139
     '('     shift, and go to state 139
 
     numberint  go to state 140
-    exprint    go to state 190
+    exprint    go to state 197
 
 
 State 140
 
-  106 exprint: numberint .
+  109 exprint: numberint .
 
-    $default  reduce using rule 106 (exprint)
+    $default  reduce using rule 109 (exprint)
 
 
 State 141
 
-   81 assgnint: IDint ASSIGN exprint .
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
+   84 assgnint: IDint ASSIGN exprint .
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
 
-    '^'  shift, and go to state 191
-    '*'  shift, and go to state 192
-    '+'  shift, and go to state 193
-    '/'  shift, and go to state 194
-    '-'  shift, and go to state 195
+    '^'  shift, and go to state 198
+    '*'  shift, and go to state 199
+    '+'  shift, and go to state 200
+    '/'  shift, and go to state 201
+    '-'  shift, and go to state 202
 
-    $default  reduce using rule 81 (assgnint)
+    $default  reduce using rule 84 (assgnint)
 
 
 State 142
 
-   84 numberint: IDint .
-   87          | IDint . '[' numberint ']'
-  116 exprfl: IDint . '(' param_list ')'
+   87 numberint: IDint .
+   90          | IDint . '[' numberint ']'
+  119 exprfl: IDint . '(' param_list ')'
 
     '['  shift, and go to state 124
-    '('  shift, and go to state 196
+    '('  shift, and go to state 203
 
-    $default  reduce using rule 84 (numberint)
+    $default  reduce using rule 87 (numberint)
 
 
 State 143
 
-   88 numberfl: IDfloat .
-   91         | IDfloat . '[' numberint ']'
-  115 exprfl: IDfloat . '(' param_list ')'
+   91 numberfl: IDfloat .
+   94         | IDfloat . '[' numberint ']'
+  118 exprfl: IDfloat . '(' param_list ')'
 
     '['  shift, and go to state 126
-    '('  shift, and go to state 197
+    '('  shift, and go to state 204
 
-    $default  reduce using rule 88 (numberfl)
+    $default  reduce using rule 91 (numberfl)
 
 
 State 144
 
-  122 exprfl: '(' . exprfl ')'
+  125 exprfl: '(' . exprfl ')'
 
     IDint     shift, and go to state 142
     IDfloat   shift, and go to state 143
@@ -1711,51 +1748,51 @@ State 144
     numberint  go to state 145
     numberfl   go to state 146
     gnumber    go to state 147
-    exprfl     go to state 198
+    exprfl     go to state 205
 
 
 State 145
 
-   93 gnumber: numberint .
+   96 gnumber: numberint .
 
-    $default  reduce using rule 93 (gnumber)
+    $default  reduce using rule 96 (gnumber)
 
 
 State 146
 
-   92 gnumber: numberfl .
+   95 gnumber: numberfl .
 
-    $default  reduce using rule 92 (gnumber)
+    $default  reduce using rule 95 (gnumber)
 
 
 State 147
 
-  114 exprfl: gnumber .
+  117 exprfl: gnumber .
 
-    $default  reduce using rule 114 (exprfl)
+    $default  reduce using rule 117 (exprfl)
 
 
 State 148
 
-   83 assgnfl: IDfloat ASSIGN exprfl .
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   86 assgnfl: IDfloat ASSIGN exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    '^'  shift, and go to state 199
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
 
-    $default  reduce using rule 83 (assgnfl)
+    $default  reduce using rule 86 (assgnfl)
 
 
 State 149
 
-  125 exprst: '(' . exprst ')'
+  128 exprst: '(' . exprst ')'
 
     IDstring   shift, and go to state 81
     CIDstring  shift, and go to state 82
@@ -1763,26 +1800,26 @@ State 149
     '('        shift, and go to state 149
 
     estring  go to state 150
-    exprst   go to state 204
+    exprst   go to state 211
 
 
 State 150
 
-  123 exprst: estring .
+  126 exprst: estring .
 
-    $default  reduce using rule 123 (exprst)
+    $default  reduce using rule 126 (exprst)
 
 
 State 151
 
-   80 assgnst: IDstring ASSIGN exprst .
-  124 exprst: exprst . '+' exprst
-  126       | exprst . '*' numberint
+   83 assgnst: IDstring ASSIGN exprst .
+  127 exprst: exprst . '+' exprst
+  129       | exprst . '*' numberint
 
-    '*'  shift, and go to state 205
-    '+'  shift, and go to state 206
+    '*'  shift, and go to state 212
+    '+'  shift, and go to state 213
 
-    $default  reduce using rule 80 (assgnst)
+    $default  reduce using rule 83 (assgnst)
 
 
 State 152
@@ -1804,7 +1841,7 @@ State 152
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 207
+    exprlog    go to state 214
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -1819,8 +1856,8 @@ State 152
 State 153
 
    70 exprlog: '(' . exprlog ')'
-  122 exprfl: '(' . exprfl ')'
-  125 exprst: '(' . exprst ')'
+  125 exprfl: '(' . exprfl ')'
+  128 exprst: '(' . exprst ')'
 
     IDint      shift, and go to state 142
     IDfloat    shift, and go to state 143
@@ -1837,7 +1874,7 @@ State 153
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 208
+    exprlog    go to state 215
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -1845,20 +1882,20 @@ State 153
     gnumber    go to state 147
     ebool      go to state 157
     estring    go to state 150
-    exprfl     go to state 209
-    exprst     go to state 210
+    exprfl     go to state 216
+    exprst     go to state 217
 
 
 State 154
 
    72 exprlog: exprlog . AND exprlog
    73        | exprlog . OR exprlog
-   82 assgnbl: IDbool ASSIGN exprlog .
+   85 assgnbl: IDbool ASSIGN exprlog .
 
-    AND  shift, and go to state 211
-    OR   shift, and go to state 212
+    AND  shift, and go to state 218
+    OR   shift, and go to state 219
 
-    $default  reduce using rule 82 (assgnbl)
+    $default  reduce using rule 85 (assgnbl)
 
 
 State 155
@@ -1884,232 +1921,287 @@ State 157
 
 State 158
 
-   74 exprlognr: exprfl . COMP exprfl
-   75          | exprfl . EQUAL exprfl
-   76          | exprfl . DIFF exprfl
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   74 exprlognr: exprfl . LE exprfl
+   75          | exprfl . GE exprfl
+   76          | exprfl . '<' exprfl
+   77          | exprfl . '>' exprfl
+   78          | exprfl . EQUAL exprfl
+   79          | exprfl . DIFF exprfl
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    COMP   shift, and go to state 213
-    EQUAL  shift, and go to state 214
-    DIFF   shift, and go to state 215
-    '^'    shift, and go to state 199
-    '*'    shift, and go to state 200
-    '+'    shift, and go to state 201
-    '/'    shift, and go to state 202
-    '-'    shift, and go to state 203
+    LE     shift, and go to state 220
+    GE     shift, and go to state 221
+    EQUAL  shift, and go to state 222
+    DIFF   shift, and go to state 223
+    '^'    shift, and go to state 206
+    '*'    shift, and go to state 207
+    '+'    shift, and go to state 208
+    '/'    shift, and go to state 209
+    '-'    shift, and go to state 210
+    '<'    shift, and go to state 224
+    '>'    shift, and go to state 225
 
 
 State 159
 
-   77 exprlogst: exprst . EQUAL exprst
-   78          | exprst . DIFF exprst
-  124 exprst: exprst . '+' exprst
-  126       | exprst . '*' numberint
+   80 exprlogst: exprst . EQUAL exprst
+   81          | exprst . DIFF exprst
+  127 exprst: exprst . '+' exprst
+  129       | exprst . '*' numberint
 
-    EQUAL  shift, and go to state 216
-    DIFF   shift, and go to state 217
-    '*'    shift, and go to state 205
-    '+'    shift, and go to state 206
+    EQUAL  shift, and go to state 226
+    DIFF   shift, and go to state 227
+    '*'    shift, and go to state 212
+    '+'    shift, and go to state 213
 
 
 State 160
 
-  128 print: PRINT '(' IDint . ')'
+  130 print: PRINT '(' IDint . ')'
 
-    ')'  shift, and go to state 218
+    ')'  shift, and go to state 228
 
 
 State 161
 
-  127 print: PRINT '(' IDstring . ')'
+  131 print: PRINT '(' IDfloat . ')'
 
-    ')'  shift, and go to state 219
+    ')'  shift, and go to state 229
 
 
 State 162
+
+  133 print: PRINT '(' IDstring . ')'
+
+    ')'  shift, and go to state 230
+
+
+State 163
+
+  132 print: PRINT '(' IDbool . ')'
+
+    ')'  shift, and go to state 231
+
+
+State 164
+
+  134 print: PRINT '(' CIDint . ')'
+
+    ')'  shift, and go to state 232
+
+
+State 165
+
+  135 print: PRINT '(' CIDfloat . ')'
+
+    ')'  shift, and go to state 233
+
+
+State 166
+
+  137 print: PRINT '(' CIDstring . ')'
+
+    ')'  shift, and go to state 234
+
+
+State 167
+
+  136 print: PRINT '(' CIDbool . ')'
+
+    ')'  shift, and go to state 235
+
+
+State 168
+
+  138 print: PRINT '(' ENDL . ')'
+
+    ')'  shift, and go to state 236
+
+
+State 169
 
    62 control: IF '(' exprlog . ')' '?' list else ENDIF
    72 exprlog: exprlog . AND exprlog
    73        | exprlog . OR exprlog
 
-    AND  shift, and go to state 211
-    OR   shift, and go to state 212
-    ')'  shift, and go to state 220
+    AND  shift, and go to state 218
+    OR   shift, and go to state 219
+    ')'  shift, and go to state 237
 
 
-State 163
+State 170
 
-   81 assgnint: IDint . ASSIGN exprint
+   84 assgnint: IDint . ASSIGN exprint
 
     ASSIGN  shift, and go to state 96
 
 
-State 164
+State 171
 
    63 control: FOR '(' exprfor . ')' list ENDFOR
 
-    ')'  shift, and go to state 221
+    ')'  shift, and go to state 238
 
 
-State 165
+State 172
 
-   79 exprfor: assgnint . ';' exprlognr ';' assgnint
+   82 exprfor: assgnint . ';' exprlognr ';' assgnint
 
-    ';'  shift, and go to state 222
+    ';'  shift, and go to state 239
 
 
-State 166
+State 173
 
    64 control: WHILE '(' exprlog . ')' list ENDWHILE
    72 exprlog: exprlog . AND exprlog
    73        | exprlog . OR exprlog
 
-    AND  shift, and go to state 211
-    OR   shift, and go to state 212
-    ')'  shift, and go to state 223
-
-
-State 167
-
-   20 data_id_type: IDint .
-   84 numberint: IDint .
-   87          | IDint . '[' numberint ']'
-
-    '['  shift, and go to state 124
-
-    '('       reduce using rule 20 (data_id_type)
-    $default  reduce using rule 84 (numberint)
-
-
-State 168
-
-   22 data_id_type: IDfloat .
-   88 numberfl: IDfloat .
-   91         | IDfloat . '[' numberint ']'
-
-    '['  shift, and go to state 126
-
-    '('       reduce using rule 22 (data_id_type)
-    $default  reduce using rule 88 (numberfl)
-
-
-State 169
-
-   23 data_id_type: IDstring .
-   98 estring: IDstring .
-  101        | IDstring . '[' numberint ']'
-
-    '['  shift, and go to state 128
-
-    '('       reduce using rule 23 (data_id_type)
-    $default  reduce using rule 98 (estring)
-
-
-State 170
-
-   21 data_id_type: IDbool .
-   94 ebool: IDbool .
-   97      | IDbool . '[' numberint ']'
-
-    '['  shift, and go to state 130
-
-    '('       reduce using rule 21 (data_id_type)
-    $default  reduce using rule 94 (ebool)
-
-
-State 171
-
-   86 numberint: CIDint .
-  102 econst: CIDint .
-
-    '('       reduce using rule 102 (econst)
-    $default  reduce using rule 86 (numberint)
-
-
-State 172
-
-   90 numberfl: CIDfloat .
-  104 econst: CIDfloat .
-
-    '('       reduce using rule 104 (econst)
-    $default  reduce using rule 90 (numberfl)
-
-
-State 173
-
-  100 estring: CIDstring .
-  105 econst: CIDstring .
-
-    '('       reduce using rule 105 (econst)
-    $default  reduce using rule 100 (estring)
+    AND  shift, and go to state 218
+    OR   shift, and go to state 219
+    ')'  shift, and go to state 240
 
 
 State 174
 
-   96 ebool: CIDbool .
-  103 econst: CIDbool .
+   20 data_id_type: IDint .
+   87 numberint: IDint .
+   90          | IDint . '[' numberint ']'
 
-    '('       reduce using rule 103 (econst)
-    $default  reduce using rule 96 (ebool)
+    '['  shift, and go to state 124
+
+    '('       reduce using rule 20 (data_id_type)
+    $default  reduce using rule 87 (numberint)
 
 
 State 175
 
-   61 function_call: data_id_type '(' param_list . ')'
+   22 data_id_type: IDfloat .
+   91 numberfl: IDfloat .
+   94         | IDfloat . '[' numberint ']'
 
-    ')'  shift, and go to state 224
+    '['  shift, and go to state 126
+
+    '('       reduce using rule 22 (data_id_type)
+    $default  reduce using rule 91 (numberfl)
 
 
 State 176
 
+   23 data_id_type: IDstring .
+  101 estring: IDstring .
+  104        | IDstring . '[' numberint ']'
+
+    '['  shift, and go to state 128
+
+    '('       reduce using rule 23 (data_id_type)
+    $default  reduce using rule 101 (estring)
+
+
+State 177
+
+   21 data_id_type: IDbool .
+   97 ebool: IDbool .
+  100      | IDbool . '[' numberint ']'
+
+    '['  shift, and go to state 130
+
+    '('       reduce using rule 21 (data_id_type)
+    $default  reduce using rule 97 (ebool)
+
+
+State 178
+
+   89 numberint: CIDint .
+  105 econst: CIDint .
+
+    '('       reduce using rule 105 (econst)
+    $default  reduce using rule 89 (numberint)
+
+
+State 179
+
+   93 numberfl: CIDfloat .
+  107 econst: CIDfloat .
+
+    '('       reduce using rule 107 (econst)
+    $default  reduce using rule 93 (numberfl)
+
+
+State 180
+
+  103 estring: CIDstring .
+  108 econst: CIDstring .
+
+    '('       reduce using rule 108 (econst)
+    $default  reduce using rule 103 (estring)
+
+
+State 181
+
+   99 ebool: CIDbool .
+  106 econst: CIDbool .
+
+    '('       reduce using rule 106 (econst)
+    $default  reduce using rule 99 (ebool)
+
+
+State 182
+
+   61 function_call: data_id_type '(' param_list . ')'
+
+    ')'  shift, and go to state 241
+
+
+State 183
+
    43 param_list: params .
    45 params: params . ',' param
 
-    ','  shift, and go to state 225
+    ','  shift, and go to state 242
 
     $default  reduce using rule 43 (param_list)
 
 
-State 177
+State 184
 
    44 params: param .
 
     $default  reduce using rule 44 (params)
 
 
-State 178
+State 185
 
    49 param: function_call .
 
     $default  reduce using rule 49 (param)
 
 
-State 179
+State 186
 
    46 param: gnumber .
 
     $default  reduce using rule 46 (param)
 
 
-State 180
+State 187
 
    47 param: ebool .
 
     $default  reduce using rule 47 (param)
 
 
-State 181
+State 188
 
    48 param: estring .
 
     $default  reduce using rule 48 (param)
 
 
-State 182
+State 189
 
    41 function_decl: variable_decl '(' param_list_decl ')' BEGIN_FUNCTION . list END_FUNCTION
 
@@ -2127,7 +2219,7 @@ State 182
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
-    list           go to state 226
+    list           go to state 243
     statement      go to state 52
     function_call  go to state 53
     control        go to state 54
@@ -2139,174 +2231,60 @@ State 182
     print          go to state 60
 
 
-State 183
+State 190
 
    32 params_decl: params_decl ',' param_decl .
 
     $default  reduce using rule 32 (params_decl)
 
 
-State 184
+State 191
 
-   87 numberint: IDint '[' numberint . ']'
+   90 numberint: IDint '[' numberint . ']'
 
-    ']'  shift, and go to state 227
-
-
-State 185
-
-   91 numberfl: IDfloat '[' numberint . ']'
-
-    ']'  shift, and go to state 228
+    ']'  shift, and go to state 244
 
 
-State 186
+State 192
 
-  101 estring: IDstring '[' numberint . ']'
+   94 numberfl: IDfloat '[' numberint . ']'
 
-    ']'  shift, and go to state 229
-
-
-State 187
-
-   97 ebool: IDbool '[' numberint . ']'
-
-    ']'  shift, and go to state 230
+    ']'  shift, and go to state 245
 
 
-State 188
+State 193
+
+  104 estring: IDstring '[' numberint . ']'
+
+    ']'  shift, and go to state 246
+
+
+State 194
+
+  100 ebool: IDbool '[' numberint . ']'
+
+    ']'  shift, and go to state 247
+
+
+State 195
 
    19 struct_var_decl: struct_var_decl variable_decl ';' .
 
     $default  reduce using rule 19 (struct_var_decl)
 
 
-State 189
-
-  107 exprint: IDint '(' . param_list ')'
-
-    IDint      shift, and go to state 167
-    IDfloat    shift, and go to state 168
-    IDstring   shift, and go to state 169
-    IDbool     shift, and go to state 170
-    CIDint     shift, and go to state 171
-    CIDfloat   shift, and go to state 172
-    CIDstring  shift, and go to state 173
-    CIDbool    shift, and go to state 174
-    STRING     shift, and go to state 83
-    INT        shift, and go to state 73
-    FLOAT      shift, and go to state 78
-    BOOL       shift, and go to state 88
-
-    $default  reduce using rule 42 (param_list)
-
-    data_id_type   go to state 50
-    param_list     go to state 231
-    params         go to state 176
-    param          go to state 177
-    function_call  go to state 178
-    numberint      go to state 145
-    numberfl       go to state 146
-    gnumber        go to state 179
-    ebool          go to state 180
-    estring        go to state 181
-    econst         go to state 59
-
-
-State 190
-
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
-  113        | '(' exprint . ')'
-
-    '^'  shift, and go to state 191
-    '*'  shift, and go to state 192
-    '+'  shift, and go to state 193
-    '/'  shift, and go to state 194
-    '-'  shift, and go to state 195
-    ')'  shift, and go to state 232
-
-
-State 191
-
-  112 exprint: exprint '^' . exprint
-
-    IDint   shift, and go to state 138
-    CIDint  shift, and go to state 72
-    INT     shift, and go to state 73
-    '('     shift, and go to state 139
-
-    numberint  go to state 140
-    exprint    go to state 233
-
-
-State 192
-
-  110 exprint: exprint '*' . exprint
-
-    IDint   shift, and go to state 138
-    CIDint  shift, and go to state 72
-    INT     shift, and go to state 73
-    '('     shift, and go to state 139
-
-    numberint  go to state 140
-    exprint    go to state 234
-
-
-State 193
-
-  108 exprint: exprint '+' . exprint
-
-    IDint   shift, and go to state 138
-    CIDint  shift, and go to state 72
-    INT     shift, and go to state 73
-    '('     shift, and go to state 139
-
-    numberint  go to state 140
-    exprint    go to state 235
-
-
-State 194
-
-  111 exprint: exprint '/' . exprint
-
-    IDint   shift, and go to state 138
-    CIDint  shift, and go to state 72
-    INT     shift, and go to state 73
-    '('     shift, and go to state 139
-
-    numberint  go to state 140
-    exprint    go to state 236
-
-
-State 195
-
-  109 exprint: exprint '-' . exprint
-
-    IDint   shift, and go to state 138
-    CIDint  shift, and go to state 72
-    INT     shift, and go to state 73
-    '('     shift, and go to state 139
-
-    numberint  go to state 140
-    exprint    go to state 237
-
-
 State 196
 
-  116 exprfl: IDint '(' . param_list ')'
+  110 exprint: IDint '(' . param_list ')'
 
-    IDint      shift, and go to state 167
-    IDfloat    shift, and go to state 168
-    IDstring   shift, and go to state 169
-    IDbool     shift, and go to state 170
-    CIDint     shift, and go to state 171
-    CIDfloat   shift, and go to state 172
-    CIDstring  shift, and go to state 173
-    CIDbool    shift, and go to state 174
+    IDint      shift, and go to state 174
+    IDfloat    shift, and go to state 175
+    IDstring   shift, and go to state 176
+    IDbool     shift, and go to state 177
+    CIDint     shift, and go to state 178
+    CIDfloat   shift, and go to state 179
+    CIDstring  shift, and go to state 180
+    CIDbool    shift, and go to state 181
     STRING     shift, and go to state 83
     INT        shift, and go to state 73
     FLOAT      shift, and go to state 78
@@ -2315,30 +2293,112 @@ State 196
     $default  reduce using rule 42 (param_list)
 
     data_id_type   go to state 50
-    param_list     go to state 238
-    params         go to state 176
-    param          go to state 177
-    function_call  go to state 178
+    param_list     go to state 248
+    params         go to state 183
+    param          go to state 184
+    function_call  go to state 185
     numberint      go to state 145
     numberfl       go to state 146
-    gnumber        go to state 179
-    ebool          go to state 180
-    estring        go to state 181
+    gnumber        go to state 186
+    ebool          go to state 187
+    estring        go to state 188
     econst         go to state 59
 
 
 State 197
 
-  115 exprfl: IDfloat '(' . param_list ')'
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
+  116        | '(' exprint . ')'
 
-    IDint      shift, and go to state 167
-    IDfloat    shift, and go to state 168
-    IDstring   shift, and go to state 169
-    IDbool     shift, and go to state 170
-    CIDint     shift, and go to state 171
-    CIDfloat   shift, and go to state 172
-    CIDstring  shift, and go to state 173
-    CIDbool    shift, and go to state 174
+    '^'  shift, and go to state 198
+    '*'  shift, and go to state 199
+    '+'  shift, and go to state 200
+    '/'  shift, and go to state 201
+    '-'  shift, and go to state 202
+    ')'  shift, and go to state 249
+
+
+State 198
+
+  115 exprint: exprint '^' . exprint
+
+    IDint   shift, and go to state 138
+    CIDint  shift, and go to state 72
+    INT     shift, and go to state 73
+    '('     shift, and go to state 139
+
+    numberint  go to state 140
+    exprint    go to state 250
+
+
+State 199
+
+  113 exprint: exprint '*' . exprint
+
+    IDint   shift, and go to state 138
+    CIDint  shift, and go to state 72
+    INT     shift, and go to state 73
+    '('     shift, and go to state 139
+
+    numberint  go to state 140
+    exprint    go to state 251
+
+
+State 200
+
+  111 exprint: exprint '+' . exprint
+
+    IDint   shift, and go to state 138
+    CIDint  shift, and go to state 72
+    INT     shift, and go to state 73
+    '('     shift, and go to state 139
+
+    numberint  go to state 140
+    exprint    go to state 252
+
+
+State 201
+
+  114 exprint: exprint '/' . exprint
+
+    IDint   shift, and go to state 138
+    CIDint  shift, and go to state 72
+    INT     shift, and go to state 73
+    '('     shift, and go to state 139
+
+    numberint  go to state 140
+    exprint    go to state 253
+
+
+State 202
+
+  112 exprint: exprint '-' . exprint
+
+    IDint   shift, and go to state 138
+    CIDint  shift, and go to state 72
+    INT     shift, and go to state 73
+    '('     shift, and go to state 139
+
+    numberint  go to state 140
+    exprint    go to state 254
+
+
+State 203
+
+  119 exprfl: IDint '(' . param_list ')'
+
+    IDint      shift, and go to state 174
+    IDfloat    shift, and go to state 175
+    IDstring   shift, and go to state 176
+    IDbool     shift, and go to state 177
+    CIDint     shift, and go to state 178
+    CIDfloat   shift, and go to state 179
+    CIDstring  shift, and go to state 180
+    CIDbool    shift, and go to state 181
     STRING     shift, and go to state 83
     INT        shift, and go to state 73
     FLOAT      shift, and go to state 78
@@ -2347,150 +2407,182 @@ State 197
     $default  reduce using rule 42 (param_list)
 
     data_id_type   go to state 50
-    param_list     go to state 239
-    params         go to state 176
-    param          go to state 177
-    function_call  go to state 178
+    param_list     go to state 255
+    params         go to state 183
+    param          go to state 184
+    function_call  go to state 185
     numberint      go to state 145
     numberfl       go to state 146
-    gnumber        go to state 179
-    ebool          go to state 180
-    estring        go to state 181
+    gnumber        go to state 186
+    ebool          go to state 187
+    estring        go to state 188
     econst         go to state 59
-
-
-State 198
-
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
-  122       | '(' exprfl . ')'
-
-    '^'  shift, and go to state 199
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
-    ')'  shift, and go to state 240
-
-
-State 199
-
-  121 exprfl: exprfl '^' . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 241
-
-
-State 200
-
-  119 exprfl: exprfl '*' . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 242
-
-
-State 201
-
-  117 exprfl: exprfl '+' . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 243
-
-
-State 202
-
-  120 exprfl: exprfl '/' . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 244
-
-
-State 203
-
-  118 exprfl: exprfl '-' . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 245
 
 
 State 204
 
-  124 exprst: exprst . '+' exprst
-  125       | '(' exprst . ')'
-  126       | exprst . '*' numberint
+  118 exprfl: IDfloat '(' . param_list ')'
 
-    '*'  shift, and go to state 205
-    '+'  shift, and go to state 206
-    ')'  shift, and go to state 246
+    IDint      shift, and go to state 174
+    IDfloat    shift, and go to state 175
+    IDstring   shift, and go to state 176
+    IDbool     shift, and go to state 177
+    CIDint     shift, and go to state 178
+    CIDfloat   shift, and go to state 179
+    CIDstring  shift, and go to state 180
+    CIDbool    shift, and go to state 181
+    STRING     shift, and go to state 83
+    INT        shift, and go to state 73
+    FLOAT      shift, and go to state 78
+    BOOL       shift, and go to state 88
+
+    $default  reduce using rule 42 (param_list)
+
+    data_id_type   go to state 50
+    param_list     go to state 256
+    params         go to state 183
+    param          go to state 184
+    function_call  go to state 185
+    numberint      go to state 145
+    numberfl       go to state 146
+    gnumber        go to state 186
+    ebool          go to state 187
+    estring        go to state 188
+    econst         go to state 59
 
 
 State 205
 
-  126 exprst: exprst '*' . numberint
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+  125       | '(' exprfl . ')'
+
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+    ')'  shift, and go to state 257
+
+
+State 206
+
+  124 exprfl: exprfl '^' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 258
+
+
+State 207
+
+  122 exprfl: exprfl '*' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 259
+
+
+State 208
+
+  120 exprfl: exprfl '+' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 260
+
+
+State 209
+
+  123 exprfl: exprfl '/' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 261
+
+
+State 210
+
+  121 exprfl: exprfl '-' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 262
+
+
+State 211
+
+  127 exprst: exprst . '+' exprst
+  128       | '(' exprst . ')'
+  129       | exprst . '*' numberint
+
+    '*'  shift, and go to state 212
+    '+'  shift, and go to state 213
+    ')'  shift, and go to state 263
+
+
+State 212
+
+  129 exprst: exprst '*' . numberint
 
     IDint   shift, and go to state 71
     CIDint  shift, and go to state 72
     INT     shift, and go to state 73
 
-    numberint  go to state 247
+    numberint  go to state 264
 
 
-State 206
+State 213
 
-  124 exprst: exprst '+' . exprst
+  127 exprst: exprst '+' . exprst
 
     IDstring   shift, and go to state 81
     CIDstring  shift, and go to state 82
@@ -2498,10 +2590,10 @@ State 206
     '('        shift, and go to state 149
 
     estring  go to state 150
-    exprst   go to state 248
+    exprst   go to state 265
 
 
-State 207
+State 214
 
    71 exprlog: NOT exprlog .
    72        | exprlog . AND exprlog
@@ -2510,56 +2602,62 @@ State 207
     $default  reduce using rule 71 (exprlog)
 
 
-State 208
+State 215
 
    70 exprlog: '(' exprlog . ')'
    72        | exprlog . AND exprlog
    73        | exprlog . OR exprlog
 
-    AND  shift, and go to state 211
-    OR   shift, and go to state 212
-    ')'  shift, and go to state 249
+    AND  shift, and go to state 218
+    OR   shift, and go to state 219
+    ')'  shift, and go to state 266
 
 
-State 209
+State 216
 
-   74 exprlognr: exprfl . COMP exprfl
-   75          | exprfl . EQUAL exprfl
-   76          | exprfl . DIFF exprfl
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
-  122       | '(' exprfl . ')'
+   74 exprlognr: exprfl . LE exprfl
+   75          | exprfl . GE exprfl
+   76          | exprfl . '<' exprfl
+   77          | exprfl . '>' exprfl
+   78          | exprfl . EQUAL exprfl
+   79          | exprfl . DIFF exprfl
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+  125       | '(' exprfl . ')'
 
-    COMP   shift, and go to state 213
-    EQUAL  shift, and go to state 214
-    DIFF   shift, and go to state 215
-    '^'    shift, and go to state 199
-    '*'    shift, and go to state 200
-    '+'    shift, and go to state 201
-    '/'    shift, and go to state 202
-    '-'    shift, and go to state 203
-    ')'    shift, and go to state 240
-
-
-State 210
-
-   77 exprlogst: exprst . EQUAL exprst
-   78          | exprst . DIFF exprst
-  124 exprst: exprst . '+' exprst
-  125       | '(' exprst . ')'
-  126       | exprst . '*' numberint
-
-    EQUAL  shift, and go to state 216
-    DIFF   shift, and go to state 217
-    '*'    shift, and go to state 205
-    '+'    shift, and go to state 206
-    ')'    shift, and go to state 246
+    LE     shift, and go to state 220
+    GE     shift, and go to state 221
+    EQUAL  shift, and go to state 222
+    DIFF   shift, and go to state 223
+    '^'    shift, and go to state 206
+    '*'    shift, and go to state 207
+    '+'    shift, and go to state 208
+    '/'    shift, and go to state 209
+    '-'    shift, and go to state 210
+    ')'    shift, and go to state 257
+    '<'    shift, and go to state 224
+    '>'    shift, and go to state 225
 
 
-State 211
+State 217
+
+   80 exprlogst: exprst . EQUAL exprst
+   81          | exprst . DIFF exprst
+  127 exprst: exprst . '+' exprst
+  128       | '(' exprst . ')'
+  129       | exprst . '*' numberint
+
+    EQUAL  shift, and go to state 226
+    DIFF   shift, and go to state 227
+    '*'    shift, and go to state 212
+    '+'    shift, and go to state 213
+    ')'    shift, and go to state 263
+
+
+State 218
 
    72 exprlog: exprlog AND . exprlog
 
@@ -2578,7 +2676,7 @@ State 211
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 250
+    exprlog    go to state 267
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -2590,7 +2688,7 @@ State 211
     exprst     go to state 159
 
 
-State 212
+State 219
 
    73 exprlog: exprlog OR . exprlog
 
@@ -2609,7 +2707,7 @@ State 212
     BOOL       shift, and go to state 88
     '('        shift, and go to state 153
 
-    exprlog    go to state 251
+    exprlog    go to state 268
     exprlognr  go to state 155
     exprlogst  go to state 156
     numberint  go to state 145
@@ -2621,108 +2719,211 @@ State 212
     exprst     go to state 159
 
 
-State 213
-
-   74 exprlognr: exprfl COMP . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 252
-
-
-State 214
-
-   75 exprlognr: exprfl EQUAL . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 253
-
-
-State 215
-
-   76 exprlognr: exprfl DIFF . exprfl
-
-    IDint     shift, and go to state 142
-    IDfloat   shift, and go to state 143
-    CIDint    shift, and go to state 72
-    CIDfloat  shift, and go to state 77
-    INT       shift, and go to state 73
-    FLOAT     shift, and go to state 78
-    '('       shift, and go to state 144
-
-    numberint  go to state 145
-    numberfl   go to state 146
-    gnumber    go to state 147
-    exprfl     go to state 254
-
-
-State 216
-
-   77 exprlogst: exprst EQUAL . exprst
-
-    IDstring   shift, and go to state 81
-    CIDstring  shift, and go to state 82
-    STRING     shift, and go to state 83
-    '('        shift, and go to state 149
-
-    estring  go to state 150
-    exprst   go to state 255
-
-
-State 217
-
-   78 exprlogst: exprst DIFF . exprst
-
-    IDstring   shift, and go to state 81
-    CIDstring  shift, and go to state 82
-    STRING     shift, and go to state 83
-    '('        shift, and go to state 149
-
-    estring  go to state 150
-    exprst   go to state 256
-
-
-State 218
-
-  128 print: PRINT '(' IDint ')' .
-
-    $default  reduce using rule 128 (print)
-
-
-State 219
-
-  127 print: PRINT '(' IDstring ')' .
-
-    $default  reduce using rule 127 (print)
-
-
 State 220
 
-   62 control: IF '(' exprlog ')' . '?' list else ENDIF
+   74 exprlognr: exprfl LE . exprfl
 
-    '?'  shift, and go to state 257
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 269
 
 
 State 221
+
+   75 exprlognr: exprfl GE . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 270
+
+
+State 222
+
+   78 exprlognr: exprfl EQUAL . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 271
+
+
+State 223
+
+   79 exprlognr: exprfl DIFF . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 272
+
+
+State 224
+
+   76 exprlognr: exprfl '<' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 273
+
+
+State 225
+
+   77 exprlognr: exprfl '>' . exprfl
+
+    IDint     shift, and go to state 142
+    IDfloat   shift, and go to state 143
+    CIDint    shift, and go to state 72
+    CIDfloat  shift, and go to state 77
+    INT       shift, and go to state 73
+    FLOAT     shift, and go to state 78
+    '('       shift, and go to state 144
+
+    numberint  go to state 145
+    numberfl   go to state 146
+    gnumber    go to state 147
+    exprfl     go to state 274
+
+
+State 226
+
+   80 exprlogst: exprst EQUAL . exprst
+
+    IDstring   shift, and go to state 81
+    CIDstring  shift, and go to state 82
+    STRING     shift, and go to state 83
+    '('        shift, and go to state 149
+
+    estring  go to state 150
+    exprst   go to state 275
+
+
+State 227
+
+   81 exprlogst: exprst DIFF . exprst
+
+    IDstring   shift, and go to state 81
+    CIDstring  shift, and go to state 82
+    STRING     shift, and go to state 83
+    '('        shift, and go to state 149
+
+    estring  go to state 150
+    exprst   go to state 276
+
+
+State 228
+
+  130 print: PRINT '(' IDint ')' .
+
+    $default  reduce using rule 130 (print)
+
+
+State 229
+
+  131 print: PRINT '(' IDfloat ')' .
+
+    $default  reduce using rule 131 (print)
+
+
+State 230
+
+  133 print: PRINT '(' IDstring ')' .
+
+    $default  reduce using rule 133 (print)
+
+
+State 231
+
+  132 print: PRINT '(' IDbool ')' .
+
+    $default  reduce using rule 132 (print)
+
+
+State 232
+
+  134 print: PRINT '(' CIDint ')' .
+
+    $default  reduce using rule 134 (print)
+
+
+State 233
+
+  135 print: PRINT '(' CIDfloat ')' .
+
+    $default  reduce using rule 135 (print)
+
+
+State 234
+
+  137 print: PRINT '(' CIDstring ')' .
+
+    $default  reduce using rule 137 (print)
+
+
+State 235
+
+  136 print: PRINT '(' CIDbool ')' .
+
+    $default  reduce using rule 136 (print)
+
+
+State 236
+
+  138 print: PRINT '(' ENDL ')' .
+
+    $default  reduce using rule 138 (print)
+
+
+State 237
+
+   62 control: IF '(' exprlog ')' . '?' list else ENDIF
+
+    '?'  shift, and go to state 277
+
+
+State 238
 
    63 control: FOR '(' exprfor ')' . list ENDFOR
 
@@ -2740,7 +2941,7 @@ State 221
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
-    list           go to state 258
+    list           go to state 278
     statement      go to state 52
     function_call  go to state 53
     control        go to state 54
@@ -2752,9 +2953,9 @@ State 221
     print          go to state 60
 
 
-State 222
+State 239
 
-   79 exprfor: assgnint ';' . exprlognr ';' assgnint
+   82 exprfor: assgnint ';' . exprlognr ';' assgnint
 
     IDint     shift, and go to state 142
     IDfloat   shift, and go to state 143
@@ -2764,14 +2965,14 @@ State 222
     FLOAT     shift, and go to state 78
     '('       shift, and go to state 144
 
-    exprlognr  go to state 259
+    exprlognr  go to state 279
     numberint  go to state 145
     numberfl   go to state 146
     gnumber    go to state 147
     exprfl     go to state 158
 
 
-State 223
+State 240
 
    64 control: WHILE '(' exprlog ')' . list ENDWHILE
 
@@ -2789,7 +2990,7 @@ State 223
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
-    list           go to state 260
+    list           go to state 280
     statement      go to state 52
     function_call  go to state 53
     control        go to state 54
@@ -2801,42 +3002,42 @@ State 223
     print          go to state 60
 
 
-State 224
+State 241
 
    61 function_call: data_id_type '(' param_list ')' .
 
     $default  reduce using rule 61 (function_call)
 
 
-State 225
+State 242
 
    45 params: params ',' . param
 
-    IDint      shift, and go to state 167
-    IDfloat    shift, and go to state 168
-    IDstring   shift, and go to state 169
-    IDbool     shift, and go to state 170
-    CIDint     shift, and go to state 171
-    CIDfloat   shift, and go to state 172
-    CIDstring  shift, and go to state 173
-    CIDbool    shift, and go to state 174
+    IDint      shift, and go to state 174
+    IDfloat    shift, and go to state 175
+    IDstring   shift, and go to state 176
+    IDbool     shift, and go to state 177
+    CIDint     shift, and go to state 178
+    CIDfloat   shift, and go to state 179
+    CIDstring  shift, and go to state 180
+    CIDbool    shift, and go to state 181
     STRING     shift, and go to state 83
     INT        shift, and go to state 73
     FLOAT      shift, and go to state 78
     BOOL       shift, and go to state 88
 
     data_id_type   go to state 50
-    param          go to state 261
-    function_call  go to state 178
+    param          go to state 281
+    function_call  go to state 185
     numberint      go to state 145
     numberfl       go to state 146
-    gnumber        go to state 179
-    ebool          go to state 180
-    estring        go to state 181
+    gnumber        go to state 186
+    ebool          go to state 187
+    estring        go to state 188
     econst         go to state 59
 
 
-State 226
+State 243
 
    41 function_decl: variable_decl '(' param_list_decl ')' BEGIN_FUNCTION list . END_FUNCTION
    52 list: list . statement
@@ -2853,7 +3054,7 @@ State 226
     IF            shift, and go to state 47
     FOR           shift, and go to state 48
     WHILE         shift, and go to state 49
-    END_FUNCTION  shift, and go to state 262
+    END_FUNCTION  shift, and go to state 282
 
     data_id_type   go to state 50
     statement      go to state 106
@@ -2867,257 +3068,257 @@ State 226
     print          go to state 60
 
 
-State 227
-
-   87 numberint: IDint '[' numberint ']' .
-
-    $default  reduce using rule 87 (numberint)
-
-
-State 228
-
-   91 numberfl: IDfloat '[' numberint ']' .
-
-    $default  reduce using rule 91 (numberfl)
-
-
-State 229
-
-  101 estring: IDstring '[' numberint ']' .
-
-    $default  reduce using rule 101 (estring)
-
-
-State 230
-
-   97 ebool: IDbool '[' numberint ']' .
-
-    $default  reduce using rule 97 (ebool)
-
-
-State 231
-
-  107 exprint: IDint '(' param_list . ')'
-
-    ')'  shift, and go to state 263
-
-
-State 232
-
-  113 exprint: '(' exprint ')' .
-
-    $default  reduce using rule 113 (exprint)
-
-
-State 233
-
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
-  112        | exprint '^' exprint .
-
-    '*'  shift, and go to state 192
-    '+'  shift, and go to state 193
-    '/'  shift, and go to state 194
-    '-'  shift, and go to state 195
-
-    $default  reduce using rule 112 (exprint)
-
-
-State 234
-
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  110        | exprint '*' exprint .
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
-
-    '/'  shift, and go to state 194
-    '-'  shift, and go to state 195
-
-    $default  reduce using rule 110 (exprint)
-
-
-State 235
-
-  108 exprint: exprint . '+' exprint
-  108        | exprint '+' exprint .
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
-
-    '/'  shift, and go to state 194
-    '-'  shift, and go to state 195
-
-    $default  reduce using rule 108 (exprint)
-
-
-State 236
-
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  111        | exprint '/' exprint .
-  112        | exprint . '^' exprint
-
-    '-'  shift, and go to state 195
-
-    $default  reduce using rule 111 (exprint)
-
-
-State 237
-
-  108 exprint: exprint . '+' exprint
-  109        | exprint . '-' exprint
-  109        | exprint '-' exprint .
-  110        | exprint . '*' exprint
-  111        | exprint . '/' exprint
-  112        | exprint . '^' exprint
-
-    $default  reduce using rule 109 (exprint)
-
-
-State 238
-
-  116 exprfl: IDint '(' param_list . ')'
-
-    ')'  shift, and go to state 264
-
-
-State 239
-
-  115 exprfl: IDfloat '(' param_list . ')'
-
-    ')'  shift, and go to state 265
-
-
-State 240
-
-  122 exprfl: '(' exprfl ')' .
-
-    $default  reduce using rule 122 (exprfl)
-
-
-State 241
-
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
-  121       | exprfl '^' exprfl .
-
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
-
-    $default  reduce using rule 121 (exprfl)
-
-
-State 242
-
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  119       | exprfl '*' exprfl .
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
-
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
-
-    $default  reduce using rule 119 (exprfl)
-
-
-State 243
-
-  117 exprfl: exprfl . '+' exprfl
-  117       | exprfl '+' exprfl .
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
-
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
-
-    $default  reduce using rule 117 (exprfl)
-
-
 State 244
 
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  120       | exprfl '/' exprfl .
-  121       | exprfl . '^' exprfl
+   90 numberint: IDint '[' numberint ']' .
 
-    '-'  shift, and go to state 203
-
-    $default  reduce using rule 120 (exprfl)
+    $default  reduce using rule 90 (numberint)
 
 
 State 245
 
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  118       | exprfl '-' exprfl .
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   94 numberfl: IDfloat '[' numberint ']' .
 
-    $default  reduce using rule 118 (exprfl)
+    $default  reduce using rule 94 (numberfl)
 
 
 State 246
 
-  125 exprst: '(' exprst ')' .
+  104 estring: IDstring '[' numberint ']' .
 
-    $default  reduce using rule 125 (exprst)
+    $default  reduce using rule 104 (estring)
 
 
 State 247
 
-  126 exprst: exprst '*' numberint .
+  100 ebool: IDbool '[' numberint ']' .
 
-    $default  reduce using rule 126 (exprst)
+    $default  reduce using rule 100 (ebool)
 
 
 State 248
 
-  124 exprst: exprst . '+' exprst
-  124       | exprst '+' exprst .
-  126       | exprst . '*' numberint
+  110 exprint: IDint '(' param_list . ')'
 
-    $default  reduce using rule 124 (exprst)
+    ')'  shift, and go to state 283
 
 
 State 249
+
+  116 exprint: '(' exprint ')' .
+
+    $default  reduce using rule 116 (exprint)
+
+
+State 250
+
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
+  115        | exprint '^' exprint .
+
+    '*'  shift, and go to state 199
+    '+'  shift, and go to state 200
+    '/'  shift, and go to state 201
+    '-'  shift, and go to state 202
+
+    $default  reduce using rule 115 (exprint)
+
+
+State 251
+
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  113        | exprint '*' exprint .
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
+
+    '/'  shift, and go to state 201
+    '-'  shift, and go to state 202
+
+    $default  reduce using rule 113 (exprint)
+
+
+State 252
+
+  111 exprint: exprint . '+' exprint
+  111        | exprint '+' exprint .
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
+
+    '/'  shift, and go to state 201
+    '-'  shift, and go to state 202
+
+    $default  reduce using rule 111 (exprint)
+
+
+State 253
+
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  114        | exprint '/' exprint .
+  115        | exprint . '^' exprint
+
+    '-'  shift, and go to state 202
+
+    $default  reduce using rule 114 (exprint)
+
+
+State 254
+
+  111 exprint: exprint . '+' exprint
+  112        | exprint . '-' exprint
+  112        | exprint '-' exprint .
+  113        | exprint . '*' exprint
+  114        | exprint . '/' exprint
+  115        | exprint . '^' exprint
+
+    $default  reduce using rule 112 (exprint)
+
+
+State 255
+
+  119 exprfl: IDint '(' param_list . ')'
+
+    ')'  shift, and go to state 284
+
+
+State 256
+
+  118 exprfl: IDfloat '(' param_list . ')'
+
+    ')'  shift, and go to state 285
+
+
+State 257
+
+  125 exprfl: '(' exprfl ')' .
+
+    $default  reduce using rule 125 (exprfl)
+
+
+State 258
+
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+  124       | exprfl '^' exprfl .
+
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 124 (exprfl)
+
+
+State 259
+
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  122       | exprfl '*' exprfl .
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 122 (exprfl)
+
+
+State 260
+
+  120 exprfl: exprfl . '+' exprfl
+  120       | exprfl '+' exprfl .
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 120 (exprfl)
+
+
+State 261
+
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  123       | exprfl '/' exprfl .
+  124       | exprfl . '^' exprfl
+
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 123 (exprfl)
+
+
+State 262
+
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  121       | exprfl '-' exprfl .
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+
+    $default  reduce using rule 121 (exprfl)
+
+
+State 263
+
+  128 exprst: '(' exprst ')' .
+
+    $default  reduce using rule 128 (exprst)
+
+
+State 264
+
+  129 exprst: exprst '*' numberint .
+
+    $default  reduce using rule 129 (exprst)
+
+
+State 265
+
+  127 exprst: exprst . '+' exprst
+  127       | exprst '+' exprst .
+  129       | exprst . '*' numberint
+
+    $default  reduce using rule 127 (exprst)
+
+
+State 266
 
    70 exprlog: '(' exprlog ')' .
 
     $default  reduce using rule 70 (exprlog)
 
 
-State 250
+State 267
 
    72 exprlog: exprlog . AND exprlog
    72        | exprlog AND exprlog .
    73        | exprlog . OR exprlog
 
-    OR  shift, and go to state 212
+    OR  shift, and go to state 219
 
     $default  reduce using rule 72 (exprlog)
 
 
-State 251
+State 268
 
    72 exprlog: exprlog . AND exprlog
    73        | exprlog . OR exprlog
@@ -3126,85 +3327,139 @@ State 251
     $default  reduce using rule 73 (exprlog)
 
 
-State 252
+State 269
 
-   74 exprlognr: exprfl COMP exprfl .
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   74 exprlognr: exprfl LE exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    '^'  shift, and go to state 199
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
 
     $default  reduce using rule 74 (exprlognr)
 
 
-State 253
+State 270
 
-   75 exprlognr: exprfl EQUAL exprfl .
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   75 exprlognr: exprfl GE exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    '^'  shift, and go to state 199
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
 
     $default  reduce using rule 75 (exprlognr)
 
 
-State 254
+State 271
 
-   76 exprlognr: exprfl DIFF exprfl .
-  117 exprfl: exprfl . '+' exprfl
-  118       | exprfl . '-' exprfl
-  119       | exprfl . '*' exprfl
-  120       | exprfl . '/' exprfl
-  121       | exprfl . '^' exprfl
+   78 exprlognr: exprfl EQUAL exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    '^'  shift, and go to state 199
-    '*'  shift, and go to state 200
-    '+'  shift, and go to state 201
-    '/'  shift, and go to state 202
-    '-'  shift, and go to state 203
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 78 (exprlognr)
+
+
+State 272
+
+   79 exprlognr: exprfl DIFF exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
+
+    $default  reduce using rule 79 (exprlognr)
+
+
+State 273
+
+   76 exprlognr: exprfl '<' exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
+
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
 
     $default  reduce using rule 76 (exprlognr)
 
 
-State 255
+State 274
 
-   77 exprlogst: exprst EQUAL exprst .
-  124 exprst: exprst . '+' exprst
-  126       | exprst . '*' numberint
+   77 exprlognr: exprfl '>' exprfl .
+  120 exprfl: exprfl . '+' exprfl
+  121       | exprfl . '-' exprfl
+  122       | exprfl . '*' exprfl
+  123       | exprfl . '/' exprfl
+  124       | exprfl . '^' exprfl
 
-    '*'  shift, and go to state 205
-    '+'  shift, and go to state 206
+    '^'  shift, and go to state 206
+    '*'  shift, and go to state 207
+    '+'  shift, and go to state 208
+    '/'  shift, and go to state 209
+    '-'  shift, and go to state 210
 
-    $default  reduce using rule 77 (exprlogst)
-
-
-State 256
-
-   78 exprlogst: exprst DIFF exprst .
-  124 exprst: exprst . '+' exprst
-  126       | exprst . '*' numberint
-
-    '*'  shift, and go to state 205
-    '+'  shift, and go to state 206
-
-    $default  reduce using rule 78 (exprlogst)
+    $default  reduce using rule 77 (exprlognr)
 
 
-State 257
+State 275
+
+   80 exprlogst: exprst EQUAL exprst .
+  127 exprst: exprst . '+' exprst
+  129       | exprst . '*' numberint
+
+    '*'  shift, and go to state 212
+    '+'  shift, and go to state 213
+
+    $default  reduce using rule 80 (exprlogst)
+
+
+State 276
+
+   81 exprlogst: exprst DIFF exprst .
+  127 exprst: exprst . '+' exprst
+  129       | exprst . '*' numberint
+
+    '*'  shift, and go to state 212
+    '+'  shift, and go to state 213
+
+    $default  reduce using rule 81 (exprlogst)
+
+
+State 277
 
    62 control: IF '(' exprlog ')' '?' . list else ENDIF
 
@@ -3222,7 +3477,7 @@ State 257
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
-    list           go to state 266
+    list           go to state 286
     statement      go to state 52
     function_call  go to state 53
     control        go to state 54
@@ -3234,7 +3489,7 @@ State 257
     print          go to state 60
 
 
-State 258
+State 278
 
    52 list: list . statement
    63 control: FOR '(' exprfor ')' list . ENDFOR
@@ -3250,7 +3505,7 @@ State 258
     PRINT      shift, and go to state 46
     IF         shift, and go to state 47
     FOR        shift, and go to state 48
-    ENDFOR     shift, and go to state 267
+    ENDFOR     shift, and go to state 287
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
@@ -3265,14 +3520,14 @@ State 258
     print          go to state 60
 
 
-State 259
+State 279
 
-   79 exprfor: assgnint ';' exprlognr . ';' assgnint
+   82 exprfor: assgnint ';' exprlognr . ';' assgnint
 
-    ';'  shift, and go to state 268
+    ';'  shift, and go to state 288
 
 
-State 260
+State 280
 
    52 list: list . statement
    64 control: WHILE '(' exprlog ')' list . ENDWHILE
@@ -3289,7 +3544,7 @@ State 260
     IF         shift, and go to state 47
     FOR        shift, and go to state 48
     WHILE      shift, and go to state 49
-    ENDWHILE   shift, and go to state 269
+    ENDWHILE   shift, and go to state 289
 
     data_id_type   go to state 50
     statement      go to state 106
@@ -3303,42 +3558,42 @@ State 260
     print          go to state 60
 
 
-State 261
+State 281
 
    45 params: params ',' param .
 
     $default  reduce using rule 45 (params)
 
 
-State 262
+State 282
 
    41 function_decl: variable_decl '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION .
 
     $default  reduce using rule 41 (function_decl)
 
 
-State 263
+State 283
 
-  107 exprint: IDint '(' param_list ')' .
+  110 exprint: IDint '(' param_list ')' .
 
-    $default  reduce using rule 107 (exprint)
-
-
-State 264
-
-  116 exprfl: IDint '(' param_list ')' .
-
-    $default  reduce using rule 116 (exprfl)
+    $default  reduce using rule 110 (exprint)
 
 
-State 265
+State 284
 
-  115 exprfl: IDfloat '(' param_list ')' .
+  119 exprfl: IDint '(' param_list ')' .
 
-    $default  reduce using rule 115 (exprfl)
+    $default  reduce using rule 119 (exprfl)
 
 
-State 266
+State 285
+
+  118 exprfl: IDfloat '(' param_list ')' .
+
+    $default  reduce using rule 118 (exprfl)
+
+
+State 286
 
    52 list: list . statement
    62 control: IF '(' exprlog ')' '?' list . else ENDIF
@@ -3353,7 +3608,7 @@ State 266
     CIDbool    shift, and go to state 45
     PRINT      shift, and go to state 46
     IF         shift, and go to state 47
-    ELSE       shift, and go to state 270
+    ELSE       shift, and go to state 290
     FOR        shift, and go to state 48
     WHILE      shift, and go to state 49
 
@@ -3363,7 +3618,7 @@ State 266
     statement      go to state 106
     function_call  go to state 53
     control        go to state 54
-    else           go to state 271
+    else           go to state 291
     assgnst        go to state 55
     assgnint       go to state 56
     assgnbl        go to state 57
@@ -3372,30 +3627,30 @@ State 266
     print          go to state 60
 
 
-State 267
+State 287
 
    63 control: FOR '(' exprfor ')' list ENDFOR .
 
     $default  reduce using rule 63 (control)
 
 
-State 268
+State 288
 
-   79 exprfor: assgnint ';' exprlognr ';' . assgnint
+   82 exprfor: assgnint ';' exprlognr ';' . assgnint
 
-    IDint  shift, and go to state 163
+    IDint  shift, and go to state 170
 
-    assgnint  go to state 272
+    assgnint  go to state 292
 
 
-State 269
+State 289
 
    64 control: WHILE '(' exprlog ')' list ENDWHILE .
 
     $default  reduce using rule 64 (control)
 
 
-State 270
+State 290
 
    66 else: ELSE . list
 
@@ -3413,7 +3668,7 @@ State 270
     WHILE      shift, and go to state 49
 
     data_id_type   go to state 50
-    list           go to state 273
+    list           go to state 293
     statement      go to state 52
     function_call  go to state 53
     control        go to state 54
@@ -3425,21 +3680,21 @@ State 270
     print          go to state 60
 
 
-State 271
+State 291
 
    62 control: IF '(' exprlog ')' '?' list else . ENDIF
 
-    ENDIF  shift, and go to state 274
+    ENDIF  shift, and go to state 294
 
 
-State 272
+State 292
 
-   79 exprfor: assgnint ';' exprlognr ';' assgnint .
+   82 exprfor: assgnint ';' exprlognr ';' assgnint .
 
-    $default  reduce using rule 79 (exprfor)
+    $default  reduce using rule 82 (exprfor)
 
 
-State 273
+State 293
 
    52 list: list . statement
    66 else: ELSE list .
@@ -3471,7 +3726,7 @@ State 273
     print          go to state 60
 
 
-State 274
+State 294
 
    62 control: IF '(' exprlog ')' '?' list else ENDIF .
 

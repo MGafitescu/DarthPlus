@@ -31,13 +31,13 @@ int UpdateFloatVal(char *name,double val);
 
 int FindBoolNode(char* name);
 int AddBoolNode(char *name);
-int UpdateBoolVal(char *name,char  *val);
+int UpdateBoolVal(char *name,int  val);
 %}
 %union {
 int intval;
 double floatval;
 char* strval;
-char boolval[6];
+int boolval;
 struct  
 {
 	char name[100];
@@ -59,7 +59,7 @@ struct
 struct  
 {
 	char name[100];
-	char val[6];
+	int val;
 } boolnode;
 }
 %token TIPi TIPf TIPs TIPb TIPstruct
@@ -67,9 +67,9 @@ struct
 %token CIDint CIDfloat CIDstring CIDbool
 %token BGIN END ASSIGN PRINT
 %token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
-%token COMP EQUAL DIFF NOT AND OR
+%token LE GE EQUAL DIFF NOT AND OR
 %token ADD MIN POW MUL DIV
-%token BEGIN_FUNCTION END_FUNCTION
+%token BEGIN_FUNCTION END_FUNCTION ENDL
 %start progr
 %token <strval> STRING
 %token <intval> INT
@@ -215,9 +215,9 @@ function_call: data_id_type '(' param_list ')'
 			 ;
 
 /*instructiuni de control*/
-control: IF '(' exprlog ')''?' list else ENDIF {printf("Recunoscut if.\n");}
-       | FOR '(' exprfor ')' list ENDFOR {printf("Recunoscut for. \n");}
-       | WHILE '(' exprlog ')' list ENDWHILE {printf("Recunoscut while. \n");}
+control: IF '(' exprlog ')''?' list else ENDIF {printf("Conditie logica din if se evalueaza la: %d.\n",$3);}
+       | FOR '(' exprfor ')' list ENDFOR 
+       | WHILE '(' exprlog ')' list ENDWHILE {printf("Conditie logica din while se evalueaza la: %d. \n",$3);}
        ;
 
 else: 
@@ -225,30 +225,33 @@ else:
 	;
 
 /*expresii logice*/
-exprlog: exprlognr 
-      |  exprlogst 
-      |  ebool
-      |  '(' exprlog ')'
-      |  NOT exprlog
-      |  exprlog AND exprlog
-      |  exprlog OR exprlog
+exprlog: exprlognr {$$=$1;}
+      |  exprlogst {$$=$1;}
+      |  ebool {$$=$1;}
+      |  '(' exprlog ')' {$$=$2;}
+      |  NOT exprlog {$$=!$2;}
+      |  exprlog AND exprlog {$$=$1&&$3;}
+      |  exprlog OR exprlog {$$=$1||$3;}
       ;
 
       
 /*expresii logice cu numere*/
-exprlognr: exprfl COMP exprfl
-      |    exprfl EQUAL exprfl
-      |    exprfl DIFF exprfl
+exprlognr: exprfl LE exprfl {$$=$1<=$3;}
+	  |    exprfl GE exprfl {$$=$1>=$3;}
+	  |    exprfl '<' exprfl {$$=$1<$3;}
+	  |    exprfl '>' exprfl {$$=$1>$3;}
+      |    exprfl EQUAL exprfl {$$=$1==$3;}
+      |    exprfl DIFF exprfl {$$=$1!=$3;}
       ;
 
 /*expresii logice cu stringuri*/
-exprlogst: exprst EQUAL exprst
-      |   exprst DIFF exprst
+exprlogst: exprst EQUAL exprst {$$=!strcmp($1,$3);}
+      |   exprst DIFF exprst {$$=strcmp($1,$3);}
       ;        
 
 	      
 /*expresii for*/
-exprfor: assgnint ';' exprlognr ';' assgnint
+exprfor: assgnint ';' exprlognr ';' assgnint {printf("Conditia logica din for se evalueaza la: %d\n",$3);}
        ;
 
 /* assgn la stringuri */
@@ -264,7 +267,7 @@ assgnint: IDint ASSIGN exprint {if(!UpdateIntVal($1.name,$3)) {printf("%s nu a f
 
 /*assgn la bool */
 assgnbl:   IDbool ASSIGN exprlog {if(!UpdateBoolVal($1.name,$3)) {printf("%s nu a fost declarat\n",$1.name);exit(0);} 
-									else printf("%s primeste %s\n",$1.name,$3);}
+									else printf("%s primeste %d\n",$1.name,$3);}
       ;
 
 /*assgn la float */
@@ -311,12 +314,12 @@ gnumber: numberfl {$$ = $1;}
 ebool: IDbool {int i = FindBoolNode($1.name);
 					if(i>=0)
 						if (!boolnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
-						else strcpy($$,boolnodes[i].val);
+						else $$=boolnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
-     | BOOL {strcpy($$,$1);}
+     | BOOL {$$=$1;}
      | CIDbool{int i = FindBoolNode($1.name);
 					if(i>=0)
-						strcpy($$,boolnodes[i].val);
+						$$=boolnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
      | IDbool '[' numberint ']'
      ;
@@ -377,8 +380,15 @@ exprst: estring {strcpy($$,$1);}
 
 
 /*functia de printare*/
-print: PRINT '(' IDstring ')' {printf("S-a recunoscut: %s\n",$<strval>$);}
-     |  PRINT '(' IDint ')' {printf("S-a recunoscut: %d\n",$<intval>$);}
+print: PRINT'(' IDint ')' {printf("%s=%d\n",$3.name,intnodes[FindIntNode($3.name)].val);} 
+	 | PRINT'(' IDfloat ')' {printf("%s=%f\n",$3.name,floatnodes[FindFloatNode($3.name)].val);} 
+	 | PRINT'(' IDbool ')' {printf("%s=%d\n",$3.name,boolnodes[FindBoolNode($3.name)].val);} 
+	 | PRINT'(' IDstring ')' {printf("%s=%s\n",$3.name,stringnodes[FindStringNode($3.name)].val);} 
+	 | PRINT'(' CIDint ')' {printf("%s=%d\n",$3.name,intnodes[FindIntNode($3.name)].val);} 
+	 | PRINT'(' CIDfloat ')' {printf("%s=%f\n",$3.name,floatnodes[FindFloatNode($3.name)].val);} 
+	 | PRINT'(' CIDbool ')' {printf("%s=%d\n",$3.name,boolnodes[FindBoolNode($3.name)].val);} 
+	 | PRINT'(' CIDstring ')' {printf("%s=%s\n",$3.name,stringnodes[FindStringNode($3.name)].val);} 
+	 | PRINT'(' ENDL ')' {printf("\n");}
      ;
 
 %%
@@ -446,19 +456,19 @@ int AddBoolNode(char *name)
 	if (FindBoolNode(name)!=-1)
 	return 0;
 	strcpy(boolnodes[nr_bnodes].name,name);
-	strcpy(boolnodes[nr_bnodes].val , "\0");
+   boolnodes[nr_bnodes].val=0;
 	boolnodes[nr_bnodes].init = 0;
 	nr_bnodes++;
 	return 1;
 }
 
-int UpdateBoolVal(char *name,char *val)
+int UpdateBoolVal(char *name,int val)
 {
 	int i;
 	i =FindBoolNode(name);
 	if (i == -1)
 	return 0;
-    strcpy(boolnodes[i].val,val);
+    boolnodes[i].val=val;
 	boolnodes[i].init = 1;
 }
 
@@ -467,7 +477,7 @@ int AddStringNode(char *name)
 	if (FindStringNode(name)!=-1)
 	return 0;
 	strcpy(stringnodes[nr_snodes].name,name);
-	strcpy(stringnodes[nr_snodes].val,"");
+	strcpy(stringnodes[nr_snodes].val,"\0");
 	stringnodes[nr_snodes].init = 0;
 	nr_snodes++;
 	return 1;
