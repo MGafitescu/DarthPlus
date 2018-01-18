@@ -1,4 +1,4 @@
-DarthPlus: lex.yy.c y.tab.c
+DarthPlus: lex.yy.c y.tab.c structuri.h
 	gcc lex.yy.c y.tab.c -o DarthPlus -ly -ll -lm
 
 lex.yy.c: DarthPlus.l

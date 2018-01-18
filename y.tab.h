@@ -134,37 +134,89 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 36 "DarthPlus.y" /* yacc.c:1909  */
+#line 60 "DarthPlus.y" /* yacc.c:1909  */
 
 int intval;
 double floatval;
 char* strval;
 int boolval;
-struct  
+struct  IND
 {
 	char name[100];
 	int val;
 } intnode;
 
-struct  
+struct  SND
 {
 	char name[100];
 	char val[100];
 } stringnode;
 
-struct  
+struct  FND
 {
 	char name[100];
 	double val;
 } floatnode;
 
-struct  
+struct BND
 {
 	char name[100];
 	int val;
 } boolnode;
 
-#line 168 "y.tab.h" /* yacc.c:1909  */
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+} intfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}stringfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}floatfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}boolfuncnode;
+
+#line 220 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

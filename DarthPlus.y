@@ -9,6 +9,9 @@ extern char* yytext;
 extern int yylineno;
 int yylex();
 int yyerror(char * s);
+
+int last_func_type;
+int last_func_nr;
 struct IntNode intnodes[100];
 int nr_inodes = 0;
 struct StringNode stringnodes[100];
@@ -17,6 +20,14 @@ struct FloatNode floatnodes[100];
 int nr_fnodes = 0;
 struct BoolNode boolnodes[100];
 int nr_bnodes = 0;
+struct IntFuncNode intfuncnodes[100];
+int nr_ifnodes = 0;
+struct StringFuncNode stringfuncnodes[100];
+int nr_sfnodes = 0;
+struct FloatFuncNode floatfuncnodes[100];
+int nr_ffnodes = 0;
+struct BoolFuncNode boolfuncnodes[100];
+int nr_bfnodes = 0;
 int FindIntNode(char* name);
 int AddIntNode(char *name);
 int UpdateIntVal(char *name,int val);
@@ -32,35 +43,100 @@ int UpdateFloatVal(char *name,double val);
 int FindBoolNode(char* name);
 int AddBoolNode(char *name);
 int UpdateBoolVal(char *name,int  val);
+
+int FindIntFuncNode(char* name);
+int AddIntFuncNode(char *name);
+
+int FindStringFuncNode(char* name);
+int AddStringFuncNode(char *name);
+
+int FindFloatFuncNode(char* name);
+int AddFloatFuncNode(char *name);
+
+int FindBoolFuncNode(char* name);
+int AddBoolFuncNode(char *name);
+
 %}
 %union {
 int intval;
 double floatval;
 char* strval;
 int boolval;
-struct  
+struct  IND
 {
 	char name[100];
 	int val;
 } intnode;
 
-struct  
+struct  SND
 {
 	char name[100];
 	char val[100];
 } stringnode;
 
-struct  
+struct  FND
 {
 	char name[100];
 	double val;
 } floatnode;
 
-struct  
+struct BND
 {
 	char name[100];
 	int val;
 } boolnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+} intfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}stringfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}floatfuncnode;
+
+struct 
+{
+	char name[100];
+	int nr_inodes;
+	int nr_snodes;
+	int nr_fnodes;
+	int nr_bnodes;
+	struct IND intnodes[10];
+	struct SND stringnodes[10];
+	struct BND boolnodes[10];
+	struct FND floatnodes[10];
+}boolfuncnode;
 }
 %token TIPi TIPf TIPs TIPb TIPstruct
 %token IDint IDfloat IDstring IDbool IDstruct
@@ -163,7 +239,7 @@ params_decl: param_decl
 	       | params_decl ',' param_decl 
 	       ;
             
-param_decl: TIPi IDint
+param_decl: TIPi IDint 
           | TIPi CIDint
 		  | TIPs IDstring
           | TIPs CIDstring
@@ -173,7 +249,62 @@ param_decl: TIPi IDint
 		  | TIPf CIDfloat
 		  ;
 
-function_decl: variable_decl '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION
+function_decl: TIPi IDint '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION 
+					{
+						int i = AddIntFuncNode($2.name);
+						if(i != -1)  
+							{
+								printf("function %s declared\n",$2.name); 
+								last_func_nr = i;
+								last_func_type = 1;
+							}
+						else {
+								printf("function %s redeclaration\n",$2.name);
+								exit(0);
+							}
+					}
+				| TIPs IDstring '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION 
+					{
+						int i;
+						if((i = AddStringFuncNode($2.name)) >= 0)  
+							{
+								printf("function %s declared\n",$2.name); 
+								last_func_nr = i;
+								last_func_type = 2;
+							}
+						else {
+								printf("function %s redeclaration\n",$2.name);
+								exit(0);
+							}
+					}
+				| TIPf IDfloat '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION 
+					{
+						int i;
+						if((i = AddFloatFuncNode($2.name)) >= 0)  
+							{
+								printf("function %s declared\n",$2.name); 
+								last_func_nr = i;
+								last_func_type = 3;
+							}
+						else {
+								printf("function %s redeclaration\n",$2.name);
+								exit(0);
+							}
+					}
+				| TIPb IDbool '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION 
+					{
+						int i;
+						if((i = AddBoolFuncNode($2.name)) >= 0)  
+							{
+								printf("function %s declared\n",$2.name); 
+								last_func_nr = i;
+								last_func_type = 4;
+							}
+						else {
+								printf("function %s redeclaration\n",$2.name);
+								exit(0);
+							}
+					}
 			 ;
 
 param_list: 
@@ -329,12 +460,12 @@ ebool: IDbool {int i = FindBoolNode($1.name);
 estring: IDstring {int i = FindStringNode($1.name);
 					if(i>=0)
 						if (!stringnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
-						else strcpy($$,stringnodes[i].val);
+						else $$ =stringnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
-       | STRING {strcpy($$,$1);}
+       | STRING {$$=$1;}
 	   | CIDstring{int i = FindStringNode($1.name);
 					if(i>=0)
-						strcpy($$,stringnodes[i].val);
+						$$=stringnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
        | IDstring '[' numberint ']'
        ;
@@ -369,15 +500,15 @@ exprfl:   gnumber {$$ = $1;}
 	  | exprfl '*' exprfl {$$ = $1 * $3;}
 	  | exprfl '/' exprfl {if($3==0){printf("Impartirea la 0 nu este permisa\n");exit(0);} else $$ = $1 / $3;}
 	  | exprfl '^' exprfl {$$ = pow($1,$3);}
-      | '(' exprfl ')'
+      | '(' exprfl ')' {$$ = $2;}
 	  | UMINUS exprfl {$$=-$2;}
       ; 
        
 
 /*expresii algebrice cu stringuri*/
-exprst: estring {strcpy($$,$1);}
+exprst: estring {$$=$1;}
       | exprst '+' exprst {strcpy($$,strcat($1,$3));}
-      | '(' exprst ')' {strcpy($$,$2);}
+      | '(' exprst ')' {$$=$2;}
       | exprst '*' numberint {char temp[100];strcpy(temp,$1);for(int i=0;i<$3-1;i++) strcat(temp,$1); strcpy($$,temp);}
       ;    
 
@@ -398,6 +529,122 @@ print: PRINT'(' IDint ')' {printf("%s=%d\n",$3.name,intnodes[FindIntNode($3.name
 int yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
 }
+
+int FindIntFuncNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_ifnodes;i++)
+	{
+		if (!strcmp(name,intfuncnodes[i].name))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+int AddIntFuncNode(char *name)
+{
+	int i;
+	i = FindIntFuncNode(name);
+	if (i!=-1)
+	return -1;
+	strcpy(intfuncnodes[nr_ifnodes].name,name);
+	intfuncnodes[nr_ifnodes].nr_inodes = 0;
+	intfuncnodes[nr_ifnodes].nr_snodes = 0;
+	intfuncnodes[nr_ifnodes].nr_fnodes = 0;
+	intfuncnodes[nr_ifnodes].nr_bnodes = 0;
+	intfuncnodes[nr_ifnodes].param_nr = 0;
+	nr_ifnodes++;
+	return nr_ifnodes - 1;
+}
+
+
+int FindStringFuncNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_sfnodes;i++)
+	{
+		if (!strcmp(name,stringfuncnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddStringFuncNode(char *name)
+{
+	int i;
+	i = FindFloatFuncNode(name);
+	if (i!=-1)
+	return -1;
+	strcpy(stringfuncnodes[nr_sfnodes].name,name);
+	stringfuncnodes[nr_sfnodes].nr_inodes = 0;
+	stringfuncnodes[nr_sfnodes].nr_snodes = 0;
+	stringfuncnodes[nr_sfnodes].nr_fnodes = 0;
+	stringfuncnodes[nr_sfnodes].nr_bnodes = 0;
+	stringfuncnodes[nr_sfnodes].param_nr = 0;
+	nr_sfnodes++;
+	return nr_sfnodes - 1;
+}
+
+
+int FindFloatFuncNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_ffnodes;i++)
+	{
+		if (!strcmp(name,floatfuncnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddFloatFuncNode(char *name)
+{
+	int i;
+	i = FindFloatFuncNode(name);
+	if (i!=-1)
+	return -1;
+	strcpy(floatfuncnodes[nr_ffnodes].name,name);
+	floatfuncnodes[nr_ffnodes].nr_inodes = 0;
+	floatfuncnodes[nr_ffnodes].nr_snodes = 0;
+	floatfuncnodes[nr_ffnodes].nr_fnodes = 0;
+	floatfuncnodes[nr_ffnodes].nr_bnodes = 0;
+	floatfuncnodes[nr_ffnodes].param_nr = 0;
+	nr_ffnodes++;
+	return nr_ffnodes - 1;
+}
+
+
+
+int FindBoolFuncNode(char* name)
+{
+	int i;
+	for (i = 0;i<nr_bfnodes;i++)
+	{
+		if (!strcmp(name,boolfuncnodes[i].name))
+		return i;
+	}
+	return -1;
+}
+
+int AddBoolFuncNode(char *name)
+{
+	int i;
+	i = FindFloatFuncNode(name);
+	if (i!=-1)
+	return -1;
+	strcpy(boolfuncnodes[nr_bfnodes].name,name);
+	boolfuncnodes[nr_bfnodes].nr_inodes = 0;
+	boolfuncnodes[nr_bfnodes].nr_snodes = 0;
+	boolfuncnodes[nr_bfnodes].nr_fnodes = 0;
+	boolfuncnodes[nr_bfnodes].nr_bnodes = 0;
+	boolfuncnodes[nr_bfnodes].param_nr = 0;
+	nr_bfnodes++;
+	return nr_bfnodes - 1;
+}
+
+
 
 int FindIntNode(char* name)
 {
