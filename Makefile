@@ -8,4 +8,4 @@ y.tab.c:DarthPlus.y
 	yacc DarthPlus.y -d -v
 
 clean:
-	rm lex.yy.c y.tab.c y.tab.h DarthPlus
+	rm lex.yy.c y.tab.c y.tab.h y.output DarthPlus.y.orig DarthPlus
