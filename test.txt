@@ -6,6 +6,7 @@ Master %Windu;
 Darth ~Gafi;
 Darth ~Vader;
 Darth ~Maul;
+Master %Yoda;
 Station $First_order
 	{
 	General _Grievous;
@@ -22,22 +23,19 @@ Senator @Palpatine(Darth ::~param1,Master %param2,General _param3)
 
 Hello there!
 
-@Palpatine(~Gafi,%Windu,_Rex,::~Pomo,@Padme());
+@Organa <| "altceva" + " ceva";
 _Cody();
 ~Vader<|4;
 Print( ~Vader );
-~Maul<|( 2+3 )*2 + (3*4)/5+6-(~Palpatine(~Pomo)+~Vader)+3;
+~Maul<|  (2+3) ^ 2 / (2 + 2 + ~Vader);
 Print ( ~Maul );
 @Padme<|"Amidala";  
 Print (@Padme);
-
+%Yoda<|12.12;
 %Windu <| (12.5+~Pomo[20]) + 2/%Yoda;
 
-_Grievous<|~Vader<=~Maul;
-~Sidious<|~Gafi^~Pomo;
-_Grievous<|@Organa!=@Padme;
-_Grievous<|_Rex&_Cody;
-
+_Grievous <| true;
+_Cody <| false;
 What about the ((_Grievous|_Rex) & (~Maul=~Vader) & !_Cody )?
     ~Maul<|3;
 	Otherwise 

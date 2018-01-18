@@ -29,7 +29,7 @@
 "The Sith will rule the Galaxy." {return ENDFOR;}
 "Fire!" {return BEGIN_FUNCTION;}
 "Halt!" {return END_FUNCTION;}
-"+"|"-"|"^"|"*"|"/" {return AOPERATOR;}
+
 "|" {return OR;}
 "&" {return AND;}
 "!" {return NOT;}
@@ -37,8 +37,8 @@
 "<|" {return ASSIGN;}
 [0-9]|[1-9][0-9]+|"-"[0-9]|[1-9][0-9]+ {yylval.intval=atoi(yytext);return INT;}
 ([0-9]|[1-9][0-9]+)"."[0-9]*|"-"([0-9]|[1-9][0-9]+)"."[0-9]* {yylval.floatval=atof(yytext); return FLOAT;}
-\"[a-zA-Z]+\" {yylval.strval=strdup(yytext); return STRING;}
 "true"|"false" {strcpy(yylval.boolval,strdup(yytext)); return BOOL;}
+\"[ a-zA-Z]+\" {yylval.strval=strdup(yytext); yylval.strval[strlen(yylval.strval) - 1] = '\0'; strcpy(yylval.strval,yylval.strval + 1); return STRING;}
 "<="|">="|"<"|">" {return COMP;}
 "=" {return EQUAL;}
 "!=" {return DIFF;}
