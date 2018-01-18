@@ -3,6 +3,7 @@
 #include "structuri.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
@@ -84,9 +85,19 @@ struct
 %type <stringnode>CIDstring
 %type <boolnode>CIDbool
 %type <floatnode>CIDfloat
-%left  AOPERATOR
-%left '+'
-%left '*'
+%type <boolval>ebool
+%type <floatval>numberfl
+%type <strval>exprst
+%type <intval>exprint
+%type <boolval>exprlog
+%type <boolval>exprlogst
+%type <boolval>exprlognr
+%type <floatval>exprfl
+%type <floatval>gnumber
+%left '^'
+%left '*' '+'
+%left '/'
+%left '-'
 %left AND
 %left OR
 %left NOT
@@ -133,10 +144,14 @@ data_id_type: IDint
 			| econst
 			;
 
-const_decl: TIPi CIDint ASSIGN numberint
-          | TIPs CIDstring ASSIGN estring
-		  | TIPb CIDbool ASSIGN ebool
-		  | TIPf CIDfloat ASSIGN numberfl
+const_decl: TIPi CIDint ASSIGN numberint {if(AddIntNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
+											UpdateIntVal($2.name,$4);}
+          | TIPs CIDstring ASSIGN estring{if(AddStringNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
+											UpdateStringVal($2.name,$4);}
+		  | TIPb CIDbool ASSIGN ebool{if(AddBoolNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
+											UpdateBoolVal($2.name,$4);}
+		  | TIPf CIDfloat ASSIGN numberfl{if(AddFloatNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
+											UpdateFloatVal($2.name,$4);}
 		  ;
 
 param_list_decl: 
@@ -147,10 +162,13 @@ params_decl: param_decl
 	       | params_decl ',' param_decl 
 	       ;
             
-param_decl: variable_decl
+param_decl: TIPi IDint
           | TIPi CIDint
+		  | TIPs IDstring
           | TIPs CIDstring
+		  | TIPb IDbool
 		  | TIPb CIDbool 
+		  | TIPf IDfloat
 		  | TIPf CIDfloat
 		  ;
 
@@ -186,7 +204,7 @@ statement: assgnst ';'
          | assgnbl ';'
          | control 
          | print ';'
-	   | function_call ';'
+	     | function_call ';'
          ;
 
 test:  
@@ -234,59 +252,91 @@ exprfor: assgnint ';' exprlognr ';' assgnint
        ;
 
 /* assgn la stringuri */
-assgnst:  IDstring ASSIGN exprst
+assgnst:  IDstring ASSIGN exprst {if(!UpdateStringVal($1.name,$3)) {printf("%s nu a fost declarat\n",$1.name);exit(0);} 
+									else printf("%s primeste \"%s\"\n",$1.name,$3);}
       ;
         
 /* assgn la intregi */
-assgnint: IDint ASSIGN exprint
+assgnint: IDint ASSIGN exprint {if(!UpdateIntVal($1.name,$3)) {printf("%s nu a fost declarat\n",$1.name);exit(0);} 
+									else printf("%s primeste %d\n",$1.name,$3);}
       ;
 
 
 /*assgn la bool */
-assgnbl:   IDbool ASSIGN exprlog
+assgnbl:   IDbool ASSIGN exprlog {if(!UpdateBoolVal($1.name,$3)) {printf("%s nu a fost declarat\n",$1.name);exit(0);} 
+									else printf("%s primeste %s\n",$1.name,$3);}
       ;
 
 /*assgn la float */
-assgnfl:   IDfloat ASSIGN exprfl
+assgnfl:   IDfloat ASSIGN exprfl {if(!UpdateFloatVal($1.name,$3)) {printf("%s nu a fost declarat\n",$1.name);exit(0);} 
+									else printf("%s primeste %f\n",$1.name,$3);}
       ;
 
 
 /*tipul de date numere intregi*/
-numberint: IDint
-         | INT
-	   | CIDint
+numberint: IDint {int i = FindIntNode($1.name);
+					if(i>=0)
+						if (!intnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
+						else $$ = intnodes[i].val;
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
+         | INT {$$ = $1;}
+	     | CIDint {int i = FindIntNode($1.name);
+					if(i>=0)
+							$$ = intnodes[i].val;
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
          | IDint '[' numberint ']'
 
          ;
 
 /*tipul de date numere float*/
-numberfl: IDfloat
-        | FLOAT  
-	  | CIDfloat
+numberfl: IDfloat {int i = FindFloatNode($1.name);
+					if(i>=0)
+						if (!floatnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
+						else $$ = floatnodes[i].val;
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
+        | FLOAT  {$$ = $1;}
+	  	| CIDfloat {int i = FindFloatNode($1.name);
+					if(i>=0)
+						$$ = floatnodes[i].val;
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
         | IDfloat '[' numberint ']'
         ;
 
 /*tipul de date numar*/
-gnumber: numberfl
-      | numberint
+gnumber: numberfl {$$ = $1;}
+      | numberint {$$ = $1;}
       ;
 
 /*tipul de date bool*/      
-ebool: IDbool
-     | BOOL
-     | CIDbool
+ebool: IDbool {int i = FindBoolNode($1.name);
+					if(i>=0)
+						if (!boolnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
+						else strcpy($$,boolnodes[i].val);
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
+     | BOOL {strcpy($$,$1);}
+     | CIDbool{int i = FindBoolNode($1.name);
+					if(i>=0)
+						strcpy($$,boolnodes[i].val);
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
      | IDbool '[' numberint ']'
      ;
 
 /*tipul de date string*/
-estring: IDstring
-       | STRING
-	 | CIDstring
+estring: IDstring {int i = FindStringNode($1.name);
+					if(i>=0)
+						if (!stringnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
+						else strcpy($$,stringnodes[i].val);
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
+       | STRING {strcpy($$,$1);}
+	   | CIDstring{int i = FindStringNode($1.name);
+					if(i>=0)
+						strcpy($$,stringnodes[i].val);
+					else {printf("%s not previously declared\n",$1.name);exit(0);}}
        | IDstring '[' numberint ']'
        ;
 
 /*tipul de date constante*/
-econst: CIDint
+econst: CIDint 
 	  | CIDbool
 	  | CIDfloat
 	  | CIDstring
@@ -294,27 +344,35 @@ econst: CIDint
 
 
 /*expresii algebrice cu numere intregi*/
-exprint:   numberint
+exprint:   numberint {$$ = $1;}
       | IDint '(' param_list ')'
-      | exprint AOPERATOR exprint
-      | '(' exprint ')'
+      | exprint '+' exprint {$$ = $1 + $3;}
+	  | exprint '-' exprint {$$ = $1 - $3;}
+	  | exprint '*' exprint {$$ = $1 * $3;}
+	  | exprint '/' exprint {$$ = $1 / $3;}
+	  | exprint '^' exprint {$$ = pow($1,$3);}
+      | '(' exprint ')' {$$ = $2;}
      ;
 
 
 /*expresii algebrice cu  numere */
-exprfl:   gnumber
+exprfl:   gnumber {$$ = $1;}
       | IDfloat '(' param_list ')'
       | IDint '(' param_list ')'
-      | exprfl AOPERATOR exprfl
+      | exprfl '+' exprfl {$$ = $1 + $3;}
+	  | exprfl '-' exprfl {$$ = $1 - $3;}
+	  | exprfl '*' exprfl {$$ = $1 * $3;}
+	  | exprfl '/' exprfl {$$ = $1 / $3;}
+	  | exprfl '^' exprfl {$$ = pow($1,$3);}
       | '(' exprfl ')'
       ; 
        
 
 /*expresii algebrice cu stringuri*/
-exprst: estring
-      | exprst '+' exprst
-      | '(' exprst ')'
-      | exprst '*' numberint
+exprst: estring {strcpy($$,$1);}
+      | exprst '+' exprst {strcpy($$,strcat($1,$3));}
+      | '(' exprst ')' {strcpy($$,$2);}
+      | exprst '*' numberint {char temp[100];strcpy(temp,$1);for(int i=0;i<$3-1;i++) strcat(temp,$1); strcpy($$,temp);}
       ;    
 
 
@@ -345,6 +403,7 @@ int AddIntNode(char *name)
 	return 0;
 	strcpy(intnodes[nr_inodes].name,name);
 	intnodes[nr_inodes].val = 0;
+	intnodes[nr_inodes].init = 0;
 	nr_inodes++;
 	return 1;
 }
@@ -356,6 +415,7 @@ int UpdateIntVal(char *name,int val)
 	if (i == -1)
 	return 0;
 	intnodes[i].val = val;
+	intnodes[i].init = 1;
 }
 
 int FindBoolNode(char* name)
@@ -387,6 +447,7 @@ int AddBoolNode(char *name)
 	return 0;
 	strcpy(boolnodes[nr_bnodes].name,name);
 	strcpy(boolnodes[nr_bnodes].val , "\0");
+	boolnodes[nr_bnodes].init = 0;
 	nr_bnodes++;
 	return 1;
 }
@@ -397,7 +458,8 @@ int UpdateBoolVal(char *name,char *val)
 	i =FindBoolNode(name);
 	if (i == -1)
 	return 0;
-      strcpy(boolnodes[i].val,val);
+    strcpy(boolnodes[i].val,val);
+	boolnodes[i].init = 1;
 }
 
 int AddStringNode(char *name)
@@ -406,6 +468,7 @@ int AddStringNode(char *name)
 	return 0;
 	strcpy(stringnodes[nr_snodes].name,name);
 	strcpy(stringnodes[nr_snodes].val,"");
+	stringnodes[nr_snodes].init = 0;
 	nr_snodes++;
 	return 1;
 }
@@ -417,6 +480,7 @@ int UpdateStringVal(char *name,char * val)
 	if (i == -1)
 	return 0;
 	strcpy(stringnodes[i].val,val);
+	stringnodes[i].init = 1;
 }
 
 int FindFloatNode(char* name)
@@ -436,6 +500,7 @@ int AddFloatNode(char *name)
 	return 0;
 	strcpy(floatnodes[nr_fnodes].name,name);
 	floatnodes[nr_fnodes].val = 0;
+	floatnodes[nr_fnodes].init = 0;
 	nr_fnodes++;
 	return 1;
 }
@@ -447,6 +512,7 @@ int UpdateFloatVal(char *name,double val)
 	if (i == -1)
 	return 0;
 	floatnodes[i].val = val;
+	floatnodes[i].init = 1;
 }
 
 int main(int argc, char** argv){
