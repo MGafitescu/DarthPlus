@@ -9,9 +9,10 @@ extern char* yytext;
 extern int yylineno;
 int yylex();
 int yyerror(char * s);
-
+int i;
 int last_func_type;
 int last_func_nr;
+int last_param_nr;
 struct IntNode intnodes[100];
 int nr_inodes = 0;
 struct StringNode stringnodes[100];
@@ -214,13 +215,6 @@ struct_var_decl: variable_decl ';'
 			   | struct_var_decl variable_decl ';'
 			   ;
 
-data_id_type: IDint
-			| IDbool
-			| IDfloat
-			| IDstring
-			| econst
-			;
-
 const_decl: TIPi CIDint ASSIGN numberint {if(AddIntNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
 											UpdateIntVal($2.name,$4);}
           | TIPs CIDstring ASSIGN estring{if(AddStringNode($2.name)) printf("%s declared\n",$2.name); else {printf("%s redeclaration\n",$2.name);exit(0);}
@@ -240,13 +234,317 @@ params_decl: param_decl
 	       ;
             
 param_decl: TIPi IDint 
+					{
+						printf("parametru intreg %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->intnodes[ptri->nr_inodes].name ,$2.name);
+							ptri->nr_inodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->intnodes[ptrs->nr_inodes].name ,$2.name);
+							ptrs->nr_inodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->intnodes[ptrf->nr_inodes].name ,$2.name);
+							ptrf->nr_inodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->intnodes[ptrb->nr_inodes].name ,$2.name);
+							ptrb->nr_inodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
           | TIPi CIDint
+		  				{
+						printf("parametru constant intreg %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->intnodes[ptri->nr_inodes].name ,$2.name);
+							ptri->nr_inodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->intnodes[ptrs->nr_inodes].name ,$2.name);
+							ptrs->nr_inodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->intnodes[ptrf->nr_inodes].name ,$2.name);
+							ptrf->nr_inodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->intnodes[ptrb->nr_inodes].name ,$2.name);
+							ptrb->nr_inodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
 		  | TIPs IDstring
+		  			{
+						printf("parametru de tip string %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->stringnodes[ptri->nr_snodes].name ,$2.name);
+							ptri->nr_snodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->stringnodes[ptrs->nr_snodes].name ,$2.name);
+							ptrs->nr_snodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->stringnodes[ptrf->nr_snodes].name ,$2.name);
+							ptrf->nr_snodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->stringnodes[ptrb->nr_snodes].name ,$2.name);
+							ptrb->nr_snodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
           | TIPs CIDstring
+		  			{
+						printf("parametru de tip const string %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->stringnodes[ptri->nr_snodes].name ,$2.name);
+							ptri->nr_snodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->stringnodes[ptrs->nr_snodes].name ,$2.name);
+							ptrs->nr_snodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->stringnodes[ptrf->nr_snodes].name ,$2.name);
+							ptrf->nr_snodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->stringnodes[ptrb->nr_snodes].name ,$2.name);
+							ptrb->nr_snodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
 		  | TIPb IDbool
+		  			{
+						printf("parametru de tip bool %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->boolnodes[ptri->nr_bnodes].name ,$2.name);
+							ptri->nr_bnodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->boolnodes[ptrs->nr_bnodes].name ,$2.name);
+							ptrs->nr_bnodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->boolnodes[ptrf->nr_bnodes].name ,$2.name);
+							ptrf->nr_bnodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->boolnodes[ptrb->nr_bnodes].name ,$2.name);
+							ptrb->nr_bnodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
 		  | TIPb CIDbool 
+		  			{
+						printf("parametru de tip const bool %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->boolnodes[ptri->nr_bnodes].name ,$2.name);
+							ptri->nr_bnodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->boolnodes[ptrs->nr_bnodes].name ,$2.name);
+							ptrs->nr_bnodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->boolnodes[ptrf->nr_bnodes].name ,$2.name);
+							ptrf->nr_bnodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->boolnodes[ptrb->nr_bnodes].name ,$2.name);
+							ptrb->nr_bnodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
 		  | TIPf IDfloat
-		  | TIPf CIDfloat
+		  			{
+						printf("parametru de tip float %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->floatnodes[ptri->nr_fnodes].name ,$2.name);
+							ptri->nr_fnodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->floatnodes[ptrs->nr_fnodes].name ,$2.name);
+							ptrs->nr_fnodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->floatnodes[ptrf->nr_fnodes].name ,$2.name);
+							ptrf->nr_fnodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->floatnodes[ptrb->nr_fnodes].name ,$2.name);
+							ptrb->nr_fnodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
+		  | TIPf CIDfloat 
+		  			{
+						printf("parametru de tip const float %s recunoscut\n",$2.name);
+						switch(last_func_type)
+						{
+							case 1:
+							i = last_func_nr;
+							struct IntFuncNode *ptri = &intfuncnodes[i];
+							strcpy(ptri->floatnodes[ptri->nr_fnodes].name ,$2.name);
+							ptri->nr_fnodes++;
+							ptri->param_order[ptri->param_nr] = 1;
+							ptri->param_nr++;
+							break;
+							case 2:
+							i = last_func_nr;
+							struct StringFuncNode *ptrs = &stringfuncnodes[i];
+							strcpy(ptrs->floatnodes[ptrs->nr_fnodes].name ,$2.name);
+							ptrs->nr_fnodes++;
+							ptrs->param_order[ptrs->param_nr] = 1;
+							ptrs->param_nr++;
+							break;
+							case 3:
+							i = last_func_nr;
+							struct FloatFuncNode *ptrf = &floatfuncnodes[i];
+							strcpy(ptrf->floatnodes[ptrf->nr_fnodes].name ,$2.name);
+							ptrf->nr_fnodes++;
+							ptrf->param_order[ptrf->param_nr] = 1;
+							ptrf->param_nr++;
+							break;
+							case 4:
+							i = last_func_nr;
+							struct BoolFuncNode *ptrb = &boolfuncnodes[i];
+							strcpy(ptrb->floatnodes[ptrb->nr_fnodes].name ,$2.name);
+							ptrb->nr_fnodes++;
+							ptrb->param_order[ptrb->param_nr] = 1;
+							ptrb->param_nr++;
+							break;
+						}
+					}
 		  ;
 
 function_decl: TIPi IDint '(' param_list_decl ')' BEGIN_FUNCTION list END_FUNCTION 
@@ -315,7 +613,7 @@ params: param
 	  | params ',' param 
 	  ;
             
-param: gnumber
+param: gnumber 
 	 | ebool
 	 | estring
 	 | function_call
@@ -343,7 +641,54 @@ test:
     ;
 
 /*INVOCARE de FUnCtIe*/
-function_call: data_id_type '(' param_list ')'
+function_call: IDint '(' param_list ')'
+						{
+							i = FindIntFuncNode($1.name);
+							if (i == -1)
+							{
+								printf("function %s not previously declared\n",$1.name);
+								exit(0);
+							}
+							last_func_nr = i;
+							last_func_type = 1;
+							last_param_nr = 0;
+						}
+			 | IDstring '(' param_list ')'
+			 			{
+							i = FindStringFuncNode($1.name);
+							if (i == -1)
+							{
+								printf("function %s not previously declared\n",$1.name);
+								exit(0);
+							}
+							last_func_nr = i;
+							last_func_type = 2;
+							last_param_nr = 0;
+						}
+			 | IDbool '(' param_list ')'
+			 			{
+							i = FindBoolFuncNode($1.name);
+							if (i == -1)
+							{
+								printf("function %s not previously declared\n",$1.name);
+								exit(0);
+							}
+							last_func_nr = i;
+							last_func_type = 4;
+							last_param_nr = 0;
+						}
+			 | IDfloat '(' param_list ')'
+			 			{
+							i = FindFloatFuncNode($1.name);
+							if (i == -1)
+							{
+								printf("function %s not previously declared\n",$1.name);
+								exit(0);
+							}
+							last_func_nr = i;
+							last_func_type = 3;
+							last_param_nr = 0;
+						}
 			 ;
 
 /*instructiuni de control*/

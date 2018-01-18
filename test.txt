@@ -17,7 +17,7 @@ Station $First_order
 	Senator @Padme;
 	};
 
-Darth ~Palpatine(Darth ::~param1,Master %param2,General _param3)
+Darth ~Palpatine(Darth ~param1,Master %param2,General _param3)
 	Fire!
 	_Rex<|false;
 	Print(endl);
@@ -25,10 +25,6 @@ Darth ~Palpatine(Darth ::~param1,Master %param2,General _param3)
 	Print(endl);
 	Halt!;
 
-Darth ~Palpatine()
-Fire!
-Print(endl);
-Halt!;
 
 Hello there!
 @Organa <| "altceva"+ " ceva"*2 ;
@@ -40,7 +36,7 @@ Print(~Maul);
 @Padme<|"Amidala"*4;  
 
 %Yoda<|12.12;
-@Palpatine(~Vader,%Yoda,_Cody);
+~Palpatine(~Vader,%Yoda,_Cody);
 %Windu <| 12.5+%Yoda ;
 ~Bane<|143;
 _Grievous <| true;
