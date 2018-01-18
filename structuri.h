@@ -22,6 +22,6 @@ struct FloatNode
 struct BoolNode 
 {
 	char name[100];
-	char val[6];
+	 int val;
 	int init;
 };

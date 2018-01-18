@@ -16,38 +16,47 @@ Station $First_order
 	Senator @Organa;
 	Senator @Padme;
 	};
+
 Senator @Palpatine(Darth ::~param1,Master %param2,General _param3)
 	Fire!
 	_Rex<|false;
+	Print(endl);
+	Print(_Rex);
+	Print(endl);
 	Halt!;
 
 Hello there!
-
-@Organa <| "altceva" + " ceva";
-_Cody();
+@Organa <| "altceva"+ "ceva" ;
+_Cody<|false;
 ~Vader<|4;
-Print( ~Vader );
 ~Maul<|  (2+3) ^ 2 / (2 + 2 + ~Vader);
-Print ( ~Maul );
-@Padme<|"Amidala";  
-Print (@Padme);
+Print(~Maul);
+@Padme<|"Amidala"*4;  
+
 %Yoda<|12.12;
-%Windu <| (12.5+~Pomo[20]) + 2/%Yoda;
-
+@Palpatine(~Vader,%Yoda,_Cody);
+%Windu <| 12.5+%Yoda ;
+~Bane<|143;
 _Grievous <| true;
-_Cody <| false;
-What about the ((_Grievous|_Rex) & (~Maul=~Vader) & !_Cody )?
-    ~Maul<|3;
-	Otherwise 
-	~Maul<|4;
-Go, I will.  
 
-Do, or do not: (@Organa=@Padme)
-    @Organa<|"Leia";
-There is no try.
+What about the ((_Grievous|_Rex) & (~Maul=~Vader) & !_Cody )?
+    _Cody<|false;
+	Otherwise 
+	_Cody<|true;
+Go, I will.  
 
 Once more (~Maul<|2 ; ~Bane>~Maul ; ~Maul<|~Maul+3)
     ~Vader<|1000;
 The Sith will rule the Galaxy.    
     
+Do, or do not: (~Vader>=100)
+    @Organa<|"Leia";
+There is no try.
+
+Print(endl);
+Print( _Grievous );
+Print( @Organa );
+Print( ~Vader );
+Print (%Yoda);
+Print(endl);
 The circle is now complete.
