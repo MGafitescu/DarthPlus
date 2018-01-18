@@ -26,10 +26,10 @@ Senator @Palpatine(Darth ::~param1,Master %param2,General _param3)
 	Halt!;
 
 Hello there!
-@Organa <| "altceva"+ "ceva" ;
+@Organa <| "altceva"+ " ceva"*2 ;
 _Cody<|false;
 ~Vader<|4;
-~Maul<|  (2+3) ^ 2 / (2 + 2 + ~Vader);
+~Maul<|  ((2+3) ^ 2) / (2 + 2 + ~Vader);
 Print(~Maul);
 @Padme<|"Amidala"*4;  
 
@@ -50,7 +50,7 @@ Once more (~Maul<|2 ; ~Bane>~Maul ; ~Maul<|~Maul+3)
 The Sith will rule the Galaxy.    
     
 Do, or do not: (~Vader>=100)
-    @Organa<|"Leia";
+    @Padme<|"Leia";
 There is no try.
 
 Print(endl);
