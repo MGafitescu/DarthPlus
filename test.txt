@@ -27,11 +27,12 @@ Senator @Palpatine(Darth ::~param1,Master %param2,General _param3)
 
 Hello there!
 @Organa <| "altceva"+ " ceva"*2 ;
+@Organa <| (@Organa+ " ")*2;
 _Cody<|false;
 ~Vader<|4;
 ~Maul<|  ((2+3) ^ 2) / (2 + 2 + ~Vader);
 Print(~Maul);
-@Padme<|"Amidala"*4;  
+@Padme<|("Amidala"+ "  ")*4;  
 
 %Yoda<|12.12;
 @Palpatine(~Vader,%Yoda,_Cody);

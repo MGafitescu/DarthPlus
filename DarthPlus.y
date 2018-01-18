@@ -329,12 +329,12 @@ ebool: IDbool {int i = FindBoolNode($1.name);
 estring: IDstring {int i = FindStringNode($1.name);
 					if(i>=0)
 						if (!stringnodes[i].init) {printf("%s nu a fost initializat\n",$1.name);exit(0);}
-						else strcpy($$,stringnodes[i].val);
+						else $$=stringnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
-       | STRING {strcpy($$,$1);}
+       | STRING {$$=$1;}
 	   | CIDstring{int i = FindStringNode($1.name);
 					if(i>=0)
-						strcpy($$,stringnodes[i].val);
+						$$=stringnodes[i].val;
 					else {printf("%s not previously declared\n",$1.name);exit(0);}}
        | IDstring '[' numberint ']'
        ;
@@ -369,15 +369,15 @@ exprfl:   gnumber {$$ = $1;}
 	  | exprfl '*' exprfl {$$ = $1 * $3;}
 	  | exprfl '/' exprfl {if($3==0){printf("Impartirea la 0 nu este permisa\n");exit(0);} else $$ = $1 / $3;}
 	  | exprfl '^' exprfl {$$ = pow($1,$3);}
-      | '(' exprfl ')'
+      | '(' exprfl ')' {$$=$2;}
 	  | UMINUS exprfl {$$=-$2;}
       ; 
        
 
 /*expresii algebrice cu stringuri*/
-exprst: estring {strcpy($$,$1);}
+exprst: estring {$$=$1;}
       | exprst '+' exprst {strcpy($$,strcat($1,$3));}
-      | '(' exprst ')' {strcpy($$,$2);}
+      | '(' exprst ')' {$$=$2;}
       | exprst '*' numberint {char temp[100];strcpy(temp,$1);for(int i=0;i<$3-1;i++) strcat(temp,$1); strcpy($$,temp);}
       ;    
 

@@ -1866,14 +1866,14 @@ yyreduce:
     {int i = FindStringNode((yyvsp[0].stringnode).name);
 					if(i>=0)
 						if (!stringnodes[i].init) {printf("%s nu a fost initializat\n",(yyvsp[0].stringnode).name);exit(0);}
-						else strcpy((yyval.strval),stringnodes[i].val);
+						else (yyval.strval)=stringnodes[i].val;
 					else {printf("%s not previously declared\n",(yyvsp[0].stringnode).name);exit(0);}}
 #line 1872 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
 #line 334 "DarthPlus.y" /* yacc.c:1646  */
-    {strcpy((yyval.strval),(yyvsp[0].strval));}
+    {(yyval.strval)=(yyvsp[0].strval);}
 #line 1878 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1881,7 +1881,7 @@ yyreduce:
 #line 335 "DarthPlus.y" /* yacc.c:1646  */
     {int i = FindStringNode((yyvsp[0].stringnode).name);
 					if(i>=0)
-						strcpy((yyval.strval),stringnodes[i].val);
+						(yyval.strval)=stringnodes[i].val;
 					else {printf("%s not previously declared\n",(yyvsp[0].stringnode).name);exit(0);}}
 #line 1887 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1970,92 +1970,98 @@ yyreduce:
 #line 1971 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 127:
+#line 372 "DarthPlus.y" /* yacc.c:1646  */
+    {(yyval.floatval)=(yyvsp[-1].floatval);}
+#line 1977 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 128:
 #line 373 "DarthPlus.y" /* yacc.c:1646  */
     {(yyval.floatval)=-(yyvsp[0].floatval);}
-#line 1977 "y.tab.c" /* yacc.c:1646  */
+#line 1983 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 129:
 #line 378 "DarthPlus.y" /* yacc.c:1646  */
-    {strcpy((yyval.strval),(yyvsp[0].strval));}
-#line 1983 "y.tab.c" /* yacc.c:1646  */
+    {(yyval.strval)=(yyvsp[0].strval);}
+#line 1989 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 130:
 #line 379 "DarthPlus.y" /* yacc.c:1646  */
     {strcpy((yyval.strval),strcat((yyvsp[-2].strval),(yyvsp[0].strval)));}
-#line 1989 "y.tab.c" /* yacc.c:1646  */
+#line 1995 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 131:
 #line 380 "DarthPlus.y" /* yacc.c:1646  */
-    {strcpy((yyval.strval),(yyvsp[-1].strval));}
-#line 1995 "y.tab.c" /* yacc.c:1646  */
+    {(yyval.strval)=(yyvsp[-1].strval);}
+#line 2001 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 132:
 #line 381 "DarthPlus.y" /* yacc.c:1646  */
     {char temp[100];strcpy(temp,(yyvsp[-2].strval));for(int i=0;i<(yyvsp[0].intval)-1;i++) strcat(temp,(yyvsp[-2].strval)); strcpy((yyval.strval),temp);}
-#line 2001 "y.tab.c" /* yacc.c:1646  */
+#line 2007 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 133:
 #line 386 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%d\n",(yyvsp[-1].intnode).name,intnodes[FindIntNode((yyvsp[-1].intnode).name)].val);}
-#line 2007 "y.tab.c" /* yacc.c:1646  */
+#line 2013 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 134:
 #line 387 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%f\n",(yyvsp[-1].floatnode).name,floatnodes[FindFloatNode((yyvsp[-1].floatnode).name)].val);}
-#line 2013 "y.tab.c" /* yacc.c:1646  */
+#line 2019 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 135:
 #line 388 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%d\n",(yyvsp[-1].boolnode).name,boolnodes[FindBoolNode((yyvsp[-1].boolnode).name)].val);}
-#line 2019 "y.tab.c" /* yacc.c:1646  */
+#line 2025 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 136:
 #line 389 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%s\n",(yyvsp[-1].stringnode).name,stringnodes[FindStringNode((yyvsp[-1].stringnode).name)].val);}
-#line 2025 "y.tab.c" /* yacc.c:1646  */
+#line 2031 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 137:
 #line 390 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%d\n",(yyvsp[-1].intnode).name,intnodes[FindIntNode((yyvsp[-1].intnode).name)].val);}
-#line 2031 "y.tab.c" /* yacc.c:1646  */
+#line 2037 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 138:
 #line 391 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%f\n",(yyvsp[-1].floatnode).name,floatnodes[FindFloatNode((yyvsp[-1].floatnode).name)].val);}
-#line 2037 "y.tab.c" /* yacc.c:1646  */
+#line 2043 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 139:
 #line 392 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%d\n",(yyvsp[-1].boolnode).name,boolnodes[FindBoolNode((yyvsp[-1].boolnode).name)].val);}
-#line 2043 "y.tab.c" /* yacc.c:1646  */
+#line 2049 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 140:
 #line 393 "DarthPlus.y" /* yacc.c:1646  */
     {printf("%s=%s\n",(yyvsp[-1].stringnode).name,stringnodes[FindStringNode((yyvsp[-1].stringnode).name)].val);}
-#line 2049 "y.tab.c" /* yacc.c:1646  */
+#line 2055 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 141:
 #line 394 "DarthPlus.y" /* yacc.c:1646  */
     {printf("\n");}
-#line 2055 "y.tab.c" /* yacc.c:1646  */
+#line 2061 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2059 "y.tab.c" /* yacc.c:1646  */
+#line 2065 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
