@@ -32,6 +32,7 @@
 "|" {return OR;}
 "&" {return AND;}
 "!" {return NOT;}
+"-" {return UMINUS;}
 
 "<|" {return ASSIGN;}
 "endl" {return ENDL;}

@@ -68,7 +68,7 @@ struct
 %token BGIN END ASSIGN PRINT
 %token IF ELSE ENDIF FOR ENDFOR WHILE ENDWHILE 
 %token LE GE EQUAL DIFF NOT AND OR
-%token ADD MIN POW MUL DIV
+%token UMINUS
 %token BEGIN_FUNCTION END_FUNCTION ENDL
 %start progr
 %token <strval> STRING
@@ -94,10 +94,11 @@ struct
 %type <boolval>exprlognr
 %type <floatval>exprfl
 %type <floatval>gnumber
-%left '^'
-%left '*' '+'
-%left '/'
-%left '-'
+%right '='
+%left  '+' '-'
+%left  '*' '/' '%'
+%left  '^'
+%left UMINUS
 %left AND
 %left OR
 %left NOT
@@ -352,9 +353,10 @@ exprint:   numberint {$$ = $1;}
       | exprint '+' exprint {$$ = $1 + $3;}
 	  | exprint '-' exprint {$$ = $1 - $3;}
 	  | exprint '*' exprint {$$ = $1 * $3;}
-	  | exprint '/' exprint {$$ = $1 / $3;}
+	  | exprint '/' exprint {if($3==0){printf("Impartirea la 0 nu este permisa\n");exit(0);} else $$ = $1 / $3;}
 	  | exprint '^' exprint {$$ = pow($1,$3);}
       | '(' exprint ')' {$$ = $2;}
+	  | UMINUS exprint {$$=-$2;}
      ;
 
 
@@ -365,9 +367,10 @@ exprfl:   gnumber {$$ = $1;}
       | exprfl '+' exprfl {$$ = $1 + $3;}
 	  | exprfl '-' exprfl {$$ = $1 - $3;}
 	  | exprfl '*' exprfl {$$ = $1 * $3;}
-	  | exprfl '/' exprfl {$$ = $1 / $3;}
+	  | exprfl '/' exprfl {if($3==0){printf("Impartirea la 0 nu este permisa\n");exit(0);} else $$ = $1 / $3;}
 	  | exprfl '^' exprfl {$$ = pow($1,$3);}
       | '(' exprfl ')'
+	  | UMINUS exprfl {$$=-$2;}
       ; 
        
 
